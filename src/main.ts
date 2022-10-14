@@ -11,6 +11,8 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
 
+  config.asd();
+
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
 
