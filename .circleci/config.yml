@@ -28,4 +28,5 @@ jobs:
 workflows:
   sample:
     jobs:
+      - lint
       - test
