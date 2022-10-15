@@ -23,7 +23,7 @@ jobs:
           pkg-manager: npm
       - run:
           name: Build
-          command: npm run test
+          command: npm run build
 
 workflows:
   sample:
