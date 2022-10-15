@@ -14,7 +14,7 @@ jobs:
       - run:
           name: Run tests
           command: npm run test
-  lint:
+  build:
     docker:
       - image: cimg/node:16.10
     steps:
@@ -22,11 +22,11 @@ jobs:
       - node/install-packages:
           pkg-manager: npm
       - run:
-          name: Lint
-          command: npm run lint
+          name: Build
+          command: npm run test
 
 workflows:
   sample:
     jobs:
-      - lint
+      - build
       - test
