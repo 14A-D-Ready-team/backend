@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   node: circleci/node@4.7
+  codecov: codecov/codecov@3.0.0
 
 jobs:
   test:
@@ -34,6 +35,12 @@ jobs:
       - run:
           name: Build
           command: npm run build
+  codecov:
+    docker:
+      - image: cimg/node:16.10
+    steps:
+      - codecov/upload:
+          token: CODECOV_TOKEN
 
 workflows:
   sample:
