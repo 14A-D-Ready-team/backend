@@ -48,3 +48,4 @@ workflows:
       - build
       - test
       - test-e2e
+      - codecov
