@@ -57,7 +57,7 @@ jobs:
           pkg-manager: npm
       - run:
           name: Test
-          command: echo "${CIRCLE_PULL_REQUEST##*/}"
+          command: echo $CIRCLE_PULL_REQUEST
 
 workflows:
   backend-workflow:
