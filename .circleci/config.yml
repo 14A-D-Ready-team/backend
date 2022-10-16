@@ -5,6 +5,12 @@ orbs:
   node: circleci/node@4.7
   continuation: circleci/continuation@0.2.0
 
+jobs:
+  before:
+    docker:
+      - image: cimg/node:16.10
+    steps:
+
 workflows:
   setup:
     jobs:
