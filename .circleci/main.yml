@@ -6,19 +6,32 @@ parameters:
     default: false
 
 jobs:
-  do_something:
+  build-and-test:
     docker:
-      - image: cimg/base:2021.04
+      - image: cimg/node:16.10
     steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
       - run:
-          name: something
-          command: echo 'You get the picture'
+          name: Build
+          command: npm run build
+      - run:
+          name: Run tests
+          command: npm run test
+      - run:
+          name: Run E2E tests
+          command: npm run test:e2e
+      - run:
+          name: Run test coverage
+          command: npm run test:cov
+      - codecov/upload:
+          token: CODECOV_TOKEN
 
 workflows:
   version: 2
 
-  whence-pr:
+  on-pull-request-open:
     when: << pipeline.parameters.run_build >>
     jobs:
-      - do_something:
-          name: something
+      - build-and-test
