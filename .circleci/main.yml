@@ -10,15 +10,15 @@ jobs:
     docker:
       - image: cimg/base:2021.04
     steps:
-        - run:
-            name: something
-            command: echo 'You get the picture'
+      - run:
+          name: something
+          command: echo 'You get the picture'
 
 workflows:
   version: 2
 
-   whence-pr:
+  whence-pr:
     when: << pipeline.parameters.run_build >>
     jobs:
       - do_something:
-            name: something
+          name: something
