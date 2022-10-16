@@ -6,32 +6,20 @@ orbs:
   continuation: circleci/continuation@0.2.0
 
 jobs:
-  build-and-test:
-    docker:
-      - image: cimg/node:16.10
-    steps:
-      - checkout
-      - node/install-packages:
-          pkg-manager: npm
-      - run:
-          name: Build
-          command: npm run build
-      - run:
-          name: Run tests
-          command: npm run test
-      - run:
-          name: Run E2E tests
-          command: npm run test:e2e
-      - run:
-          name: Run test coverage
-          command: npm run test:cov
-      - codecov/upload:
-          token: CODECOV_TOKEN
-      - run:
-          name: asd
-          command: echo ${CIRCLE_PULL_REQUEST}
 
 workflows:
-  backend-workflow:
+  setup:
     jobs:
-      - build-and-test
+      - continuation/continue:
+          configuration_path: '.circleci/main.yml'
+          parameters: /home/circleci/params.json
+          pre-steps:
+            - run:
+                command: |
+                  if [ -z "${CIRCLE_PULL_REQUEST##*/}" ]
+                  then
+                    RUN_BUILD=false
+                  else
+                    RUN_BUILD=true
+                  fi
+                  echo '{ "run_build": '$RUN_BUILD' }' >> /home/circleci/params.json
