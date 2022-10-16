@@ -31,7 +31,7 @@ jobs:
             echo "No changes to commit"
       - run:
           name: Push changes
-          command: git push origin $CIRCLE_BRANCH || echo "No changes to push"
+          command: git push origin $CIRCLE_BRANCH
 
 workflows:
   setup:
