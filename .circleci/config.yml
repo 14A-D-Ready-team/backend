@@ -10,7 +10,9 @@ jobs:
     docker:
       - image: cimg/node:16.10
     steps:
-      - echo "This is the first job"
+      - run:
+          name: asd
+          command: echo "asd"
 
 workflows:
   setup:
