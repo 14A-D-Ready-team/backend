@@ -1,5 +1,9 @@
 version: 2.1
 
+orbs:
+  node: circleci/node@4.7
+  codecov: codecov/codecov@3.0.0
+
 parameters:
   run_build:
     type: boolean
