@@ -27,16 +27,8 @@ jobs:
           command: npm run test:cov
       - codecov/upload:
           token: CODECOV_TOKEN
-
-  asd:
-    docker:
-      - image: cimg/node:16.10
-    steps:
-      - checkout
-      - node/install-packages:
-          pkg-manager: npm
       - run:
-          name: Test
+          name: asd
           command: echo $CIRCLE_PULL_REQUEST
 
 workflows:
