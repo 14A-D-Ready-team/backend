@@ -1,37 +1,24 @@
 version: 2.1
 
 parameters:
-  run_build:
+  is_pr:
     type: boolean
     default: false
 
 jobs:
-  build-and-test:
+  do_something:
     docker:
-      - image: cimg/node:16.10
+      - image: cimg/base:2021.04
     steps:
-      - checkout
-      - node/install-packages:
-          pkg-manager: npm
-      - run:
-          name: Build
-          command: npm run build
-      - run:
-          name: Run tests
-          command: npm run test
-      - run:
-          name: Run E2E tests
-          command: npm run test:e2e
-      - run:
-          name: Run test coverage
-          command: npm run test:cov
-      - codecov/upload:
-          token: CODECOV_TOKEN
+        - run:
+            name: something
+            command: echo 'You get the picture'
 
 workflows:
   version: 2
 
-   on-pull-request-open:
-    when: << pipeline.parameters.run_build >>
+   whence-pr:
+    when: << pipeline.parameters.is_pr >>
     jobs:
-      - build-and-test
+      - do_something:
+            name: something
