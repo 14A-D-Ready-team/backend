@@ -1,7 +1,7 @@
 version: 2.1
 
 parameters:
-  is_pr:
+  run_build:
     type: boolean
     default: false
 
@@ -18,7 +18,7 @@ workflows:
   version: 2
 
    whence-pr:
-    when: << pipeline.parameters.is_pr >>
+    when: << pipeline.parameters.run_build >>
     jobs:
       - do_something:
             name: something
