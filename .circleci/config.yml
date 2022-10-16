@@ -20,11 +20,18 @@ jobs:
           name: Format code
           command: npm run format
       - run:
-          name: Commit to GitHub
+          name: Configure git
           command: |
             git config user.email "kekesi.adam@students.jedlik.eu"
             git config user.name "CircleCI Job"
-            git commit -am "Format code [skip ci]"
+      - run:
+          name: Commit changes
+          command: |
+            git commit -am "Format code [skip ci]" || 
+            echo "No changes to commit"
+      - run:
+          name: Push changes
+          command: git push origin $CIRCLE_BRANCH || echo "No changes to push"
 
 workflows:
   setup:
