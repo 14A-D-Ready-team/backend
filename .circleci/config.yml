@@ -27,7 +27,6 @@ jobs:
           command: npm run test:cov
       - codecov/upload:
           token: CODECOV_TOKEN
-      - asd
 
   asd:
     docker:
