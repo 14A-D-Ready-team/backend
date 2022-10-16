@@ -6,18 +6,33 @@ orbs:
   continuation: circleci/continuation@0.2.0
 
 jobs:
-  before:
+  format-code:
     docker:
       - image: cimg/node:16.10
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "b3:42:58:59:a3:a0:f2:43:a6:ff:4d:27:23:e5:0d:48"
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          name: Format code
+          command: npm run format
+      - name: Commit to GitHub
+          command: |
+            git config user.email "kekesi.adam@students.jedlik.eu"
+            git config user.name "CircleCI Job"
+            git commit -am "Format code [skip ci]"
+            git push origin $CIRCLE_BRANCH
 
 workflows:
   setup:
     jobs:
-      - before
+      - format-code
       - continuation/continue:
           requires:
-            - before
+            - format-code
           configuration_path: '.circleci/main.yml'
           parameters: /home/circleci/params.json
           pre-steps:
