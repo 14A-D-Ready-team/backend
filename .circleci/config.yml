@@ -25,7 +25,6 @@ jobs:
             git config user.email "kekesi.adam@students.jedlik.eu"
             git config user.name "CircleCI Job"
             git commit -am "Format code [skip ci]"
-            git push origin $CIRCLE_BRANCH
 
 workflows:
   setup:
