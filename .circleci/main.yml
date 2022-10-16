@@ -22,13 +22,10 @@ jobs:
           command: npm run build
       - run:
           name: Run tests
-          command: npm run test
+          command: npm run test:cov
       - run:
           name: Run E2E tests
           command: npm run test:e2e
-      - run:
-          name: Run test coverage
-          command: npm run test:cov
       - codecov/upload:
           token: CODECOV_TOKEN
 
