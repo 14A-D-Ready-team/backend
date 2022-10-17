@@ -16,7 +16,7 @@
   "git.confirmSync": false,
   "git.autofetch": true,
   "git.autofetchPeriod": 180,
-  "files.eol": "\r\n",
+  "files.eol": "\n",
   "[jsonc]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
