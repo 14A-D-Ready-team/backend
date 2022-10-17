@@ -19,5 +19,6 @@
   "files.eol": "\r\n",
   "[jsonc]": {
     "editor.defaultFormatter": "vscode.json-language-features"
-  }
+  },
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }
