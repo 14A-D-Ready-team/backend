@@ -1,0 +1,18 @@
+{
+  "recommendations": [
+    "usernamehw.errorlens",
+    "redstone12.explosion",
+    "github.copilot",
+    "eamodio.gitlens",
+    "xabikos.javascriptsnippets",
+    "firsttris.vscode-jest-runner",
+    "cmstead.js-codeformer",
+    "pkief.material-icon-theme",
+    "christian-kohler.npm-intellisense",
+    "esbenp.prettier-vscode",
+    "rbbit.typescript-hero",
+    "dskwrk.vscode-generate-getter-setter",
+    "ashinzekene.nestjs",
+    "dbaeumer.vscode-eslint"
+  ]
+}
