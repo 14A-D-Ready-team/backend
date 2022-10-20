@@ -1,4 +1,4 @@
-import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
+import { TsMorphMetadataProvider } from "@mikro-orm/reflection";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
@@ -22,7 +22,7 @@ import { AppService } from "./app.service";
       user: "jmimomue",
       password: "HfuNNQlrVPlLjB42ZHOysW35zH5kgd41",
       host: "ella.db.elephantsql.com",
-      asd:""
+      asd: "",
     }),
   ],
   controllers: [AppController],
@@ -34,4 +34,4 @@ export class AppModule {
   }
 }
 
-const a = ()=>{}
+const a = () => {};
