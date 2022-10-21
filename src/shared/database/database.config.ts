@@ -1,8 +1,14 @@
-import { registerAs } from "@nestjs/config";
+import { isDevelopment } from "./../../environment";
+import { TsMorphMetadataProvider } from "@mikro-orm/reflection";
+import { MikroOrmModuleSyncOptions } from "@mikro-orm/nestjs";
 
-export default registerAs("database", () => ({
-  dbName: process.env.DATABASE_NAME,
-  host: process.env.DATABASE_HOST,
-  port: process.env.DATABASE_PORT || 3306,
-  user: process.env.DATABASE_USER,
-}));
+export const databaseConfig: MikroOrmModuleSyncOptions = {
+  type: "mysql",
+  entities: ["./dist/**/*.entity.js"],
+  entitiesTs: ["./dist/**/*.entity.d.ts"],
+  metadataProvider: TsMorphMetadataProvider,
+  debug: isDevelopment,
+  connect: false,
+  discovery: { warnWhenNoEntities: false },
+  
+};

@@ -1,12 +1,18 @@
-import { dbConfigProvider } from "./db-config.provider";
+import { databaseConfig } from "./database.config";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
-import { TsMorphMetadataProvider } from "@mikro-orm/reflection";
-import { Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import databaseConfig from "./database.config";
+import { Global, Module, OnModuleInit } from "@nestjs/common";
+import { DatabaseService } from "./database.service";
 
+@Global()
 @Module({
-  imports: [MikroOrmModule.forRoot(), ConfigModule.forFeature(databaseConfig)],
-  providers: [dbConfigProvider],
+  imports: [MikroOrmModule.forRoot(databaseConfig)],
+  providers: [DatabaseService],
+  exports: [DatabaseService],
 })
-export class DatabaseModule {}
+export class DatabaseModule implements OnModuleInit {
+  constructor(private databaseService: DatabaseService) {}
+
+  public async onModuleInit() {
+    await this.databaseService.connect();
+  }
+}
