@@ -1,3 +1,4 @@
+import { dbConfigProvider } from "./db-config.provider";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { TsMorphMetadataProvider } from "@mikro-orm/reflection";
 import { Module } from "@nestjs/common";
@@ -16,5 +17,6 @@ import { Module } from "@nestjs/common";
       host: "ella.db.elephantsql.com",
     }),
   ],
+  providers: [dbConfigProvider],
 })
 export class DatabaseModule {}
