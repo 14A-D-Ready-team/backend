@@ -2,13 +2,14 @@ import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { DatabaseModule } from "./database/database.module";
+import { DatabaseModule } from "./shared/database/database.module";
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       cache: true,
       expandVariables: true,
+      isGlobal: true,
       envFilePath: [".env", ".env.development"],
     }),
 
@@ -18,7 +19,5 @@ import { DatabaseModule } from "./database/database.module";
   providers: [AppService],
 })
 export class AppModule {
-  constructor(private configService: ConfigService) {
-    console.log(configService);
-  }
+  constructor(private configService: ConfigService) {}
 }
