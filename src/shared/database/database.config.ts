@@ -10,5 +10,4 @@ export const databaseConfig: MikroOrmModuleSyncOptions = {
   debug: isDevelopment,
   connect: false,
   discovery: { warnWhenNoEntities: false },
-  
 };
