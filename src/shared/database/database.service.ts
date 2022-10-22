@@ -1,4 +1,3 @@
-import { databaseConfig } from "./database.config";
 import { MikroORM } from "@mikro-orm/core";
 import { Injectable } from "@nestjs/common";
 
