@@ -24,6 +24,6 @@ module.exports = {
     "@typescript-eslint/no-empty-function": ["warn"],
     "prettier/prettier": "off",
     "prefer-arrow/prefer-arrow-functions": "off",
-    "no-undef": "error"
-  }
-}
+    "no-empty": ["error", { allowEmptyCatch: true }],
+  },
+};
