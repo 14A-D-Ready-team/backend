@@ -18,11 +18,11 @@ jobs:
           pkg-manager: npm
       - run:
           name: Format code
-          command: npm run format
+          command: npm run format || echo ""
       - run:
           name: Configure git
           command: |
-            git config user.email "kekesi.adam@students.jedlik.eu"
+            git config user.email "ready-ci-bot@ready.com"
             git config user.name "CircleCI Job"
       - run:
           name: Commit changes

@@ -8,7 +8,7 @@
     "editor.formatOnSave": true
   },
   "editor.minimap.enabled": false,
-  "editor.wordWrap": "on",
+  "editor.wordWrap": "off",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
@@ -20,5 +20,9 @@
   "[jsonc]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
-  "typescript.tsdk": "node_modules\\typescript\\lib"
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "eslint.validate": [
+    "javascript",
+    "typescript"
+  ]
 }

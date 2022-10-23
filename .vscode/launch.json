@@ -5,7 +5,9 @@
       "type": "node",
       "request": "launch",
       "name": "Debug Backend",
-      "args": ["${workspaceFolder}/src/main.ts"],
+      "args": [
+        "${workspaceFolder}/src/main.ts"
+      ],
       "runtimeArgs": [
         "--nolazy",
         "-r",
@@ -14,7 +16,6 @@
         "tsconfig-paths/register"
       ],
       "sourceMaps": true,
-      "envFile": "${workspaceFolder}/.env",
       "cwd": "${workspaceRoot}",
       "console": "integratedTerminal"
     }
