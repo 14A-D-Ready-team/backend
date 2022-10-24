@@ -33,16 +33,16 @@ export default class User {
   public status!: string;
 
   //kapcsolatok
-  @OneToOne({ inversedBy: (admin: Admin) => admin.user })
+  @OneToOne({ mappedBy: (admin: Admin) => admin.user })
   public admin!: Admin;
 
-  @OneToOne({ inversedBy: (customer: Customer) => customer.user })
+  @OneToOne({ mappedBy: (customer: Customer) => customer.user })
   public customer!: Customer;
 
-  @OneToOne({ inversedBy: (buffetWorker: BuffetWorker) => buffetWorker.user })
+  @OneToOne({ mappedBy: (buffetWorker: BuffetWorker) => buffetWorker.user })
   public buffetWorker!: BuffetWorker;
 
-  @OneToOne({ inversedBy: (buffetOwner: BuffetOwner) => buffetOwner.user })
+  @OneToOne({ mappedBy: (buffetOwner: BuffetOwner) => buffetOwner.user })
   public buffetOwner!: BuffetOwner;
 
   // @OneToMany(() => Token, token =>token.id)

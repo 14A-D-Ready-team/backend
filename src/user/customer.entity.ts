@@ -1,8 +1,11 @@
-import { Entity, OneToOne, PrimaryKey, Property } from "@mikro-orm/core";
+import { Entity, OneToOne } from "@mikro-orm/core";
 import User from "./user.entity";
 
 @Entity()
 export default class Customer {
-  @OneToOne({ mappedBy: (user: User) => user.customer })
+  @OneToOne({ 
+    inversedBy: (user: User) => user.customer, 
+    primary:true
+  })
   user!: User;
 }
