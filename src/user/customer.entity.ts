@@ -3,7 +3,6 @@ import User from "./user.entity";
 
 @Entity()
 export default class Customer {
-
-    @OneToOne({mappedBy : (user: User) => user.customer})
-    user!: User;
+  @OneToOne({ mappedBy: (user: User) => user.customer })
+  user!: User;
 }

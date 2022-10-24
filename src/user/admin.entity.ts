@@ -3,8 +3,6 @@ import User from "./user.entity";
 
 @Entity()
 export default class Admin {
-
-    @OneToOne({mappedBy : (user: User) => user.admin})
-    user!: User;
-
+  @OneToOne({ mappedBy: (user: User) => user.admin })
+  user!: User;
 }
