@@ -7,5 +7,5 @@ export default class BuffetWorker {
     inversedBy: (user: User) => user.buffetWorker,
     primary: true,
   })
-  user!: User;
+  public user!: User;
 }

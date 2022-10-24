@@ -7,5 +7,5 @@ export default class Customer {
     inversedBy: (user: User) => user.customer,
     primary: true,
   })
-  user!: User;
+  public user!: User;
 }

@@ -7,6 +7,6 @@ export default class Admin {
     inversedBy: (user: User) => user.admin,
     primary: true,
   })
-  user!: User;
+  public user!: User;
 }
-0;
+

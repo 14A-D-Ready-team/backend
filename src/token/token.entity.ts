@@ -11,5 +11,5 @@ export default class Token {
   public type?: string;
 
   @ManyToOne(() => User)
-  public tokens!: User;
+  public user!: User;
 }

@@ -7,5 +7,5 @@ export default class BuffetOwner {
     inversedBy: (user: User) => user.buffetOwner,
     primary: true,
   })
-  user!: User;
+  public user!: User;
 }
