@@ -3,9 +3,9 @@ import User from "./user.entity";
 
 @Entity()
 export default class BuffetWorker {
-  @OneToOne({ 
+  @OneToOne({
     inversedBy: (user: User) => user.buffetWorker,
-    primary:true
+    primary: true,
   })
   user!: User;
 }
