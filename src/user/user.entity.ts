@@ -1,9 +1,9 @@
 import { Collection, Entity, OneToMany, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import Admin from './admin.entity';
-import BuffetOwner from './buffetOwner.entity';
-import BuffetWorker from './buffetWorker.entity';
+import BuffetOwner from './buffet-owner.entity';
+import BuffetWorker from './buffet-worker.entity';
 import Customer from './customer.entity';
-import Token from './token.entity';
+//import Token from './token.entity';
 
 //tábla
 @Entity() 
@@ -27,19 +27,19 @@ export default class User {
   public status!: string;
  
   //kapcsolatok
-  @OneToOne({inversedBy: 'adminId'})
-  adminId! : Admin;
+  @OneToOne({inversedBy: (admin: Admin) => admin.user})
+  public admin! : Admin;
 
-  @OneToOne({inversedBy: 'customerId'})
-  customerId! : Customer;
+  @OneToOne({inversedBy: (customer: Customer) => customer.user})
+  public customer! : Customer;
 
-  @OneToOne({inversedBy: 'buffetWorkerId'})
-  buffetWorkerId! : BuffetWorker;
+  @OneToOne({inversedBy: (buffetWorker: BuffetWorker) => buffetWorker.user})
+  public buffetWorker! : BuffetWorker;
 
-  @OneToOne({inversedBy: 'buffetOwnerId'})
-  buffetOwnerId! : BuffetOwner;
+  @OneToOne({inversedBy: (buffetOwner: BuffetOwner) => buffetOwner.user})
+  public buffetOwner! : BuffetOwner;
   
 
-  @OneToMany(() => Token, token =>token.id)
-  tokens = new Collection<Token>(this);
+  // @OneToMany(() => Token, token =>token.id)
+  // tokens = new Collection<Token>(this);
 }

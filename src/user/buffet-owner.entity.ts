@@ -2,8 +2,8 @@ import { Entity, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import User from './user.entity';
 
 @Entity() 
-export default class BuffetWorker {
+export default class BuffetOwner {
 
-    @OneToOne({mappedBy : 'id'})
-    buffetWorkerId!: User;
+    @OneToOne({mappedBy : (user: User) => user.buffetOwner})
+    user!: User;
 }
