@@ -6,26 +6,25 @@ import Customer from './customer.entity';
 //import Token from './token.entity';
 
 //tábla
-@Entity() 
+@Entity()
 export default class User {
-
   //PK, nálunk csak id
-  @PrimaryKey({ autoincrement: true}) 
+  @PrimaryKey({ autoincrement: true })
   public id!: number;
-  
+
   //tulajdonság a.k.a adat amit tárolunk
-  @Property({length : 50}) 
+  @Property({ length: 50 })
   public name?: string;
 
-  @Property({length : 50})
+  @Property({ length: 50 })
   public email!: string;
 
-  @Property({length : 255})
+  @Property({ length: 255 })
   public password!: string;
 
-  @Property({length : 50})
+  @Property({ length: 50 })
   public status!: string;
- 
+
   //kapcsolatok
   @OneToOne({inversedBy: (admin: Admin) => admin.user})
   public admin! : Admin;

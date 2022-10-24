@@ -1,7 +1,7 @@
-import { Entity, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
-import User from './user.entity';
+import { Entity, OneToOne, PrimaryKey, Property } from "@mikro-orm/core";
+import User from "./user.entity";
 
-@Entity() 
+@Entity()
 export default class BuffetOwner {
 
     @OneToOne({mappedBy : (user: User) => user.buffetOwner})
