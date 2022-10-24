@@ -14,10 +14,8 @@ import Token from "src/token/token.entity";
 
 @Entity()
 export default class User {
-
   @PrimaryKey({ autoincrement: true })
   public id!: number;
-  
 
   @Property({ length: 50 })
   public name?: string;
@@ -31,7 +29,6 @@ export default class User {
   @Property({ length: 50 })
   public status!: string;
 
-
   @OneToOne({ mappedBy: (admin: Admin) => admin.user })
   public admin!: Admin;
 
@@ -44,6 +41,6 @@ export default class User {
   @OneToOne({ mappedBy: (buffetOwner: BuffetOwner) => buffetOwner.user })
   public buffetOwner!: BuffetOwner;
 
-  @OneToMany(() => Token, token =>token.user)
+  @OneToMany(() => Token, token => token.user)
   public tokens = new Collection<Token>(this);
 }

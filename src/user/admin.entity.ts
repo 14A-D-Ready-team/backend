@@ -9,4 +9,3 @@ export default class Admin {
   })
   public user!: User;
 }
-
