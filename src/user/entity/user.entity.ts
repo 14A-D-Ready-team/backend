@@ -1,9 +1,11 @@
 import {
   Collection,
   Entity,
+  Enum,
   OneToMany,
   OneToOne,
   PrimaryKey,
+  PrimaryKeyType,
   Property,
 } from "@mikro-orm/core";
 import Admin from "./admin.entity";
@@ -11,11 +13,17 @@ import BuffetOwner from "./buffet-owner.entity";
 import BuffetWorker from "./buffet-worker.entity";
 import Customer from "./customer.entity";
 import Token from "src/token/token.entity";
+import { UserType } from "../user-type.enum";
 
 @Entity()
 export default class User {
-  @PrimaryKey({ autoincrement: true })
+  [PrimaryKeyType]?: [number, UserType];
+
+  @PrimaryKey({ autoincrement: true, unique: true })
   public id!: number;
+
+  @Enum({ primary: true })
+  public type!: UserType;
 
   @Property({ length: 50 })
   public name?: string;
