@@ -14,6 +14,7 @@ import BuffetWorker from "./buffet-worker.entity";
 import Customer from "./customer.entity";
 import Token from "src/token/token.entity";
 import { UserType } from "../user-type.enum";
+import { UserStatus } from '../user-status.enum';
 
 @Entity()
 export default class User {
@@ -34,8 +35,8 @@ export default class User {
   @Property({ length: 255 })
   public password!: string;
 
-  @Property({ length: 50 })
-  public status!: string;
+  @Enum()
+  public status!: UserStatus;
 
   @OneToOne({ mappedBy: (admin: Admin) => admin.user })
   public admin!: Admin;
