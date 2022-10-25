@@ -9,13 +9,9 @@ import {
   PrimaryKeyType,
   Property,
 } from "@mikro-orm/core";
-import Admin from "./admin.entity";
-import BuffetOwner from "./buffet-owner.entity";
-import BuffetWorker from "./buffet-worker.entity";
-import Customer from "./customer.entity";
 import Token from "src/token/token.entity";
-import { UserType } from "../enum/user-type.enum";
-import { UserStatus } from "../enum/user-status.enum";
+import { Admin, BuffetOwner, BuffetWorker, Customer } from ".";
+import { UserType, UserStatus } from "../enum";
 
 @Entity()
 export default class User {
