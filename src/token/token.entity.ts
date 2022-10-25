@@ -9,6 +9,6 @@ export default class Token {
   @Property({ length: 50 })
   public type?: string;
 
-  @ManyToOne()
+  @ManyToOne({ referenceColumnName: "id", joinColumn: "user_id" })
   public user!: User;
 }

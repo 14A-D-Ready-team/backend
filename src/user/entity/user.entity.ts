@@ -49,6 +49,9 @@ export default class User {
   @OneToOne({ mappedBy: (buffetOwner: BuffetOwner) => buffetOwner.user })
   public buffetOwner!: BuffetOwner;
 
-  @OneToMany(() => Token, token => token.user)
+  @OneToMany({
+    mappedBy: (token: Token) => token.user,
+    joinColumn: "user_id",
+  })
   public tokens = new Collection<Token>(this);
 }
