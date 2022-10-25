@@ -14,7 +14,7 @@ import BuffetWorker from "./buffet-worker.entity";
 import Customer from "./customer.entity";
 import Token from "src/token/token.entity";
 import { UserType } from "../user-type.enum";
-import { UserStatus } from '../user-status.enum';
+import { UserStatus } from "../user-status.enum";
 
 @Entity()
 export default class User {
