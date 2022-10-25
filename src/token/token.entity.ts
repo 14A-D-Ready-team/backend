@@ -1,4 +1,10 @@
-import { Entity, Enum, ManyToOne, PrimaryKey } from "@mikro-orm/core";
+import {
+  Entity,
+  Enum,
+  IdentifiedReference,
+  ManyToOne,
+  PrimaryKey,
+} from "@mikro-orm/core";
 import User from "src/user/entity/user.entity";
 import { TokenType } from "./token-type.enum";
 
@@ -8,8 +14,8 @@ export default class Token {
   public id!: string;
 
   @Enum()
-  public type?: TokenType;
+  public type!: TokenType;
 
-  @ManyToOne({ referenceColumnName: "id", joinColumn: "user_id" })
-  public user!: User;
+  @ManyToOne({ referenceColumnName: "id", joinColumn: "user_id", eager: true })
+  public user!: IdentifiedReference<User>;
 }
