@@ -1,5 +1,5 @@
-import { Check, Entity, OneToOne } from "@mikro-orm/core";
-import { UserType } from "../user-type.enum";
+import { Check, Entity, IdentifiedReference, OneToOne } from "@mikro-orm/core";
+import { UserType } from "../enum/user-type.enum";
 import User from "./user.entity";
 
 @Entity()
@@ -8,6 +8,7 @@ export default class BuffetWorker {
   @OneToOne({
     inversedBy: (user: User) => user.buffetWorker,
     primary: true,
+    eager: true,
   })
-  public user!: User;
+  public user!: IdentifiedReference<User>;
 }
