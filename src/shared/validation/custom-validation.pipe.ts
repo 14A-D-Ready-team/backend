@@ -1,7 +1,6 @@
 import { validationPipeConfig } from "./validation-pipe.config";
 import { ValidationPipe } from "@nestjs/common";
 import { ArgumentMetadata, Injectable } from "@nestjs/common";
-import { exceptionFactory } from "./utils";
 
 @Injectable()
 export class CustomValidationPipe extends ValidationPipe {
