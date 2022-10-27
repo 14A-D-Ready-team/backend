@@ -4,6 +4,7 @@ import {
   Get,
   Post,
   Query,
+  UsePipes,
   ValidationPipe,
 } from "@nestjs/common";
 import { AppService } from "./app.service";
@@ -11,13 +12,16 @@ import TestDto from "./test.dto";
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly appService: AppService,
+    private pipe: ValidationPipe,
+  ) {}
 
   @Get()
-  public test(@Query(new ValidationPipe({ transform: true })) query: TestDto) {}
+  public test(@Query() query: TestDto) {}
 
   @Post()
-  public test2(@Body(new ValidationPipe({ transform: true })) body: TestDto) {
-    console.log(body.constructor.name);
+  public test2(@Body() body: TestDto) {
+    console.log(body);
   }
 }
