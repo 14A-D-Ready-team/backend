@@ -13,7 +13,9 @@
     "/src/main.ts",
     "/src/repl.ts",
     "/src/environment.ts",
-    "/src/app.module.ts"
+    "/*.module.ts",
+    "/index.ts",
+    "/*.config.ts"
   ],
   "collectCoverageFrom": ["./src/**/*.ts"]
 }
