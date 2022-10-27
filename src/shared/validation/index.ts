@@ -1,4 +1,4 @@
-import { CustomValidationPipe } from './custom-validation.pipe';
-import { ValidationModule } from './validation.module';
+import { CustomValidationPipe } from "./custom-validation.pipe";
+import { ValidationModule } from "./validation.module";
 
 export { CustomValidationPipe, ValidationModule };

@@ -1,4 +1,4 @@
-import { validationPipeConfig } from './validation-pipe.config';
+import { validationPipeConfig } from "./validation-pipe.config";
 import { ValidationPipe } from "@nestjs/common";
 import { ArgumentMetadata, Injectable } from "@nestjs/common";
 import { exceptionFactory } from "./utils";
@@ -23,10 +23,8 @@ export class CustomValidationPipe extends ValidationPipe {
     for (const [key, value] of Object.entries(queryParams)) {
       try {
         Reflect.set(serializedQueryParams, key, JSON.parse(value));
-        
       } catch (error) {
         Reflect.set(serializedQueryParams, key, value);
-        
       }
     }
 

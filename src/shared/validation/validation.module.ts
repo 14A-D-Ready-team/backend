@@ -1,9 +1,9 @@
-import { Global, Module, } from "@nestjs/common";
+import { Global, Module } from "@nestjs/common";
 import { CustomValidationPipe } from "./custom-validation.pipe";
 
 @Global()
 @Module({
-  providers: [ CustomValidationPipe],
+  providers: [CustomValidationPipe],
   exports: [CustomValidationPipe],
 })
 export class ValidationModule {}
