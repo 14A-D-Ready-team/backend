@@ -1,22 +1,9 @@
-import { Global, Module, Provider, ValidationPipe } from "@nestjs/common";
-import { exceptionFactory } from "./utils";
-
-export const validationPipeProvider: Provider<ValidationPipe> = {
-  provide: ValidationPipe,
-  useFactory: () => {
-    console.log("asdf");
-    return new ValidationPipe({
-      transform: true,
-      validateCustomDecorators: true,
-      transformOptions: { excludeExtraneousValues: true },
-      exceptionFactory,
-    });
-  },
-};
+import { Global, Module, } from "@nestjs/common";
+import { CustomValidationPipe } from "./custom-validation.pipe";
 
 @Global()
 @Module({
-  providers: [validationPipeProvider],
-  exports: [validationPipeProvider],
+  providers: [ CustomValidationPipe],
+  exports: [CustomValidationPipe],
 })
 export class ValidationModule {}

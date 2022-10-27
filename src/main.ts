@@ -1,8 +1,8 @@
-import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import helmet from "helmet";
 import { AppModule } from "./app.module";
+import { CustomValidationPipe } from "./shared/validation";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,7 +19,7 @@ async function bootstrap() {
   app.enableShutdownHooks();
   app.enableCors();
   app.use(helmet());
-  app.useGlobalPipes(ValidationPipe);
+  app.useGlobalPipes(new CustomValidationPipe());
 
   await app.listen(process.env.PORT || 3000);
 }

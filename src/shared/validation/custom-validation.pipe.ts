@@ -1,23 +1,33 @@
+import { validationPipeConfig } from './validation-pipe.config';
 import { ValidationPipe } from "@nestjs/common";
-import { ArgumentMetadata, Injectable, PipeTransform } from "@nestjs/common";
+import { ArgumentMetadata, Injectable } from "@nestjs/common";
+import { exceptionFactory } from "./utils";
 
 @Injectable()
-export class CustomValidationPipe implements PipeTransform {
-  constructor(private validationPipe: ValidationPipe) {}
+export class CustomValidationPipe extends ValidationPipe {
+  constructor() {
+    super(validationPipeConfig);
+  }
 
-  public transform(value: any, metadata: ArgumentMetadata) {
-    if (metadata.type === "query" && typeof value === "object") {
+  public transform(value: unknown, metadata: ArgumentMetadata) {
+    if (value && metadata.type === "query" && typeof value === "object") {
       value = this.serializeQueryParams(value);
     }
 
-    return this.validationPipe.transform(value, metadata);
+    return super.transform(value, metadata);
   }
 
   private serializeQueryParams(queryParams: object) {
-    const serializedQueryParams = {} as any;
+    const serializedQueryParams = {} as object;
 
     for (const [key, value] of Object.entries(queryParams)) {
-      serializedQueryParams[key] = JSON.parse(value);
+      try {
+        Reflect.set(serializedQueryParams, key, JSON.parse(value));
+        
+      } catch (error) {
+        Reflect.set(serializedQueryParams, key, value);
+        
+      }
     }
 
     return serializedQueryParams;
