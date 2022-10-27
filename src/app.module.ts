@@ -1,4 +1,4 @@
-import { ValidationModule } from './shared/validation/validation.module';
+import { ValidationModule } from "./shared/validation/validation.module";
 import { ClassSerializerInterceptor, Module } from "@nestjs/common";
 import { APP_INTERCEPTOR } from "@nestjs/core";
 import { AppController } from "./app.controller";
