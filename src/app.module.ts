@@ -6,9 +6,16 @@ import { AppService } from "./app.service";
 import { DatabaseModule } from "./shared/database/database.module";
 import { UserModule } from "./user/user.module";
 import { TokenModule } from "./token/token.module";
+import { AuthModule } from "./auth";
 
 @Module({
-  imports: [DatabaseModule, UserModule, TokenModule, ValidationModule],
+  imports: [
+    DatabaseModule,
+    UserModule,
+    TokenModule,
+    ValidationModule,
+    AuthModule,
+  ],
   controllers: [AppController],
   providers: [
     AppService,
