@@ -1,8 +1,8 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { GoogleAuthController } from './google-auth.controller';
-import { GoogleAuthService } from './google-auth.service';
+import { Test, TestingModule } from "@nestjs/testing";
+import { GoogleAuthController } from "./google-auth.controller";
+import { GoogleAuthService } from "./google-auth.service";
 
-describe('GoogleAuthController', () => {
+describe("GoogleAuthController", () => {
   let controller: GoogleAuthController;
 
   beforeEach(async () => {
@@ -14,7 +14,7 @@ describe('GoogleAuthController', () => {
     controller = module.get<GoogleAuthController>(GoogleAuthController);
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(controller).toBeDefined();
   });
 });
