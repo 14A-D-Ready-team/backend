@@ -1,6 +1,6 @@
 import { EntityManager } from "@mikro-orm/mysql";
-import BaseRepository from "./base.repository";
-import DbOfflineException from "./exceptions/db-offline.exception";
+import { BaseRepository } from "./base.repository";
+import { DbOfflineException } from "./exceptions";
 
 describe("BaseRepository", () => {
   const rep1 = createECONNNREFUSEDRepository();

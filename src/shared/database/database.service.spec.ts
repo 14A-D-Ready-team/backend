@@ -1,6 +1,6 @@
 import { MikroORM } from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
-import DatabaseService from "./database.service";
+import { DatabaseService } from "./database.service";
 
 describe("DatabaseService", () => {
   let service1: DatabaseService;

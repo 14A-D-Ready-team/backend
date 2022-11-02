@@ -1,6 +1,11 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { ConfigType } from "@nestjs/config";
-import { LoginTicket, OAuth2Client, TokenPayload } from "google-auth-library";
+import {
+  auth,
+  LoginTicket,
+  OAuth2Client,
+  TokenPayload,
+} from "google-auth-library";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import {
   GoogleAuthFailedException,
@@ -22,7 +27,7 @@ interface GoogleUserData {
 export class GoogleAuthService {
   constructor(
     @Inject(authConfig.KEY)
-    private dbConfig: ConfigType<typeof authConfig>,
+    private config: ConfigType<typeof authConfig>,
 
     @InjectRepository(User)
     private userRepository: BaseRepository<User>,
@@ -32,8 +37,8 @@ export class GoogleAuthService {
 
   public async verify(token: string, userType: UserType) {
     const client = new OAuth2Client({
-      clientId: this.dbConfig.googleClientId,
-      clientSecret: this.dbConfig.googleClientSecret,
+      clientId: this.config.googleClientId,
+      clientSecret: this.config.googleClientSecret,
     });
 
     let result: LoginTicket;

@@ -1,6 +1,6 @@
 import { ValidationError } from "@nestjs/common";
 import { InvalidDataException, InvalidProperty } from "../exceptions";
-import exceptionFactory from "./exception-factory.util";
+import { exceptionFactory } from "./exception-factory.util";
 
 describe("validation/exceptionFactory", () => {
   it("should be able to build an exception from a single ValidationError without children", () => {
