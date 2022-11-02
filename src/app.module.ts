@@ -1,4 +1,4 @@
-import { UserRepository } from './user/user.repository';
+import { UserRepository } from "./user/user.repository";
 import { ValidationModule } from "./shared/validation/validation.module";
 import { ClassSerializerInterceptor, Module } from "@nestjs/common";
 import { APP_INTERCEPTOR } from "@nestjs/core";
