@@ -85,7 +85,7 @@ export class GoogleAuthService {
   }
 
   private async authenticateUser(user: User, userType: UserType) {
-    if(user.type !== userType) {
+    if (user.type !== userType) {
       throw new InvalidUserTypeException();
     }
 

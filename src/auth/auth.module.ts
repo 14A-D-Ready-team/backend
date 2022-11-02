@@ -1,4 +1,4 @@
-import { TokenModule } from './../token/token.module';
+import { TokenModule } from "./../token/token.module";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
@@ -11,7 +11,7 @@ import { User } from "src/user/entity";
   imports: [
     ConfigModule.forFeature(authConfig),
     MikroOrmModule.forFeature([User]),
-    TokenModule
+    TokenModule,
   ],
   controllers: [GoogleAuthController],
   providers: [GoogleAuthService],

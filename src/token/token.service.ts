@@ -4,7 +4,7 @@ import Token from "./token.entity";
 
 @Injectable()
 export class TokenService {
-    public async createAuthToken(user:User) :Promise<Token> {
-        throw new NotImplementedException()
-    } 
+  public async createAuthToken(user: User): Promise<Token> {
+    throw new NotImplementedException();
+  }
 }
