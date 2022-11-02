@@ -1,17 +1,16 @@
-import { UserType } from "./../user/enum/user-type.enum";
-import { TokenService } from "./../token/token.service";
 import { Inject, Injectable } from "@nestjs/common";
 import { ConfigType } from "@nestjs/config";
 import { LoginTicket, OAuth2Client, TokenPayload } from "google-auth-library";
-import authConfig from "./auth.config";
+import { InjectRepository } from "@mikro-orm/nestjs";
 import {
   GoogleAuthFailedException,
   InvalidUserTypeException,
   MissingScopesException,
 } from "./exceptions";
-import BaseRepository from "src/shared/database/base.repository";
-import { User } from "src/user/entity";
-import { InjectRepository } from "@mikro-orm/nestjs";
+import { User, UserType } from "@/user";
+import { authConfig } from "./auth.config";
+import { BaseRepository } from "@shared/database";
+import { TokenService } from "@/token";
 
 interface GoogleUserData {
   email: string | undefined;

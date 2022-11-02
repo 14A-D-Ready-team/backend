@@ -2,7 +2,7 @@ import { MikroORM } from "@mikro-orm/core";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export default class DatabaseService {
+export class DatabaseService {
   constructor(private orm: MikroORM) {}
 
   public async rebuildDbSchema() {

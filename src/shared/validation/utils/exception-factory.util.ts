@@ -1,7 +1,7 @@
 import { ValidationError } from "@nestjs/common";
 import { InvalidDataException, InvalidProperty } from "../exceptions";
 
-export default function exceptionFactory(errors: ValidationError[]) {
+export function exceptionFactory(errors: ValidationError[]) {
   return new InvalidDataException(buildInvalidProperties(errors));
 }
 

@@ -1,3 +1,4 @@
+import { Token } from "@/token";
 import {
   Collection,
   Entity,
@@ -9,12 +10,11 @@ import {
   PrimaryKeyType,
   Property,
 } from "@mikro-orm/core";
-import Token from "src/token/token.entity";
 import { Admin, BuffetOwner, BuffetWorker, Customer } from ".";
 import { UserType, UserStatus } from "../enum";
 
 @Entity()
-export default class User {
+export class User {
   [PrimaryKeyType]?: [number, UserType];
 
   @PrimaryKey({ autoincrement: true, unique: true })

@@ -1,6 +1,6 @@
 import { Injectable, NotImplementedException } from "@nestjs/common";
-import { User } from "src/user/entity";
-import Token from "./token.entity";
+import { Token } from "./token.entity";
+import { User } from "@/user";
 
 @Injectable()
 export class TokenService {

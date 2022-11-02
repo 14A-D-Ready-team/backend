@@ -1,6 +1,6 @@
 import { BadRequestException } from "@nestjs/common";
 
-export default class MissingScopesException extends BadRequestException {
+export class MissingScopesException extends BadRequestException {
   public missingScopes: string[];
 
   constructor(missingScopes: string[]) {

@@ -1,8 +1,8 @@
-import { UserType } from "./../../user/enum/user-type.enum";
+import { UserType } from "@/user/enum";
 import { Expose } from "class-transformer";
 import { IsEnum, IsJWT, IsString } from "class-validator";
 
-export default class VerifyGoogleAuthDto {
+export class VerifyGoogleAuthDto {
   @Expose()
   @IsString()
   @IsJWT()

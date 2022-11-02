@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from "@nestjs/common";
-import VerifyGoogleAuthDto from "./dto/verify-google-auth.dto";
+import { VerifyGoogleAuthDto } from "./dto";
 import { GoogleAuthService } from "./google-auth.service";
 
 @Controller("google-auth")

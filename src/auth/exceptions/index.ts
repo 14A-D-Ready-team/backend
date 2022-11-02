@@ -1,9 +1,3 @@
-import GoogleAuthFailedException from "./google-auth-failed.exception";
-import InvalidUserTypeException from "./invalid-user-type.exception";
-import MissingScopesException from "./missing-scopes.exception";
-
-export {
-  GoogleAuthFailedException,
-  MissingScopesException,
-  InvalidUserTypeException,
-};
+export * from "./google-auth-failed.exception";
+export * from "./invalid-user-type.exception";
+export * from "./missing-scopes.exception";
