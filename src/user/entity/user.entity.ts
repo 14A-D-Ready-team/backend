@@ -22,7 +22,7 @@ export default class User {
 
   @Enum({ primary: true })
   public type!: UserType;
-
+  
   @Property({ length: 50 })
   public name?: string;
 
