@@ -35,26 +35,32 @@ export default class User {
   @Enum()
   public status!: UserStatus;
 
-  @OneToOne({ mappedBy: (admin: Admin) => admin.user, orphanRemoval: true })
-  public admin!: IdentifiedReference<Admin>;
+  @OneToOne({
+    mappedBy: (admin: Admin) => admin.user,
+    orphanRemoval: true,
+    eager: true,
+  })
+  public admin?: IdentifiedReference<Admin>;
 
   @OneToOne({
     mappedBy: (customer: Customer) => customer.user,
     orphanRemoval: true,
   })
-  public customer!: IdentifiedReference<Customer>;
+  public customer?: IdentifiedReference<Customer>;
 
   @OneToOne({
     mappedBy: (buffetWorker: BuffetWorker) => buffetWorker.user,
     orphanRemoval: true,
+    eager: true,
   })
-  public buffetWorker!: IdentifiedReference<BuffetWorker>;
+  public buffetWorker?: IdentifiedReference<BuffetWorker>;
 
   @OneToOne({
     mappedBy: (buffetOwner: BuffetOwner) => buffetOwner.user,
     orphanRemoval: true,
+    eager: true,
   })
-  public buffetOwner!: IdentifiedReference<BuffetOwner>;
+  public buffetOwner?: IdentifiedReference<BuffetOwner>;
 
   @OneToMany({
     mappedBy: (token: Token) => token.user,

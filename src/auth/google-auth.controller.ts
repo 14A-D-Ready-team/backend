@@ -7,7 +7,7 @@ export class GoogleAuthController {
   constructor(private readonly googleAuthService: GoogleAuthService) {}
 
   @Post("/verify")
-  public async verifyToken(@Body() payload: VerifyGoogleAuthDto) {
-    return this.googleAuthService.verifyToken(payload.token);
+  public async verify(@Body() payload: VerifyGoogleAuthDto) {
+    return this.googleAuthService.verify(payload.token, payload.userType);
   }
 }

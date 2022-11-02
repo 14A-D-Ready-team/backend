@@ -8,7 +8,6 @@ export default class Customer {
   @OneToOne({
     inversedBy: (user: User) => user.customer,
     primary: true,
-    eager: true,
   })
   public user!: IdentifiedReference<User>;
 }

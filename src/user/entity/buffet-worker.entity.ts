@@ -8,7 +8,6 @@ export default class BuffetWorker {
   @OneToOne({
     inversedBy: (user: User) => user.buffetWorker,
     primary: true,
-    eager: true,
   })
   public user!: IdentifiedReference<User>;
 }
