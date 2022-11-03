@@ -6,9 +6,8 @@ import { AppService } from "./app.service";
 import { DatabaseModule } from "./shared/database/database.module";
 import { UserModule } from "./user/user.module";
 import { TokenModule } from "./token/token.module";
-import { AuthModule } from "./auth";
+import { authConfig, AuthModule } from "./auth";
 import { ConfigModule } from "@nestjs/config";
-import authConfig from "./auth/auth.config";
 
 @Module({
   imports: [

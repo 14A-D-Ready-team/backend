@@ -52,6 +52,7 @@ function createTestingModule(config: { get: (key: string) => unknown }) {
               dropDatabase: jest.fn(),
               createDatabase: jest.fn(),
               createSchema: jest.fn(),
+              execute: jest.fn(),
             };
           },
         },
