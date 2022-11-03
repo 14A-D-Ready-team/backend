@@ -1,4 +1,4 @@
-export default class DbOfflineException extends Error {
+export class DbOfflineException extends Error {
   constructor() {
     super();
   }

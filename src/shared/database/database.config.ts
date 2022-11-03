@@ -1,7 +1,7 @@
-import { isDevelopment } from "./../../environment";
 import { TsMorphMetadataProvider } from "@mikro-orm/reflection";
 import { MikroOrmModuleSyncOptions } from "@mikro-orm/nestjs";
-import BaseRepository from "./base.repository";
+import { isDevelopment } from "@/environment";
+import { BaseRepository } from "./base.repository";
 
 export const databaseConfig: MikroOrmModuleSyncOptions = {
   type: "mysql",

@@ -5,11 +5,11 @@ import {
   ManyToOne,
   PrimaryKey,
 } from "@mikro-orm/core";
-import User from "src/user/entity/user.entity";
 import { TokenType } from "./token-type.enum";
+import { User } from "@/user";
 
 @Entity()
-export default class Token {
+export class Token {
   @PrimaryKey({ type: "uuid" })
   public id!: string;
 
