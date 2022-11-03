@@ -1,5 +1,4 @@
-import { ClassSerializerInterceptor, Module } from "@nestjs/common";
-import { APP_INTERCEPTOR } from "@nestjs/core";
+import { Module } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { authConfig, AuthModule } from "./auth";
@@ -8,6 +7,7 @@ import { DatabaseModule } from "@shared/database";
 import { ValidationModule } from "@shared/validation";
 import { UserModule } from "./user";
 import { TokenModule } from "./token";
+import { serializationInterceptorProvider } from "@shared/serialization";
 
 @Module({
   imports: [
@@ -23,12 +23,6 @@ import { TokenModule } from "./token";
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: ClassSerializerInterceptor,
-    },
-  ],
+  providers: [AppService, serializationInterceptorProvider],
 })
 export class AppModule {}
