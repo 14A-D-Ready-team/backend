@@ -17,7 +17,7 @@ export class InvalidProperty {
   }
 }
 
-export default class InvalidDataException extends BadRequestException {
+export class InvalidDataException extends BadRequestException {
   @Type(() => InvalidProperty)
   public invalidProperties: Map<string, InvalidProperty>;
 

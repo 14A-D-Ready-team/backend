@@ -1,3 +1,4 @@
+import { Token } from "@/token";
 import {
   Collection,
   Entity,
@@ -9,12 +10,11 @@ import {
   PrimaryKeyType,
   Property,
 } from "@mikro-orm/core";
-import Token from "src/token/token.entity";
 import { Admin, BuffetOwner, BuffetWorker, Customer } from ".";
 import { UserType, UserStatus } from "../enum";
 
 @Entity()
-export default class User {
+export class User {
   [PrimaryKeyType]?: [number, UserType];
 
   @PrimaryKey({ autoincrement: true, unique: true })
@@ -35,26 +35,32 @@ export default class User {
   @Enum()
   public status!: UserStatus;
 
-  @OneToOne({ mappedBy: (admin: Admin) => admin.user, orphanRemoval: true })
-  public admin!: IdentifiedReference<Admin>;
+  @OneToOne({
+    mappedBy: (admin: Admin) => admin.user,
+    orphanRemoval: true,
+    eager: true,
+  })
+  public admin?: IdentifiedReference<Admin>;
 
   @OneToOne({
     mappedBy: (customer: Customer) => customer.user,
     orphanRemoval: true,
   })
-  public customer!: IdentifiedReference<Customer>;
+  public customer?: IdentifiedReference<Customer>;
 
   @OneToOne({
     mappedBy: (buffetWorker: BuffetWorker) => buffetWorker.user,
     orphanRemoval: true,
+    eager: true,
   })
-  public buffetWorker!: IdentifiedReference<BuffetWorker>;
+  public buffetWorker?: IdentifiedReference<BuffetWorker>;
 
   @OneToOne({
     mappedBy: (buffetOwner: BuffetOwner) => buffetOwner.user,
     orphanRemoval: true,
+    eager: true,
   })
-  public buffetOwner!: IdentifiedReference<BuffetOwner>;
+  public buffetOwner?: IdentifiedReference<BuffetOwner>;
 
   @OneToMany({
     mappedBy: (token: Token) => token.user,

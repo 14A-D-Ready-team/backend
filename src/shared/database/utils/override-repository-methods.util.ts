@@ -1,7 +1,7 @@
-import BaseRepository from "../base.repository";
-import DbOfflineException from "../exceptions/db-offline.exception";
+import { BaseRepository } from "../base.repository";
+import { DbOfflineException } from "../exceptions";
 
-export default function overrideRepositoryMethods<T extends object>(
+export function overrideRepositoryMethods<T extends object>(
   repository: BaseRepository<T>,
 ) {
   const methodsToOverride: Array<keyof typeof repository> = [

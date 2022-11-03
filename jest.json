@@ -17,5 +17,9 @@
     "/index.ts",
     "/*.config.ts"
   ],
-  "collectCoverageFrom": ["./src/**/*.ts"]
+  "collectCoverageFrom": ["./src/**/*.ts"],
+  "moduleNameMapper": {
+    "^@/(.*)$": "<rootDir>/src/$1",
+    "^@shared/(.*)$": "<rootDir>/src/shared/$1"
+  }
 }
