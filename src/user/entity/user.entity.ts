@@ -35,7 +35,7 @@ export class User {
   public email!: string;
 
   @Property({ length: 255 })
-  public password!: string;
+  public password?: string;
 
   @Enum()
   @Expose()

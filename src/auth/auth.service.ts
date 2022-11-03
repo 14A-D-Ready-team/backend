@@ -13,6 +13,8 @@ import {
 import { BaseRepository } from "@/shared/database";
 import * as argon2 from "argon2";
 
+type NewType = RegistrationDto;
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -32,7 +34,7 @@ export class AuthService {
     private buffetOwnerRepository: BaseRepository<BuffetOwner>,
   ) {}
 
-  public async createUser(registrationDto: RegistrationDto): Promise<User> {
+  public async createUser(registrationDto: NewType): Promise<User> {
     const { name, email, password, type } = registrationDto;
 
     const secretPassword = await argon2.hash(password);
