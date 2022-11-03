@@ -1,6 +1,6 @@
 import { UserType } from "@/user";
 import { Expose } from "class-transformer";
-import { IsEmail, IsEnum, IsString, MaxLength, MinLength } from "class-validator/types/decorator/decorators";
+import { IsEmail, IsEnum, IsString, MaxLength, MinLength } from "class-validator";
 
 export class RegistrationDto {
 
