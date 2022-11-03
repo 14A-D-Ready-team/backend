@@ -1,6 +1,3 @@
-import { RegistrationDto } from './registration.dto';
+import { RegistrationDto } from "./registration.dto";
 
-export class BuffetWorkerRegistrationDto extends RegistrationDto {
-
-  
-}
+export class BuffetWorkerRegistrationDto extends RegistrationDto {}
