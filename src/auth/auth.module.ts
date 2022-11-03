@@ -12,7 +12,13 @@ import { TokenModule } from "@/token";
 @Module({
   imports: [
     ConfigModule.forFeature(authConfig),
-    MikroOrmModule.forFeature([User, Admin, Customer, BuffetOwner, BuffetWorker]),
+    MikroOrmModule.forFeature([
+      User,
+      Admin,
+      Customer,
+      BuffetOwner,
+      BuffetWorker,
+    ]),
     TokenModule,
   ],
   controllers: [AuthController, GoogleAuthController],

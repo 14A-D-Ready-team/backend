@@ -3,7 +3,6 @@ import { Expose } from "class-transformer";
 import { IsEmail, IsEnum, IsString, MaxLength, MinLength } from "class-validator";
 
 export class RegistrationDto {
-
   @Expose()
   @IsString()
   @MinLength(3)

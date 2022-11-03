@@ -6,6 +6,4 @@ import { User } from "./entity";
 import { UserType, UserStatus } from "./enum";
 
 @Injectable()
-export class UserService {
-  
-}
+export class UserService {}
