@@ -24,7 +24,7 @@ export class User {
   public type!: UserType;
 
   @Property({ length: 50 })
-  public name?: string;
+  public name!: string;
 
   @Property({ length: 50 })
   public email!: string;

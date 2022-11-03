@@ -6,13 +6,13 @@ import { AuthController } from "./auth.controller";
 import { GoogleAuthController } from "./google-auth.controller";
 import { GoogleAuthService } from "./google-auth.service";
 import { authConfig } from "./auth.config";
-import { User } from "@/user";
+import { Admin, BuffetOwner, BuffetWorker, Customer, User } from "@/user";
 import { TokenModule } from "@/token";
 
 @Module({
   imports: [
     ConfigModule.forFeature(authConfig),
-    MikroOrmModule.forFeature([User]),
+    MikroOrmModule.forFeature([User, Admin, Customer, BuffetOwner, BuffetWorker]),
     TokenModule,
   ],
   controllers: [AuthController, GoogleAuthController],
