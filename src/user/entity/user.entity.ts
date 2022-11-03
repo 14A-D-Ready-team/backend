@@ -10,6 +10,7 @@ import {
   PrimaryKeyType,
   Property,
 } from "@mikro-orm/core";
+import { Expose, Transform } from "class-transformer";
 import { Admin, BuffetOwner, BuffetWorker, Customer } from ".";
 import { UserType, UserStatus } from "../enum";
 
@@ -18,21 +19,26 @@ export class User {
   [PrimaryKeyType]?: [number, UserType];
 
   @PrimaryKey({ autoincrement: true, unique: true })
+  @Expose()
   public id!: number;
 
   @Enum({ primary: true })
+  @Expose()
   public type!: UserType;
 
   @Property({ length: 50 })
+  @Expose()
   public name!: string;
 
   @Property({ length: 50 })
+  @Expose()
   public email!: string;
 
   @Property({ length: 255 })
   public password!: string;
 
   @Enum()
+  @Expose()
   public status!: UserStatus;
 
   @OneToOne({
