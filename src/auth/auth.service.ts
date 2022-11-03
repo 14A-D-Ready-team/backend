@@ -34,9 +34,9 @@ export class AuthService {
 
   public async createUser(registrationDto: RegistrationDto): Promise<User> {
     const { name, email, password, type } = registrationDto;
-    
+
     const secretPassword = await argon2.hash(password);
-    
+
     const user = this.userRepository.create({
       name,
       email,
@@ -44,7 +44,7 @@ export class AuthService {
       type,
       status: UserStatus.Inactive,
     });
-    
+
     await this.userRepository.persistAndFlush(user);
 
     if (user.type === UserType.Admin) {
