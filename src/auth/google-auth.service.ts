@@ -1,20 +1,14 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { AuthService } from "./auth.service";
 import { Inject, Injectable } from "@nestjs/common";
 import { ConfigType } from "@nestjs/config";
-import {
-  auth,
-  LoginTicket,
-  OAuth2Client,
-  TokenPayload,
-} from "google-auth-library";
+import { LoginTicket, OAuth2Client, TokenPayload } from "google-auth-library";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import {
   GoogleAuthFailedException,
   InvalidUserTypeException,
   MissingScopesException,
 } from "./exceptions";
-import { User, UserStatus, UserType } from "@/user";
+import { User, UserService, UserStatus, UserType } from "@/user";
 import { authConfig } from "./auth.config";
 import { BaseRepository } from "@shared/database";
 import { TokenService } from "@/token";
@@ -37,7 +31,7 @@ export class GoogleAuthService {
 
     private tokenService: TokenService,
 
-    private authService: AuthService,
+    private userService: UserService,
   ) {}
 
   public async verify(token: string, userType: UserType) {
@@ -103,7 +97,7 @@ export class GoogleAuthService {
   }
 
   private async registerNewUser(userData: GoogleUserData, userType: UserType) {
-    const newUser = await this.authService.createUser({
+    const newUser = await this.userService.create({
       email: userData.email,
       name: userData.givenName + " " + userData.familyName,
       type: userType,

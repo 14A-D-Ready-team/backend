@@ -6,7 +6,14 @@ import { AuthController } from "./auth.controller";
 import { GoogleAuthController } from "./google-auth.controller";
 import { GoogleAuthService } from "./google-auth.service";
 import { authConfig } from "./auth.config";
-import { Admin, BuffetOwner, BuffetWorker, Customer, User } from "@/user";
+import {
+  Admin,
+  BuffetOwner,
+  BuffetWorker,
+  Customer,
+  User,
+  UserModule,
+} from "@/user";
 import { TokenModule } from "@/token";
 
 @Module({
@@ -20,6 +27,7 @@ import { TokenModule } from "@/token";
       BuffetWorker,
     ]),
     TokenModule,
+    UserModule,
   ],
   controllers: [AuthController, GoogleAuthController],
   providers: [AuthService, GoogleAuthService],
