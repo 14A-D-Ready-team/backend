@@ -15,9 +15,51 @@ export function IsValidPassword() {
         message: "Must include special character",
       },
       validator: {
-        validate(value: string, args: ValidationArguments): boolean { //return not boolean?
-          
-          const specialChars = ['<', '>', '#', '&', '@', '{', '}', ';', ',', '.', ':', '_', '?', '!', '~', '\'', '+', '%', '/', '-', '=', '(', ')', '€', '$', 'ˇ', '^', '˘', '°', '˛', '`', '˙', '´', '´', '˝', '¨', '¸', '-', '[', ']'];
+        validate(value: string, args: ValidationArguments): boolean {
+          //return not boolean?
+
+          const specialChars = [
+            "<",
+            ">",
+            "#",
+            "&",
+            "@",
+            "{",
+            "}",
+            ";",
+            ",",
+            ".",
+            ":",
+            "_",
+            "?",
+            "!",
+            "~",
+            "'",
+            "+",
+            "%",
+            "/",
+            "-",
+            "=",
+            "(",
+            ")",
+            "€",
+            "$",
+            "ˇ",
+            "^",
+            "˘",
+            "°",
+            "˛",
+            "`",
+            "˙",
+            "´",
+            "´",
+            "˝",
+            "¨",
+            "¸",
+            "-",
+            "[",
+            "]",
+          ];
 
           const pwdChars = Array.from(value);
           pwdChars.forEach((char: string) => {
