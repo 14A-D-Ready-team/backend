@@ -16,5 +16,6 @@ import { Admin, BuffetOwner, BuffetWorker, Customer, User } from "./entity";
   ],
   providers: [UserService],
   controllers: [UserController],
+  exports: [UserService],
 })
 export class UserModule {}
