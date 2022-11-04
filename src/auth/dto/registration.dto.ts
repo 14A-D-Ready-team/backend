@@ -4,15 +4,23 @@ import {
   IsEmail,
   IsEnum,
   IsString,
+  Matches,
   MaxLength,
   MinLength,
 } from "class-validator";
+
+// NONO karakter: "
+const allowedForName =
+  /^[ AaÁáBbCcDdEeÉéFfGgHhIiÍíJjKkLlMmNnOoÓóÖöŐőPpQqRrSsTtUuÚúÜüŰűVvWwXxYyZz0123456789ÂÃÄÅÆÇÈÊËÌÎÏÐÑÒÔÕØÙÛÝÞßàâãäåæçèêëìîïðñòôõøùûýþÿ]*$/;
+const allowedForPassword =
+  /^[ AaÁáBbCcDdEeÉéFfGgHhIiÍíJjKkLlMmNnOoÓóÖöŐőPpQqRrSsTtUuÚúÜüŰűVvWwXxYyZz0123456789ÂÃÄÅÆÇÈÊËÌÎÏÐÑÒÔÕØÙÛÝÞßàâãäåæçèêëìîïðñòôõøùûýþÿ<>#&@{};,.:_?!~'+%/-=()€$ˇ^˘°˛`˙´´˝¨¸\-\[\]]*$/;
 
 export class RegistrationDto {
   @Expose()
   @IsString()
   @MinLength(3)
   @MaxLength(50)
+  @Matches(allowedForName)
   public name!: string;
 
   @Expose()
@@ -24,6 +32,7 @@ export class RegistrationDto {
   @IsString()
   @MinLength(8)
   @MaxLength(255)
+  @Matches(allowedForPassword)
   public password!: string;
 
   @Expose()
