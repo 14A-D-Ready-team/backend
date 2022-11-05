@@ -1,10 +1,6 @@
 import { UnhandledExceptionFilter } from "./unhandled-exception.filter";
-import { ArgumentsHost, BadRequestException } from "@nestjs/common";
+import { ArgumentsHost } from "@nestjs/common";
 import { createMock } from "@golevelup/ts-jest";
-import {
-  InvalidDataException,
-  InvalidProperty,
-} from "@/shared/validation/exceptions";
 
 describe("HttpExceptionFilter", () => {
   let filter: UnhandledExceptionFilter;
