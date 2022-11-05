@@ -1,3 +1,4 @@
+import { APP_INTERCEPTOR } from "@nestjs/core";
 import { Module } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
@@ -7,7 +8,7 @@ import { DatabaseModule } from "@shared/database";
 import { ValidationModule } from "@shared/validation";
 import { UserModule } from "./user";
 import { TokenModule } from "./token";
-import { serializationInterceptorProvider } from "@shared/serialization";
+import { SerializerInterceptor } from "@shared/serialization";
 
 @Module({
   imports: [
@@ -23,6 +24,9 @@ import { serializationInterceptorProvider } from "@shared/serialization";
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, serializationInterceptorProvider],
+  providers: [
+    AppService,
+    { provide: APP_INTERCEPTOR, useClass: SerializerInterceptor },
+  ],
 })
 export class AppModule {}

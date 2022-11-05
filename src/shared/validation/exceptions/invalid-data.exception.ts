@@ -1,10 +1,12 @@
 import { BadRequestException } from "@nestjs/common";
-import { Type } from "class-transformer";
+import { Expose, Type } from "class-transformer";
 
 export class InvalidProperty {
+  @Expose()
   @Type(() => String)
   public errorMessages: Map<string, string>;
 
+  @Expose()
   @Type(() => InvalidProperty)
   public children: Map<string, InvalidProperty>;
 
@@ -18,6 +20,7 @@ export class InvalidProperty {
 }
 
 export class InvalidDataException extends BadRequestException {
+  @Expose()
   @Type(() => InvalidProperty)
   public invalidProperties: Map<string, InvalidProperty>;
 
