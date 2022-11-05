@@ -1,7 +1,7 @@
-import { TransformableExceptionFilter } from './transformable-exception.filter';
+import { TransformableExceptionFilter } from "./transformable-exception.filter";
 
-describe('TransformableExceptionFilter', () => {
-  it('should be defined', () => {
+describe("TransformableExceptionFilter", () => {
+  it("should be defined", () => {
     expect(new TransformableExceptionFilter()).toBeDefined();
   });
 });
