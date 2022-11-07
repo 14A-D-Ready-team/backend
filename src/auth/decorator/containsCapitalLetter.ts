@@ -1,7 +1,5 @@
 import {
   registerDecorator,
-  ValidationOptions,
-  ValidationArguments,
 } from "class-validator";
 
 export function ContainsCapitalLetter() {
@@ -15,7 +13,7 @@ export function ContainsCapitalLetter() {
         message: "Must include a capital letter!",
       },
       validator: {
-        validate(value: string, args: ValidationArguments): boolean {
+        validate(value: string): boolean {
           const letters = [
             "A",
             "B",

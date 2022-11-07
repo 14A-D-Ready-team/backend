@@ -1,7 +1,5 @@
 import {
   registerDecorator,
-  ValidationOptions,
-  ValidationArguments,
 } from "class-validator";
 
 export function ContainsLowercaseLetter() {
@@ -15,7 +13,7 @@ export function ContainsLowercaseLetter() {
         message: "Must include a lowercase letter!",
       },
       validator: {
-        validate(value: string, args: ValidationArguments): boolean {
+        validate(value: string): boolean {
           const letters = [
             "a",
             "b",

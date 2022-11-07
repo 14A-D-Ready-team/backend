@@ -1,7 +1,5 @@
 import {
   registerDecorator,
-  ValidationOptions,
-  ValidationArguments,
 } from "class-validator";
 
 export function ContainsSpecialChar() {
@@ -15,7 +13,7 @@ export function ContainsSpecialChar() {
         message: "Must include special character!",
       },
       validator: {
-        validate(value: string, args: ValidationArguments): boolean {
+        validate(value: string): boolean {
           const specialChars = [
             "<",
             ">",

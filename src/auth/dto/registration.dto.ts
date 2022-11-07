@@ -12,6 +12,7 @@ import { ContainsSpecialChar } from "../decorator/containsSpecialChar";
 import { ContainsNumber } from "../decorator/containsNumber";
 import { ContainsCapitalLetter } from "../decorator/containsCapitalLetter";
 import { ContainsLowercaseLetter } from "../decorator/containsLowerCaseLetter";
+import { IsValidName } from "../decorator/isValidName";
 
 // NONO karakter: "
 const allowedForName =
@@ -25,6 +26,7 @@ export class RegistrationDto {
   @MinLength(3)
   @MaxLength(50)
   @Matches(allowedForName)
+  @IsValidName()
   public name!: string;
 
   @Expose()

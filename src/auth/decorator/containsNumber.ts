@@ -1,7 +1,5 @@
 import {
   registerDecorator,
-  ValidationOptions,
-  ValidationArguments,
 } from "class-validator";
 
 export function ContainsNumber() {
@@ -15,7 +13,7 @@ export function ContainsNumber() {
         message: "Must include a number!",
       },
       validator: {
-        validate(value: string, args: ValidationArguments): boolean {
+        validate(value: string): boolean {
           const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 
           var valid = false;
