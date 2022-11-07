@@ -1,7 +1,6 @@
 import { UserType } from "@/user";
 import { Expose } from "class-transformer";
 import {
-  Contains,
   IsEmail,
   IsEnum,
   IsString,
@@ -9,7 +8,10 @@ import {
   MaxLength,
   MinLength,
 } from "class-validator";
-import { IsValidPassword } from "../decorator/IsValidPassword";
+import { ContainsSpecialChar } from "../decorator/containsSpecialChar";
+import { ContainsNumber } from "../decorator/containsNumber";
+import { ContainsCapitalLetter } from "../decorator/containsCapitalLetter";
+import { ContainsLowercaseLetter } from "../decorator/containsLowerCaseLetter";
 
 // NONO karakter: "
 const allowedForName =
@@ -35,7 +37,10 @@ export class RegistrationDto {
   @MinLength(8)
   @MaxLength(255)
   @Matches(allowedForPassword)
-  @IsValidPassword()
+  @ContainsSpecialChar()
+  @ContainsNumber()
+  @ContainsCapitalLetter()
+  @ContainsLowercaseLetter()
   public password!: string;
 
   @Expose()

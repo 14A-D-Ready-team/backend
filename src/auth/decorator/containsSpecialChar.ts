@@ -4,20 +4,18 @@ import {
   ValidationArguments,
 } from "class-validator";
 
-export function IsValidPassword() {
+export function ContainsSpecialChar() {
   return function (object: Object, propertyName: string) {
     registerDecorator({
-      name: "isValidPassword",
+      name: "containsSpecialChar",
       target: object.constructor,
       propertyName: propertyName,
       constraints: [],
       options: {
-        message: "Must include special character",
+        message: "Must include special character!",
       },
       validator: {
         validate(value: string, args: ValidationArguments): boolean {
-          //return not boolean?
-
           const specialChars = [
             "<",
             ">",
@@ -61,15 +59,20 @@ export function IsValidPassword() {
             "]",
           ];
 
+          var valid = false;
+
           const pwdChars = Array.from(value);
           pwdChars.forEach((char: string) => {
             if (specialChars.includes(char)) {
-              return true;
-            } else {
-              return false;
+              valid = true;
             }
           });
-          return true;
+
+          if (valid) {
+            return true;
+          } else {
+            return false;
+          }
         },
       },
     });
