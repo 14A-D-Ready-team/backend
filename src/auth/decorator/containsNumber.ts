@@ -1,6 +1,4 @@
-import {
-  registerDecorator,
-} from "class-validator";
+import { registerDecorator } from "class-validator";
 
 export function ContainsNumber() {
   return function (object: Object, propertyName: string) {

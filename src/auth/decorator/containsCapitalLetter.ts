@@ -1,6 +1,4 @@
-import {
-  registerDecorator,
-} from "class-validator";
+import { registerDecorator } from "class-validator";
 
 export function ContainsCapitalLetter() {
   return function (object: Object, propertyName: string) {
