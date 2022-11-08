@@ -55,10 +55,14 @@ export function ContainsSpecialChar() {
             "]",
           ];
 
-          var valid = false;
+          if (value === undefined) {
+            return false;
+          }
 
-          const pwdChars = Array.from(value);
-          pwdChars.forEach((char: string) => {
+          let valid = false;
+
+          const chars = Array.from(value);
+          chars.forEach((char: string) => {
             if (specialChars.includes(char)) {
               valid = true;
             }

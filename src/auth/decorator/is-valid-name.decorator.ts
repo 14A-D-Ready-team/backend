@@ -13,16 +13,20 @@ export function IsValidName() {
       },
       validator: {
         validate(value: string): boolean {
-          var spaces = 0;
+          let spaces = 0;
 
-          const nameChars = Array.from(value);
-          nameChars.forEach((char: string) => {
+          if (value === undefined) {
+            return false;
+          }
+
+          const chars = Array.from(value);
+          chars.forEach((char: string) => {
             if (char === " ") {
               spaces++;
             }
           });
 
-          if (nameChars[0] === " ") {
+          if (chars[0] === " ") {
             return false;
           }
 

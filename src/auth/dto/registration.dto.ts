@@ -8,11 +8,11 @@ import {
   MaxLength,
   MinLength,
 } from "class-validator";
-import { ContainsSpecialChar } from "../decorator/containsSpecialChar";
-import { ContainsNumber } from "../decorator/containsNumber";
-import { ContainsCapitalLetter } from "../decorator/containsCapitalLetter";
-import { ContainsLowercaseLetter } from "../decorator/containsLowerCaseLetter";
-import { IsValidName } from "../decorator/isValidName";
+import { ContainsSpecialChar } from "../../shared/validation/decorator/contains-special-char.decorator";
+import { ContainsNumber } from "../../shared/validation/decorator/contains-number.decorator";
+import { ContainsCapitalLetter } from "../../shared/validation/decorator/contains-capital-letter.decorator";
+import { ContainsLowercaseLetter } from "../../shared/validation/decorator/contains-lowercase-letter.decorator";
+import { IsValidName } from "../decorator/is-valid-name.decorator";
 
 // NONO karakter: "
 const allowedForName =
@@ -32,6 +32,7 @@ export class RegistrationDto {
   @Expose()
   @IsString()
   @IsEmail()
+  @MaxLength(80)
   public email!: string;
 
   @Expose()

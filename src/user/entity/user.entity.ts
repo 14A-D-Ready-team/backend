@@ -9,6 +9,7 @@ import {
   PrimaryKey,
   PrimaryKeyType,
   Property,
+  Unique,
 } from "@mikro-orm/core";
 import { Expose, Transform } from "class-transformer";
 import { Admin, BuffetOwner, BuffetWorker, Customer } from ".";
@@ -18,7 +19,7 @@ import { UserType, UserStatus } from "../enum";
 export class User {
   [PrimaryKeyType]?: [number, UserType];
 
-  @PrimaryKey({ autoincrement: true, unique: true })
+  @PrimaryKey({ autoincrement: true})
   @Expose()
   public id!: number;
 
@@ -26,11 +27,11 @@ export class User {
   @Expose()
   public type!: UserType;
 
-  @Property({ length: 50 })
+  @Property({ length: 50})
   @Expose()
   public name!: string;
 
-  @Property({ length: 50 })
+  @Property({ length: 80, unique: true})
   @Expose()
   public email!: string;
 
@@ -74,4 +75,7 @@ export class User {
     orphanRemoval: true,
   })
   public tokens = new Collection<Token>(this);
+}
+function unique() {
+  throw new Error("Function not implemented.");
 }

@@ -14,10 +14,14 @@ export function ContainsNumber() {
         validate(value: string): boolean {
           const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 
-          var valid = false;
+          if (value === undefined) {
+            return false;
+          }
 
-          const pwdChars = Array.from(value);
-          pwdChars.forEach((char: string) => {
+          let valid = false;
+
+          const chars = Array.from(value);
+          chars.forEach((char: string) => {
             if (numbers.includes(char)) {
               valid = true;
             }

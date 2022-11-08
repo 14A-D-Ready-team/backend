@@ -74,10 +74,14 @@ export function ContainsCapitalLetter() {
             "Ű",
           ];
 
-          var valid = false;
+          if (value === undefined) {
+            return false;
+          }
 
-          const pwdChars = Array.from(value);
-          pwdChars.forEach((char: string) => {
+          let valid = false;
+
+          const chars = Array.from(value);
+          chars.forEach((char: string) => {
             if (letters.includes(char)) {
               valid = true;
             }

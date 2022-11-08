@@ -67,6 +67,8 @@ export class UserService {
       });
       this.buffetWorkerRepository.persistAndFlush(bufferWorker);
     }
+
+    
     return user;
   }
 }
