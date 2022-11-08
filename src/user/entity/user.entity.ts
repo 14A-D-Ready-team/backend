@@ -19,7 +19,7 @@ import { UserType, UserStatus } from "../enum";
 export class User {
   [PrimaryKeyType]?: [number, UserType];
 
-  @PrimaryKey({ autoincrement: true})
+  @PrimaryKey({ autoincrement: true })
   @Expose()
   public id!: number;
 
@@ -27,11 +27,11 @@ export class User {
   @Expose()
   public type!: UserType;
 
-  @Property({ length: 50})
+  @Property({ length: 50 })
   @Expose()
   public name!: string;
 
-  @Property({ length: 80, unique: true})
+  @Property({ length: 80, unique: true })
   @Expose()
   public email!: string;
 
