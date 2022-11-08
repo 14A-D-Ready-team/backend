@@ -5,7 +5,6 @@ import * as argon2 from "argon2";
 import { UserStatus, UserType } from "./enum";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { BaseRepository } from "@shared/database";
-
 @Injectable()
 export class UserService {
   constructor(

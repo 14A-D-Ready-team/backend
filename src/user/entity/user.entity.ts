@@ -9,9 +9,8 @@ import {
   PrimaryKey,
   PrimaryKeyType,
   Property,
-  Unique,
 } from "@mikro-orm/core";
-import { Expose, Transform } from "class-transformer";
+import { Expose } from "class-transformer";
 import { Admin, BuffetOwner, BuffetWorker, Customer } from ".";
 import { UserType, UserStatus } from "../enum";
 
@@ -75,7 +74,4 @@ export class User {
     orphanRemoval: true,
   })
   public tokens = new Collection<Token>(this);
-}
-function unique() {
-  throw new Error("Function not implemented.");
 }
