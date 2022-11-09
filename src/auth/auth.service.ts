@@ -1,8 +1,5 @@
 import { RegistrationDto } from "./dto";
-import {
-  Injectable,
-  InternalServerErrorException,
-} from "@nestjs/common";
+import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { User, UserService } from "@/user";
 @Injectable()
 export class AuthService {
@@ -20,7 +17,9 @@ export class AuthService {
         //return error.message;
         //console.log(error);
 
-        throw new InternalServerErrorException('Email already belongs to an account!').message;
+        throw new InternalServerErrorException(
+          "Email already belongs to an account!",
+        ).message;
       }
     }
 
