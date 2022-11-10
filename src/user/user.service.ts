@@ -5,6 +5,7 @@ import * as argon2 from "argon2";
 import { UserStatus, UserType } from "./enum";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { BaseRepository } from "@shared/database";
+import { EmailDuplicateException } from "./duplicate-email.exeption";
 @Injectable()
 export class UserService {
   constructor(
@@ -37,7 +38,20 @@ export class UserService {
       status: UserStatus.Inactive,
     });
 
-    await this.userRepository.persistAndFlush(user);
+    try {
+      await this.userRepository.persistAndFlush(user);
+    } catch (error) {
+      if (
+        error.code === "ER_DUP_ENTRY" &&
+        error.sqlMessage.includes("user_email_unique")
+      ) {
+        throw new EmailDuplicateException();
+      }
+      else
+      {
+        throw error;
+      }
+    }
 
     if (user.type === UserType.Admin) {
       const admin = this.adminRepository.create({
