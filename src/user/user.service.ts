@@ -46,9 +46,7 @@ export class UserService {
         error.sqlMessage.includes("user_email_unique")
       ) {
         throw new EmailDuplicateException();
-      }
-      else
-      {
+      } else {
         throw error;
       }
     }
