@@ -6,7 +6,7 @@ import { GoogleAuthService } from "./google-auth.service";
 import { authConfig } from "./auth.config";
 import { User } from "@/user/entity";
 import { TokenModule } from "@/token";
-import { AuthenticationGuard } from "./guards";
+import { AuthGuard } from "./guards";
 
 @Module({
   imports: [
@@ -15,7 +15,7 @@ import { AuthenticationGuard } from "./guards";
     TokenModule,
   ],
   controllers: [GoogleAuthController],
-  providers: [GoogleAuthService, AuthenticationGuard],
-  exports: [AuthenticationGuard],
+  providers: [GoogleAuthService, AuthGuard],
+  exports: [AuthGuard],
 })
 export class AuthModule {}
