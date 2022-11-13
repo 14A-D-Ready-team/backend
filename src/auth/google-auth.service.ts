@@ -11,8 +11,6 @@ import {
 import { User, UserService, UserStatus, UserType } from "@/user";
 import { authConfig } from "./auth.config";
 import { BaseRepository } from "@shared/database";
-import { TokenService } from "@/token";
-import AuthResponse from "./response/auth.response";
 
 interface GoogleUserData {
   email: string;
@@ -28,8 +26,6 @@ export class GoogleAuthService {
 
     @InjectRepository(User)
     private userRepository: BaseRepository<User>,
-
-    private tokenService: TokenService,
 
     private userService: UserService,
   ) {}
@@ -92,8 +88,7 @@ export class GoogleAuthService {
       throw new InvalidUserTypeException();
     }
 
-    const token = await this.tokenService.createAuthToken(user);
-    return new AuthResponse(user, token);
+    return user;
   }
 
   private async registerNewUser(userData: GoogleUserData, userType: UserType) {
@@ -104,7 +99,6 @@ export class GoogleAuthService {
       status: UserStatus.Active,
     });
 
-    const token = await this.tokenService.createAuthToken(newUser);
-    return new AuthResponse(newUser, token);
+    return newUser;
   }
 }
