@@ -2,7 +2,7 @@ import { Body, Controller, Post } from "@nestjs/common";
 import { VerifyGoogleAuthDto } from "./dto";
 import { GoogleAuthService } from "./google-auth.service";
 
-@Controller("google-auth")
+@Controller("auth/google")
 export class GoogleAuthController {
   constructor(private readonly googleAuthService: GoogleAuthService) {}
 

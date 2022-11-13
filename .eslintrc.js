@@ -25,5 +25,7 @@ module.exports = {
     "prettier/prettier": "off",
     "prefer-arrow/prefer-arrow-functions": "off",
     "no-empty": ["error", { allowEmptyCatch: true }],
+    "no-control-regex": "off",
+    "no-useless-escape": "off",
   },
 };

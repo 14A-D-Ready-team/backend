@@ -1,26 +1,23 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Inject, Injectable } from "@nestjs/common";
 import { ConfigType } from "@nestjs/config";
-import {
-  auth,
-  LoginTicket,
-  OAuth2Client,
-  TokenPayload,
-} from "google-auth-library";
+import { LoginTicket, OAuth2Client, TokenPayload } from "google-auth-library";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import {
   GoogleAuthFailedException,
   InvalidUserTypeException,
   MissingScopesException,
 } from "./exceptions";
-import { User, UserType } from "@/user";
+import { User, UserService, UserStatus, UserType } from "@/user";
 import { authConfig } from "./auth.config";
 import { BaseRepository } from "@shared/database";
 import { TokenService } from "@/token";
+import AuthResponse from "./response/auth.response";
 
 interface GoogleUserData {
-  email: string | undefined;
-  givenName: string | undefined;
-  familyName: string | undefined;
+  email: string;
+  givenName: string;
+  familyName: string;
 }
 
 @Injectable()
@@ -33,6 +30,8 @@ export class GoogleAuthService {
     private userRepository: BaseRepository<User>,
 
     private tokenService: TokenService,
+
+    private userService: UserService,
   ) {}
 
   public async verify(token: string, userType: UserType) {
@@ -82,9 +81,9 @@ export class GoogleAuthService {
     }
 
     return {
-      email: payload.email,
-      givenName: payload.given_name,
-      familyName: payload.family_name,
+      email: payload.email!,
+      givenName: payload.given_name!,
+      familyName: payload.family_name!,
     };
   }
 
@@ -94,8 +93,18 @@ export class GoogleAuthService {
     }
 
     const token = await this.tokenService.createAuthToken(user);
-    return { user, token };
+    return new AuthResponse(user, token);
   }
 
-  private async registerNewUser(userData: GoogleUserData, userType: UserType) {}
+  private async registerNewUser(userData: GoogleUserData, userType: UserType) {
+    const newUser = await this.userService.create({
+      email: userData.email,
+      name: userData.givenName + " " + userData.familyName,
+      type: userType,
+      status: UserStatus.Active,
+    });
+
+    const token = await this.tokenService.createAuthToken(newUser);
+    return new AuthResponse(newUser, token);
+  }
 }

@@ -1,26 +1,26 @@
-import { ValidationModule } from "./shared/validation/validation.module";
 import { MiddlewareConsumer, Module } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { DatabaseModule } from "./shared/database/database.module";
-import { UserModule } from "./user/user.module";
-import { TokenModule } from "./token/token.module";
 import { authConfig, AuthModule } from "./auth";
 import { ConfigModule } from "@nestjs/config";
+import { DatabaseModule } from "@shared/database";
+import { ValidationModule } from "@shared/validation";
+import { UserModule } from "@/user";
+import { TokenModule } from "@/token";
 import { sessionConfig, SessionMiddleware } from "@shared/session";
 
 @Module({
   imports: [
     DatabaseModule,
-    UserModule,
-    TokenModule,
-    ValidationModule,
-    AuthModule,
     ConfigModule.forRoot({
       cache: true,
       envFilePath: [".env"],
       load: [authConfig, sessionConfig],
     }),
+    ValidationModule,
+    UserModule,
+    TokenModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
