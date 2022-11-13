@@ -31,7 +31,7 @@ describe("AuthController", () => {
   it("should signin", () => {
     const logDto = new LoginDto();
     const testSession = "10";
-    controller.signIn(logDto, {testSession});
+    controller.signIn(logDto, { testSession });
     expect(provider.signIn).toBeCalledWith(logDto);
   });
 });
