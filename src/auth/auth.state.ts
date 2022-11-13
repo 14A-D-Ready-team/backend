@@ -9,6 +9,10 @@ export class AuthState {
     return this._userId;
   }
 
+  public get user() {
+    return this._user;
+  }
+
   public get isLoggedIn() {
     return this._userId !== undefined;
   }

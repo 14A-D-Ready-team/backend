@@ -12,7 +12,7 @@ export const Auth = authDecorator;
 function authDecorator(authenticate?: boolean): CustomDecorator<string>;
 function authDecorator(...roles: string[]): CustomDecorator<string>;
 function authDecorator(...params: any[]): CustomDecorator<string> {
-  const authenticate = params[0];
+  const authenticate = params[0] !== false;
   const roles =
     typeof params[0] === "string" ? (params as string[]) : undefined;
 

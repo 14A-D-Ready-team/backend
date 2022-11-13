@@ -29,6 +29,7 @@ export class AuthGuard implements CanActivate {
     const userId = Reflect.get(req.session, "userId");
 
     let user: User | null = null;
+
     if (authenticate && userId) {
       user = await this.authService.sessionLogin(userId);
     }
@@ -50,7 +51,7 @@ export class AuthGuard implements CanActivate {
       context.getHandler(),
     );
 
-    if (handlerMeta?.authenticate !== undefined) {
+    if (handlerMeta?.authenticate === undefined) {
       return controllerMeta?.authenticate;
     }
 
