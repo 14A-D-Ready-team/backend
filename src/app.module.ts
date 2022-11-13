@@ -8,6 +8,7 @@ import { ValidationModule } from "@shared/validation";
 import { UserModule } from "@/user";
 import { TokenModule } from "@/token";
 import { sessionConfig, SessionMiddleware } from "@shared/session";
+import { SerializationModule } from "@shared/serialization";
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { sessionConfig, SessionMiddleware } from "@shared/session";
       envFilePath: [".env"],
       load: [authConfig, sessionConfig],
     }),
+    SerializationModule,
     ValidationModule,
     UserModule,
     TokenModule,

@@ -6,7 +6,7 @@ import {
   NotImplementedException,
 } from "@nestjs/common";
 import { Request, Response } from "express";
-import { AuthMetadata, authMetadataKey } from "../decorators";
+import { AuthMetadata, authMetadataKey } from "../decorator";
 import { User } from "@/user";
 import { AuthService } from "../auth.service";
 import { AuthState } from "../auth.state";

@@ -8,8 +8,8 @@ import {
   UnhandledExceptionFilter,
 } from "@shared/exceptions";
 import { CustomValidationPipe } from "@shared/validation";
-import { AuthGuard } from "./auth";
-import { SerializerInterceptor } from "./shared/serialization";
+import { AuthGuard } from "@/auth";
+import { SerializerInterceptor } from "@shared/serialization";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
