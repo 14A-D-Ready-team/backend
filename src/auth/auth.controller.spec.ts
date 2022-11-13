@@ -1,7 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
-import { RegistrationDto } from "./dto";
+import { LoginDto, RegistrationDto } from "./dto";
 
 describe("AuthController", () => {
   let controller: AuthController;
@@ -26,5 +26,12 @@ describe("AuthController", () => {
     const regDto = new RegistrationDto();
     controller.signUp(regDto);
     expect(provider.signUp).toBeCalledWith(regDto);
+  });
+
+  it("should signin", () => {
+    const logDto = new LoginDto();
+    const testSession = "10";
+    controller.signIn(logDto, {testSession});
+    expect(provider.signIn).toBeCalledWith(logDto);
   });
 });
