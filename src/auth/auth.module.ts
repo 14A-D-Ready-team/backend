@@ -15,6 +15,7 @@ import {
   UserModule,
 } from "@/user";
 import { TokenModule } from "@/token";
+import { AuthGuard } from "./guards";
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { TokenModule } from "@/token";
     UserModule,
   ],
   controllers: [AuthController, GoogleAuthController],
-  providers: [AuthService, GoogleAuthService],
+  providers: [AuthService, GoogleAuthService, AuthGuard],
+  exports: [AuthGuard],
 })
 export class AuthModule {}
