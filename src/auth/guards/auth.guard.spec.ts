@@ -4,7 +4,7 @@ import { ExecutionContext, Get, Type } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { AuthService } from "../auth.service";
 import { AuthState } from "../auth.state";
-import { Auth } from "../decorators";
+import { Auth } from "../decorator";
 import { AuthGuard } from "./auth.guard";
 
 class TestController {
