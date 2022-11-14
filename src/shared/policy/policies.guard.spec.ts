@@ -1,7 +1,7 @@
-import { PoliciesGuard } from './policies.guard';
+import { PoliciesGuard } from "./policies.guard";
 
-describe('PoliciesGuard', () => {
-  it('should be defined', () => {
+describe("PoliciesGuard", () => {
+  it("should be defined", () => {
     expect(new PoliciesGuard()).toBeDefined();
   });
 });

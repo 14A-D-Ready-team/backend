@@ -1,3 +1,4 @@
-import { SetMetadata } from '@nestjs/common';
+import { SetMetadata } from "@nestjs/common";
 
-export const CheckPolicies = (...args: string[]) => SetMetadata('check-policies', args);
+export const CheckPolicies = (...args: string[]) =>
+  SetMetadata("check-policies", args);
