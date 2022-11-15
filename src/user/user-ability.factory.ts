@@ -1,9 +1,12 @@
+import { AbilityFactory, RegisterAbilityFactory } from "@/shared/policy";
 import { Admin, BuffetOwner, BuffetWorker, Customer, User } from "@/user";
 import {
   AbilityBuilder,
   AbilityClass,
+  createMongoAbility,
   ExtractSubjectType,
   InferSubjects,
+  MongoAbility,
   PureAbility,
 } from "@casl/ability";
 import { Injectable } from "@nestjs/common";
@@ -17,16 +20,15 @@ type UserSubjects = InferSubjects<
   | typeof Admin
 >;
 
-export type UserAbility = PureAbility<[Action, UserSubjects]>;
+export type UserAbility = MongoAbility<[Action, UserSubjects]>;
 
+@RegisterAbilityFactory()
 @Injectable()
-export class UserAbilityFactory {
+export class UserAbilityFactory implements AbilityFactory {
   public createForUser(user: User) {
-    const builder = new AbilityBuilder(
-      PureAbility as AbilityClass<UserAbility>,
+    const { can, cannot, build } = new AbilityBuilder<UserAbility>(
+      createMongoAbility,
     );
-
-    const { can, cannot, build } = builder;
 
     can(Action.Read, User);
 

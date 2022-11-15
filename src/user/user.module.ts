@@ -3,6 +3,7 @@ import { Module } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { UserController } from "./user.controller";
 import { Admin, BuffetOwner, BuffetWorker, Customer, User } from "./entity";
+import { UserAbilityFactory } from "./user-ability.factory";
 
 @Module({
   imports: [
@@ -14,8 +15,8 @@ import { Admin, BuffetOwner, BuffetWorker, Customer, User } from "./entity";
       BuffetWorker,
     ]),
   ],
-  providers: [UserService],
+  providers: [UserService, UserAbilityFactory],
   controllers: [UserController],
-  exports: [UserService],
+  exports: [UserService, UserAbilityFactory],
 })
 export class UserModule {}
