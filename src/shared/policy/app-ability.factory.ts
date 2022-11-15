@@ -1,16 +1,25 @@
 import { User } from "@/user";
-import { AbilityBuilder, AbilityClass, PureAbility } from "@casl/ability";
+import {
+  AbilityBuilder,
+  AbilityClass,
+  createMongoAbility,
+  MongoAbility,
+  PureAbility,
+} from "@casl/ability";
 import { Injectable } from "@nestjs/common";
+import { AbilityFactory } from "./ability-factory.interface";
 import { Action } from "./action.enum";
 
 type AppSubjects = "all";
 
-export type AppAbility = PureAbility<[Action, AppSubjects]>;
+export type AppAbility = MongoAbility<[Action, AppSubjects]>;
 
 @Injectable()
-export class AbilityFactory {
+export class AppAbilityFactory implements AbilityFactory {
+  private extensions: AbilityFactory[] = [];
+
   public createForUser(user: User) {
-    const builder = new AbilityBuilder(PureAbility as AbilityClass<AppAbility>);
+    const builder = new AbilityBuilder<AppAbility>(createMongoAbility);
 
     const { can, cannot, build } = builder;
 
@@ -18,8 +27,16 @@ export class AbilityFactory {
       can(Action.Manage, "all");
     }
 
+    const extensionRules = this.extensions
+      .map(extension => extension.createForUser(user).rules)
+      .flat();
+
+    builder.rules.push(...extensionRules);
+
     return build();
   }
 
-  public extend() {}
+  public extend(factory: AbilityFactory) {
+    this.extensions.push(factory);
+  }
 }

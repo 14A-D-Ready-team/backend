@@ -1,15 +1,15 @@
 import { User } from "@/user";
 import { Module } from "@nestjs/common";
-import { AbilityFactory } from "./app-ability.factory";
+import { AppAbilityFactory } from "./app-ability.factory";
 import { PoliciesGuard } from "./policies.guard";
 
 @Module({
   imports: [],
-  providers: [PoliciesGuard, AbilityFactory],
+  providers: [PoliciesGuard, AppAbilityFactory],
   exports: [PoliciesGuard],
 })
 export class PolicyModule {
-  constructor(private f: AbilityFactory) {
+  constructor(private f: AppAbilityFactory) {
     const user = new User();
     console.log(f.createForUser(user).rules);
   }
