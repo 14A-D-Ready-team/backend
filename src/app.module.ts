@@ -9,6 +9,7 @@ import { UserModule } from "@/user";
 import { TokenModule } from "@/token";
 import { sessionConfig, SessionMiddleware } from "@shared/session";
 import { SerializationModule } from "@shared/serialization";
+import { PolicyModule } from "@/shared/policy";
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { SerializationModule } from "@shared/serialization";
     }),
     SerializationModule,
     ValidationModule,
+    PolicyModule,
     UserModule,
     TokenModule,
     AuthModule,
