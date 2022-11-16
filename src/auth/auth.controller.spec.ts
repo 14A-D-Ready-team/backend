@@ -1,7 +1,10 @@
 import { User } from "@/user";
+import { createMock } from "@golevelup/ts-jest";
 import { Test, TestingModule } from "@nestjs/testing";
+import { Session } from "express-session";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
+import { AuthState } from "./auth.state";
 import { LoginDto, RegistrationDto } from "./dto";
 
 describe("AuthController", () => {
@@ -51,5 +54,22 @@ describe("AuthController", () => {
     expect(provider.signIn).toBeCalledWith(logDto);
     expect(signin).toBe(userStub);
     expect(session.userId).toBe(userStub.id);
+  });
+
+  it("should signin with session", async () => {
+    const authState = new AuthState(userStub, {} as any);
+
+    expect(await controller.sessionSignIn(authState)).toBe(userStub);
+  });
+
+  it("should logout", async () => {
+    const session = createMock<Session>({
+      destroy: jest.fn().mockImplementation(c => c()),
+    });
+    const authState = new AuthState(userStub, session);
+
+    await controller.logout(authState);
+
+    expect(session.destroy).toBeCalled();
   });
 });
