@@ -34,7 +34,7 @@ export class AuthGuard implements CanActivate {
       user = await this.authService.sessionLogin(userId);
     }
 
-    return (res.locals.authState = new AuthState(user || userId));
+    return (res.locals.authState = new AuthState(user || userId, req.session));
   }
 
   private async authorize(authState: AuthState) {
