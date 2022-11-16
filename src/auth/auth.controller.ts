@@ -26,9 +26,7 @@ export class AuthController {
 
   @Post("/session-signin")
   @Auth()
-  public async sessionSignIn(
-    @InjectAuthState() authState: AuthState,
-  ) {
+  public async sessionSignIn(@InjectAuthState() authState: AuthState) {
     return authState.user;
   }
 }

@@ -50,7 +50,6 @@ export class AuthService {
   }
 
   public async sessionLogin(userId: number): Promise<User | null> {
-    
     const user = await this.userRepository.findOne({ id: userId });
 
     if (!user) {
