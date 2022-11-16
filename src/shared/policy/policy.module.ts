@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common";
-import { PoliciesGuard } from "./policies.guard";
+import { PolicyGuard } from "./guards";
 
 @Module({
   imports: [],
-  providers: [PoliciesGuard],
-  exports: [PoliciesGuard],
+  providers: [PolicyGuard],
+  exports: [PolicyGuard],
 })
 export class PolicyModule {}
