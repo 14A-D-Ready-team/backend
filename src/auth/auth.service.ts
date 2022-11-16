@@ -3,7 +3,7 @@ import {
   InvalidLoginException,
   PasswordNotSetException,
 } from "./exceptions";
-import { LoginDto } from "./dto/login.dto";
+import { LoginDto } from "./dto";
 import { RegistrationDto } from "./dto";
 import { Injectable, NotImplementedException } from "@nestjs/common";
 import { User, UserService } from "@/user";
