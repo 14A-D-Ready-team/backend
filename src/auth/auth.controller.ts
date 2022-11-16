@@ -19,6 +19,7 @@ export class AuthController {
   ) {
     const user = await this.authService.signIn(loginDto);
     session.userId = user.id;
+    console.log(user);
     return user;
   }
 }
