@@ -1,4 +1,4 @@
-import { User } from "@/user";
+import { User, UserSubjects } from "@/user";
 import {
   AbilityBuilder,
   createMongoAbility,
@@ -11,11 +11,10 @@ import {
   Action,
   registeredAbilityFactories,
 } from "@/shared/policy";
-import { UserAbility, UserAbilityFactory } from "./user/user-ability.factory";
 
-type AppSubjects = "all";
+type AppSubjects = "all" | UserSubjects;
 
-export type AppAbility = MongoAbility<[Action, AppSubjects]> | UserAbility;
+export type AppAbility = MongoAbility<[Action, AppSubjects]>;
 
 @Injectable()
 export class AppAbilityFactory implements AbilityFactory {

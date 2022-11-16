@@ -2,17 +2,15 @@ import { AbilityFactory, RegisterAbilityFactory } from "@/shared/policy";
 import { Admin, BuffetOwner, BuffetWorker, Customer, User } from "@/user";
 import {
   AbilityBuilder,
-  AbilityClass,
   createMongoAbility,
   ExtractSubjectType,
   InferSubjects,
   MongoAbility,
-  PureAbility,
 } from "@casl/ability";
 import { Injectable } from "@nestjs/common";
 import { Action } from "@shared/policy/action.enum";
 
-type UserSubjects = InferSubjects<
+export type UserSubjects = InferSubjects<
   | typeof User
   | typeof Customer
   | typeof BuffetWorker
@@ -29,8 +27,6 @@ export class UserAbilityFactory implements AbilityFactory {
     const { can, cannot, build } = new AbilityBuilder<UserAbility>(
       createMongoAbility,
     );
-
-    can(Action.Read, User);
 
     return build({
       detectSubjectType: item =>
