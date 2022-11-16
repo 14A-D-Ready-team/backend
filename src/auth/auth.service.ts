@@ -5,7 +5,7 @@ import {
 } from "./exceptions";
 import { LoginDto } from "./dto/login.dto";
 import { RegistrationDto } from "./dto";
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotImplementedException } from "@nestjs/common";
 import { User, UserService } from "@/user";
 import { BaseRepository } from "@/shared/database";
 import { InjectRepository } from "@mikro-orm/nestjs";
@@ -42,5 +42,9 @@ export class AuthService {
       // password did not match
       throw new InvalidLoginException();
     }
+  }
+
+  public async sessionLogin(userId: number): Promise<User | null> {
+    throw new NotImplementedException();
   }
 }

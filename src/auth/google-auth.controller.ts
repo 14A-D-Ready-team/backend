@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Post, Session } from "@nestjs/common";
 import { VerifyGoogleAuthDto } from "./dto";
 import { GoogleAuthService } from "./google-auth.service";
 
@@ -7,7 +7,15 @@ export class GoogleAuthController {
   constructor(private readonly googleAuthService: GoogleAuthService) {}
 
   @Post("/verify")
-  public async verify(@Body() payload: VerifyGoogleAuthDto) {
-    return this.googleAuthService.verify(payload.token, payload.userType);
+  public async verify(
+    @Body() payload: VerifyGoogleAuthDto,
+    @Session() session: Record<string, any>,
+  ) {
+    const user = await this.googleAuthService.verify(
+      payload.token,
+      payload.userType,
+    );
+    session.userId = user.id;
+    return user;
   }
 }
