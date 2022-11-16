@@ -44,7 +44,7 @@ describe("AuthController", () => {
   it("should signin", async () => {
     const logDto = new LoginDto();
     const session: { userId?: number } = {};
-    
+
     await controller.signIn(logDto, session);
     const signin = await controller.signIn(logDto, session);
 
