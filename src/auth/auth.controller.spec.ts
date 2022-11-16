@@ -63,15 +63,13 @@ describe("AuthController", () => {
   });
 
   it("should logout", async () => {
-    const session = createMock<Session>({ destroy: jest.fn().mockImplementation(c => c()) });
-    const authState = new AuthState(
-      userStub,
-      session,
-    );
+    const session = createMock<Session>({
+      destroy: jest.fn().mockImplementation(c => c()),
+    });
+    const authState = new AuthState(userStub, session);
 
     await controller.logout(authState);
-    
+
     expect(session.destroy).toBeCalled();
-    
   });
 });

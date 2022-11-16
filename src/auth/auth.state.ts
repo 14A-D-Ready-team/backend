@@ -36,17 +36,14 @@ export class AuthState {
   }
 
   public logout(): Promise<void> {
-    return new Promise((resolve, reject) => (
-      this._session.destroy(
-        (err) => {
-          if (err) {
-            reject(err);
-          }
-          else {
-            resolve();
-          }
-        } 
-      )
-    ));
+    return new Promise((resolve, reject) =>
+      this._session.destroy(err => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      }),
+    );
   }
 }
