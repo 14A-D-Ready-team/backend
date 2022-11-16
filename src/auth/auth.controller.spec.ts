@@ -35,16 +35,16 @@ describe("AuthController", () => {
     expect(controller).toBeInstanceOf(AuthController);
   });
 
-  it("should signup", () => {
+  it("should signup", async () => {
     const regDto = new RegistrationDto();
-    controller.signUp(regDto);
+    await controller.signUp(regDto);
     expect(provider.signUp).toBeCalledWith(regDto);
   });
 
-  it("should signin", () => {
+  it("should signin", async () => {
     const logDto = new LoginDto();
     const session: { userId?: number } = {};
-    controller.signIn(logDto, session);
+    await controller.signIn(logDto, session);
     expect(provider.signIn).toBeCalledWith(logDto);
     expect(session.userId).toBe(userStub.id);
   });
