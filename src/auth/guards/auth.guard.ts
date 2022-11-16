@@ -3,26 +3,22 @@ import {
   CanActivate,
   ExecutionContext,
   Injectable,
-  NotImplementedException,
+  UnauthorizedException,
 } from "@nestjs/common";
 import { Request, Response } from "express";
-import { AuthMetadata, authMetadataKey } from "../decorator";
+import { authMetadataKey } from "../decorator";
 import { User } from "@/user";
 import { AuthService } from "../auth.service";
 import { AuthState } from "../auth.state";
+import { policiesMetadataKey, PolicyHandler } from "@/shared/policy";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private reflector: Reflector, private authService: AuthService) {}
 
   public async canActivate(context: ExecutionContext): Promise<boolean> {
-    const authState = await this.authenticate(context);
-
-    return true;
-  }
-
-  private async authenticate(context: ExecutionContext) {
     const authenticate = this.needsAuthentication(context);
+    const hasPolicies = this.hasPolicies(context);
 
     const req = context.switchToHttp().getRequest<Request>();
     const res = context.switchToHttp().getResponse<Response>();
@@ -30,31 +26,54 @@ export class AuthGuard implements CanActivate {
 
     let user: User | null = null;
 
-    if (authenticate && userId) {
+    if ((authenticate || hasPolicies) && userId) {
       user = await this.authService.sessionLogin(userId);
     }
 
-    return (res.locals.authState = new AuthState(user || userId));
-  }
+    const authState = new AuthState(user || userId);
+    res.locals.authState = authState;
 
-  private async authorize(authState: AuthState) {
-    throw new NotImplementedException();
+    if (hasPolicies && !authState.isLoggedIn) {
+      throw new UnauthorizedException();
+    }
+
+    return true;
   }
 
   private needsAuthentication(context: ExecutionContext): boolean {
-    const controllerMeta = this.reflector.get<AuthMetadata>(
+    const authenticateController = this.reflector.get<boolean>(
       authMetadataKey,
       context.getClass(),
     );
-    const handlerMeta = this.reflector.get<AuthMetadata>(
+    const authenticateHandler = this.reflector.get<boolean>(
       authMetadataKey,
       context.getHandler(),
     );
 
-    if (handlerMeta?.authenticate === undefined) {
-      return controllerMeta?.authenticate;
+    if (authenticateHandler === undefined) {
+      return authenticateController;
     }
 
-    return handlerMeta?.authenticate;
+    return authenticateHandler;
+  }
+
+  private hasPolicies(context: ExecutionContext): boolean {
+    const controllerPolicies = this.reflector.get<PolicyHandler[]>(
+      policiesMetadataKey,
+      context.getClass(),
+    );
+
+    const handlerPolicies = this.reflector.get<PolicyHandler[]>(
+      policiesMetadataKey,
+      context.getHandler(),
+    );
+
+    console.log(controllerPolicies, handlerPolicies);
+
+    if (!handlerPolicies || handlerPolicies.length === 0) {
+      return controllerPolicies?.length > 0;
+    }
+
+    return true;
   }
 }
