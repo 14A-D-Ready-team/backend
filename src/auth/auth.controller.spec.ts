@@ -44,8 +44,12 @@ describe("AuthController", () => {
   it("should signin", async () => {
     const logDto = new LoginDto();
     const session: { userId?: number } = {};
+    
     await controller.signIn(logDto, session);
+    const signin = await controller.signIn(logDto, session);
+
     expect(provider.signIn).toBeCalledWith(logDto);
+    expect(signin).toBe(userStub);
     expect(session.userId).toBe(userStub.id);
   });
 });
