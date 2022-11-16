@@ -29,4 +29,10 @@ export class AuthController {
   public async sessionSignIn(@InjectAuthState() authState: AuthState) {
     return authState.user;
   }
+
+  @Post("/logout")
+  @Auth()
+  public async logout(@InjectAuthState() authState: AuthState) {
+    await authState.logout();
+  }
 }
