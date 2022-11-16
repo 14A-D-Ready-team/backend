@@ -2,11 +2,12 @@ import {
   EmailNotFoundException,
   InvalidLoginException,
   PasswordNotSetException,
+  InactiveUserException,
 } from "./exceptions";
 import { LoginDto } from "./dto";
 import { RegistrationDto } from "./dto";
-import { Injectable, NotImplementedException } from "@nestjs/common";
-import { User, UserService } from "@/user";
+import { Injectable } from "@nestjs/common";
+import { User, UserService, UserStatus } from "@/user";
 import { BaseRepository } from "@/shared/database";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import * as argon2 from "argon2";
@@ -35,6 +36,10 @@ export class AuthService {
       throw new PasswordNotSetException();
     }
 
+    if (user.status === UserStatus.Inactive) {
+      throw new InactiveUserException();
+    }
+
     if (await argon2.verify(user.password, loginDto.password)) {
       // password match
       return user;
@@ -45,6 +50,17 @@ export class AuthService {
   }
 
   public async sessionLogin(userId: number): Promise<User | null> {
-    throw new NotImplementedException();
+    
+    const user = await this.userRepository.findOne({ id: userId });
+
+    if (!user) {
+      return null;
+    }
+
+    if (user.status === UserStatus.Inactive) {
+      throw new InactiveUserException();
+    }
+
+    return user;
   }
 }

@@ -2,6 +2,7 @@ import { User } from "@/user";
 import { Test, TestingModule } from "@nestjs/testing";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
+import { AuthState } from "./auth.state";
 import { LoginDto, RegistrationDto } from "./dto";
 
 describe("AuthController", () => {
@@ -51,5 +52,11 @@ describe("AuthController", () => {
     expect(provider.signIn).toBeCalledWith(logDto);
     expect(signin).toBe(userStub);
     expect(session.userId).toBe(userStub.id);
+  });
+
+  it("should signin with session", async () => {
+    const authState = new AuthState(userStub);
+
+    expect(await controller.sessionSignIn(authState)).toBe(userStub);
   });
 });

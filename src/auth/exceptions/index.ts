@@ -4,3 +4,4 @@ export * from "./missing-scopes.exception";
 export * from "./email-not-found.exception";
 export * from "./password-not-set.exception";
 export * from "./invalid-login.exception";
+export * from "./inactive-user.exception";
