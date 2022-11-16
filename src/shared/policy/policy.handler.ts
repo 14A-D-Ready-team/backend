@@ -1,4 +1,4 @@
-import { AppAbility } from "../../app-ability.factory";
+import { AppAbility } from "@/app-ability.factory";
 
 interface IPolicyHandler {
   handle(ability: AppAbility): boolean;

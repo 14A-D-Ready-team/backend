@@ -3,7 +3,7 @@ import { Observable } from "rxjs";
 
 @Injectable()
 export class PoliciesGuard implements CanActivate {
-  canActivate(
+  public canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     return true;
