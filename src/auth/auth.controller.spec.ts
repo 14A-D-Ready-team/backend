@@ -10,7 +10,6 @@ describe("AuthController", () => {
   let userStub: User;
 
   beforeEach(async () => {
-
     userStub = new User();
     userStub.id = 69;
 
@@ -19,8 +18,10 @@ describe("AuthController", () => {
       providers: [
         {
           provide: AuthService,
-          useValue: { signUp: jest.fn(), signIn: jest.fn().mockImplementation(async s => userStub) },
-          
+          useValue: {
+            signUp: jest.fn(),
+            signIn: jest.fn().mockImplementation(async s => userStub),
+          },
         },
       ],
     }).compile();
@@ -42,7 +43,7 @@ describe("AuthController", () => {
 
   it("should signin", () => {
     const logDto = new LoginDto();
-    const session: {userId?: number} = {}; 
+    const session: { userId?: number } = {};
     controller.signIn(logDto, session);
     expect(provider.signIn).toBeCalledWith(logDto);
     expect(session.userId).toBe(userStub.id);
