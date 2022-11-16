@@ -19,10 +19,10 @@ describe("AuthService", () => {
     // provider = module.get<UserService>(UserService);
   });
 
-  // it("should be defined", () => {
-  //   expect(service).toBeDefined();
-  //   expect(service).toBeInstanceOf(AuthService);
-  // });
+  it("should be defined", () => {
+    // expect(service).toBeDefined();
+    // expect(service).toBeInstanceOf(AuthService);
+  });
 
   // it("should signup", () => {
   //   const regDto = new RegistrationDto();
