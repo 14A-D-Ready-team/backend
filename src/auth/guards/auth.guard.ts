@@ -68,8 +68,6 @@ export class AuthGuard implements CanActivate {
       context.getHandler(),
     );
 
-    console.log(controllerPolicies, handlerPolicies);
-
     if (!handlerPolicies || handlerPolicies.length === 0) {
       return controllerPolicies?.length > 0;
     }

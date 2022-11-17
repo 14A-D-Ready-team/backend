@@ -4,6 +4,7 @@ import { User } from "@/user";
 import {
   CanActivate,
   ExecutionContext,
+  Inject,
   Injectable,
   Type,
 } from "@nestjs/common";
@@ -15,15 +16,19 @@ import { PolicyHandler } from "../policy.handler";
 
 @Injectable()
 export class PolicyGuard implements CanActivate {
+  private appAbilityFactory: AppAbilityFactory;
+
   constructor(
     private reflector: Reflector,
-    private moduleRef: ModuleRef,
-    private appAbilityFactory: AppAbilityFactory,
-  ) {}
 
-  public canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+    private moduleRef: ModuleRef,
+  ) {
+    this.appAbilityFactory = moduleRef.get(AppAbilityFactory, {
+      strict: false,
+    });
+  }
+
+  public async canActivate(context: ExecutionContext): Promise<boolean> {
     const policies = this.getPolicies(context);
     if (policies.length === 0) {
       return true;
