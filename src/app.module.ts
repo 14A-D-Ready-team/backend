@@ -9,6 +9,8 @@ import { UserModule } from "@/user";
 import { TokenModule } from "@/token";
 import { sessionConfig, SessionMiddleware } from "@shared/session";
 import { SerializationModule } from "@shared/serialization";
+import { PolicyModule } from "@/shared/policy";
+import { AppAbilityFactory } from "./app-ability.factory";
 
 @Module({
   imports: [
@@ -20,12 +22,13 @@ import { SerializationModule } from "@shared/serialization";
     }),
     SerializationModule,
     ValidationModule,
+    PolicyModule,
     UserModule,
     TokenModule,
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AppAbilityFactory],
 })
 export class AppModule {
   public configure(consumer: MiddlewareConsumer) {

@@ -10,6 +10,7 @@ import {
 import { CustomValidationPipe } from "@shared/validation";
 import { AuthGuard } from "@/auth";
 import { SerializerInterceptor } from "@shared/serialization";
+import { PolicyGuard } from "./shared/policy";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -32,7 +33,7 @@ async function bootstrap() {
     new TransformableExceptionFilter(),
     new HttpExceptionFilter(),
   );
-  app.useGlobalGuards(app.get(AuthGuard));
+  app.useGlobalGuards(app.get(AuthGuard), app.get(PolicyGuard));
   app.useGlobalInterceptors(app.get(SerializerInterceptor));
 
   await app.listen(process.env.PORT || 3000);
