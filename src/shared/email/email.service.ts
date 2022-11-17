@@ -9,7 +9,7 @@ export class EmailService {
     this.mailerService
       .sendMail({
         to: "fekete.miklos@students.jedlik.eu", // list of receivers
-        from: "readyteam@gmail.com", // sender address
+        from: "noreply.ready.team@gmail.com", // sender address
         subject: "Testing Nest MailerModule ✔", // Subject line
         text: "Szia uram!", // plaintext body
         html: "<b>Működik?</b>", // HTML body content

@@ -14,7 +14,7 @@ export const emailConfig = registerAs("email", () => {
       },
     },
     defaults: {
-      from: '"Ready Team" <readyteam@gmail.com>',
+      from: '"Ready Team" <noreply.ready.team@gmail.com>',
     },
     template: {
       dir: process.cwd() + "/templates/",
