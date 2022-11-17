@@ -9,6 +9,7 @@ import {
 import { createMock } from "@golevelup/ts-jest";
 import { ExecutionContext, Get, Type } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
+import { Session } from "express-session";
 import { CheckPolicies } from "../decorator";
 import { PolicyGuard } from "./policy.guard";
 
@@ -49,7 +50,7 @@ describe("PolicyGuard", () => {
     guard = module.get<PolicyGuard>(PolicyGuard);
     userStub = new User();
     userStub.id = 1;
-    authStateStub = new AuthState(userStub);
+    authStateStub = new AuthState(userStub, createMock<Session>());
   });
 
   it("should be defined", () => {
@@ -124,7 +125,9 @@ describe("PolicyGuard", () => {
 
     const context = await createContext(
       {},
-      { locals: { authState: new AuthState(undefined) } },
+      {
+        locals: { authState: new AuthState(undefined, createMock<Session>()) },
+      },
       TestController,
     );
     const result = await guard.canActivate(context);
@@ -140,7 +143,9 @@ describe("PolicyGuard", () => {
 
     const context = await createContext(
       {},
-      { locals: { authState: new AuthState(undefined) } },
+      {
+        locals: { authState: new AuthState(undefined, createMock<Session>()) },
+      },
       TestController,
     );
     const result = await guard.canActivate(context);
@@ -156,7 +161,7 @@ describe("PolicyGuard", () => {
 
     const context = await createContext(
       {},
-      { locals: { authState: new AuthState(1) } },
+      { locals: { authState: new AuthState(1, createMock<Session>()) } },
       TestController,
     );
     expect(guard.canActivate(context)).rejects.toThrowError(
@@ -182,7 +187,7 @@ describe("PolicyGuard", () => {
 
     const context = await createContext(
       {},
-      { locals: { authState: new AuthState(userStub) } },
+      { locals: { authState: new AuthState(userStub, createMock<Session>()) } },
       TestController,
     );
 
