@@ -9,7 +9,7 @@ import { UserModule } from "@/user";
 import { TokenModule } from "@/token";
 import { sessionConfig, SessionMiddleware } from "@shared/session";
 import { SerializationModule } from "@shared/serialization";
-import { EmailModule } from "./shared/email";
+import { emailConfig, EmailModule } from "@/shared/email";
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { EmailModule } from "./shared/email";
     ConfigModule.forRoot({
       cache: true,
       envFilePath: [".env"],
-      load: [authConfig, sessionConfig],
+      load: [authConfig, sessionConfig, emailConfig],
     }),
     SerializationModule,
     ValidationModule,
