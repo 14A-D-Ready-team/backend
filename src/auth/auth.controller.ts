@@ -6,10 +6,12 @@ import { Auth, InjectAuthState } from "./decorator";
 import { AuthState } from "./auth.state";
 import { EmailService } from "@/shared/email";
 
-
 @Controller("auth")
 export class AuthController {
-  constructor(private authService: AuthService, private emailService: EmailService) {}
+  constructor(
+    private authService: AuthService,
+    private emailService: EmailService,
+  ) {}
 
   @Post("/signup")
   public async signUp(@Body() registrationDto: RegistrationDto) {
@@ -39,4 +41,3 @@ export class AuthController {
     await authState.logout();
   }
 }
-
