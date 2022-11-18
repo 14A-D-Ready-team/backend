@@ -11,17 +11,20 @@ import { User, UserService, UserStatus } from "@/user";
 import { BaseRepository } from "@/shared/database";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import * as argon2 from "argon2";
+import { EmailService } from "@/shared/email";
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
+    private emailService: EmailService,
 
     @InjectRepository(User)
     private userRepository: BaseRepository<User>,
   ) {}
 
   public async signUp(registrationDto: RegistrationDto): Promise<User> {
+    await this.emailService.sendTestEmail();
     return this.userService.create(registrationDto);
   }
 

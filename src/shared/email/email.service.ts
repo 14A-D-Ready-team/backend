@@ -8,11 +8,12 @@ export class EmailService {
   public sendTestEmail(): void {
     this.mailerService
       .sendMail({
-        to: "fekete.miklos@students.jedlik.eu", // list of receivers
+        to: "redstone12@outlook.hu", // Miki emailje
         from: "noreply.ready.team@gmail.com", // sender address
         subject: "Testing Nest MailerModule ✔", // Subject line
-        text: "Szia uram!", // plaintext body
-        html: "<b>Működik?</b>", // HTML body content
+        //text vagy html?
+        //text: "Szia uram!", // plaintext body
+        html: "<b>Szia Uram!</b>", // HTML body content
       })
       .then(success => {
         console.log(success);

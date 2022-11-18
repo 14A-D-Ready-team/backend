@@ -4,18 +4,14 @@ import { Body, Controller, Post, Session } from "@nestjs/common";
 import { RegistrationDto } from "./dto/registration.dto";
 import { Auth, InjectAuthState } from "./decorator";
 import { AuthState } from "./auth.state";
-import { EmailService } from "@/shared/email";
-
 @Controller("auth")
 export class AuthController {
   constructor(
     private authService: AuthService,
-    private emailService: EmailService,
   ) {}
 
   @Post("/signup")
   public async signUp(@Body() registrationDto: RegistrationDto) {
-    await this.emailService.sendTestEmail();
     return this.authService.signUp(registrationDto);
   }
 

@@ -18,6 +18,7 @@ export const emailConfig = registerAs("email", () => {
     },
     template: {
       dir: process.cwd() + "/templates/",
+      //dir: "./email.templates",
       adapter: new HandlebarsAdapter(),
       options: {
         strict: true,
