@@ -9,6 +9,7 @@ import { UserModule } from "@/user";
 import { TokenModule } from "@/token";
 import { sessionConfig, SessionMiddleware } from "@shared/session";
 import { SerializationModule } from "@shared/serialization";
+import { EmailModule } from "./shared/email";
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { SerializationModule } from "@shared/serialization";
     UserModule,
     TokenModule,
     AuthModule,
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,16 +1,19 @@
 import { LoginDto } from "./dto/login.dto";
 import { AuthService } from "./auth.service";
-import { Body, Controller, Get, Post, Session } from "@nestjs/common";
+import { Body, Controller, Post, Session } from "@nestjs/common";
 import { RegistrationDto } from "./dto/registration.dto";
 import { Auth, InjectAuthState } from "./decorator";
 import { AuthState } from "./auth.state";
+import { EmailService } from "@/shared/email";
+
 
 @Controller("auth")
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private emailService: EmailService) {}
 
   @Post("/signup")
-  public signUp(@Body() registrationDto: RegistrationDto) {
+  public async signUp(@Body() registrationDto: RegistrationDto) {
+    await this.emailService.sendTestEmail();
     return this.authService.signUp(registrationDto);
   }
 
@@ -36,3 +39,4 @@ export class AuthController {
     await authState.logout();
   }
 }
+
