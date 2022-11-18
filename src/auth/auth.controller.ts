@@ -6,9 +6,7 @@ import { Auth, InjectAuthState } from "./decorator";
 import { AuthState } from "./auth.state";
 @Controller("auth")
 export class AuthController {
-  constructor(
-    private authService: AuthService,
-  ) {}
+  constructor(private authService: AuthService) {}
 
   @Post("/signup")
   public async signUp(@Body() registrationDto: RegistrationDto) {
