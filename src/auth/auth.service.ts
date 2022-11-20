@@ -29,7 +29,7 @@ export class AuthService {
     const user = await this.userRepository.findOne({ email: loginDto.email });
 
     if (!user) {
-      throw new EmailNotFoundException();
+      throw new InvalidLoginException();
     }
 
     if (!user.password) {
