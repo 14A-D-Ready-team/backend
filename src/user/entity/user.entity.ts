@@ -10,6 +10,7 @@ import {
   PrimaryKeyType,
   Property,
 } from "@mikro-orm/core";
+import { ApiProperty } from "@nestjs/swagger";
 import { Expose } from "class-transformer";
 import { Admin, BuffetOwner, BuffetWorker, Customer } from ".";
 import { UserType, UserStatus } from "../enum";
@@ -18,18 +19,22 @@ import { UserType, UserStatus } from "../enum";
 export class User {
   [PrimaryKeyType]?: [number, UserType];
 
+  @ApiProperty()
   @PrimaryKey({ autoincrement: true })
   @Expose()
   public id!: number;
 
+  @ApiProperty({ enum: UserType })
   @Enum({ primary: true })
   @Expose()
   public type!: UserType;
 
+  @ApiProperty()
   @Property({ length: 50 })
   @Expose()
   public name!: string;
 
+  @ApiProperty()
   @Property({ length: 80, unique: true })
   @Expose()
   public email!: string;
@@ -37,6 +42,7 @@ export class User {
   @Property({ length: 255 })
   public password?: string;
 
+  @ApiProperty({ enum: UserStatus })
   @Enum()
   @Expose()
   public status!: UserStatus;

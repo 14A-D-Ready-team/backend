@@ -4,6 +4,8 @@ import { Body, Controller, Get, Post, Session } from "@nestjs/common";
 import { RegistrationDto } from "./dto/registration.dto";
 import { Auth, InjectAuthState } from "./decorator";
 import { AuthState } from "./auth.state";
+import { ApiResponse } from "@nestjs/swagger";
+import { User } from "@/user";
 
 @Controller("auth")
 export class AuthController {
@@ -15,6 +17,7 @@ export class AuthController {
   }
 
   @Post("/signin")
+  @ApiResponse({ status: 200, type: User })
   public async signIn(
     @Body() loginDto: LoginDto,
     @Session() session: Record<string, any>,
