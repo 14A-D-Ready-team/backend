@@ -11,7 +11,7 @@ import { sessionConfig, SessionMiddleware } from "@shared/session";
 import { SerializationModule } from "@shared/serialization";
 import { PolicyModule } from "@/shared/policy";
 import { AppAbilityFactory } from "./app-ability.factory";
-import { ProductModule } from './product/product.module';
+import { ProductModule } from "./product/product.module";
 
 @Module({
   imports: [
