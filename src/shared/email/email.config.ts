@@ -6,7 +6,7 @@ export const emailConfig = registerAs("email", () => {
   return {
     transport: {
       host: process.env.EMAIL_HOST,
-      port: parseInt(process.env.EMAIL_SERVER_PORT || "587"),
+      port: parseInt(process.env.EMAIL_SERVER_PORT || "465"),
       secure: process.env.EMAIL_SECURE,
       auth: {
         user: process.env.EMAIL_USER,
@@ -17,8 +17,8 @@ export const emailConfig = registerAs("email", () => {
       from: '"Ready Team" <noreply.ready.team@gmail.com>',
     },
     template: {
-      dir: process.cwd() + "/templates/",
-      //dir: "./email.templates",
+      //dir: process.cwd() + "/templates/",
+      dir: "./templates",
       adapter: new HandlebarsAdapter(),
       options: {
         strict: true,
