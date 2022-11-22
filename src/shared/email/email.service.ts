@@ -7,31 +7,29 @@ export class EmailService {
 
   public async sendTestEmail(receiverEmail: string) {
     try {
-      var sentEmail = await this.mailerService
-    .sendMail({
-      to: receiverEmail,
-      from: "noreply.ready.team@gmail.com",
-      subject: "Ready! üdvözlés",
-      html: "<b>Működik?</b>",
-    }) 
-    } catch (error) {
-      console.log(error)
-    }
-}
-
-  //send Email confirm az well
-  public async sendWelcomeEmail(receiverEmail: string) {
-      try {
-        var sentEmail = await this.mailerService
-      .sendMail({
+      var sentEmail = await this.mailerService.sendMail({
         to: receiverEmail,
         from: "noreply.ready.team@gmail.com",
         subject: "Ready! üdvözlés",
         html: "<b>Működik?</b>",
-      }) 
-      } catch (error) {
-        console.log(error)
-      }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //send Email confirm az well
+  public async sendWelcomeEmail(receiverEmail: string) {
+    try {
+      var sentEmail = await this.mailerService.sendMail({
+        to: receiverEmail,
+        from: "noreply.ready.team@gmail.com",
+        subject: "Ready! üdvözlés",
+        html: "<b>Működik?</b>",
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   //TODO!!!   WHEN TOKENS ARE MADE
