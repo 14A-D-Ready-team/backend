@@ -5,52 +5,33 @@ import { MailerService } from "@nestjs-modules/mailer";
 export class EmailService {
   constructor(private readonly mailerService: MailerService) {}
 
-  public sendTestEmail(): void {
-    this.mailerService
-      .sendMail({
-        to: "redstone12@outlook.hu", // Miki emailje
-        from: "noreply.ready.team@gmail.com", // sender address
-        subject: "Testing Nest MailerModule ✔", // Subject line
-        html: "<b>Szia Uram!</b>", // HTML body content
-      })
-      .then(success => {
-        console.log(success);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
+  public async sendTestEmail(receiverEmail: string) {
+    try {
+      var sentEmail = await this.mailerService
+    .sendMail({
+      to: receiverEmail,
+      from: "noreply.ready.team@gmail.com",
+      subject: "Ready! üdvözlés",
+      html: "<b>Működik?</b>",
+    }) 
+    } catch (error) {
+      console.log(error)
+    }
+}
 
-  public sendWelcomeEmail(receiverEmail: string): void {
-    this.mailerService
+  //send Email confirm az well
+  public async sendWelcomeEmail(receiverEmail: string) {
+      try {
+        var sentEmail = await this.mailerService
       .sendMail({
         to: receiverEmail,
         from: "noreply.ready.team@gmail.com",
         subject: "Ready! üdvözlés",
         html: "<b>Működik?</b>",
-      })
-      .then(success => {
-        console.log(success);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-
-  public sendEmailConfirmationEmail(receiverEmail: string): void {
-    this.mailerService
-      .sendMail({
-        to: receiverEmail,
-        from: "noreply.ready.team@gmail.com",
-        subject: "Ready! email megerősítés",
-        html: "<b>Működik?</b>",
-      })
-      .then(success => {
-        console.log(success);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+      }) 
+      } catch (error) {
+        console.log(error)
+      }
   }
 
   //TODO!!!   WHEN TOKENS ARE MADE
