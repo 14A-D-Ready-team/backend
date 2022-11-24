@@ -1,3 +1,4 @@
+import { InvalidIdException } from "@/shared/exceptions";
 import {
   Controller,
   Get,
@@ -7,7 +8,7 @@ import {
   Param,
   Delete,
 } from "@nestjs/common";
-import { ApiParam, ApiTags } from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
 import { CategoryService } from "./category.service";
 import { CreateCategoryDto, UpdateCategoryDto } from "./dto";
 
@@ -28,6 +29,9 @@ export class CategoryController {
 
   @Get(":id")
   public async findOne(@Param("id") id: string) {
+    if (!+id) {
+      throw new InvalidIdException();
+    }
     return this.categoryService.findOne(+id);
   }
 
@@ -36,6 +40,9 @@ export class CategoryController {
     @Param("id") id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
+    if (!+id) {
+      throw new InvalidIdException();
+    }
     return this.categoryService.update(+id, updateCategoryDto);
   }
 

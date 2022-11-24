@@ -34,7 +34,8 @@ export class CategoryService {
       categoryToUpdate,
       payload,
     );
-    return this.categoryRepository.persistAndFlush(categoryToUpdate);
+    await this.categoryRepository.persistAndFlush(categoryToUpdate);
+    return categoryToUpdate;
   }
 
   public async remove(id: number) {
