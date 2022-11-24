@@ -1,3 +1,4 @@
+import { Product } from "@/product";
 import {
   Cascade,
   Collection,
@@ -6,16 +7,19 @@ import {
   PrimaryKey,
   Property,
 } from "@mikro-orm/core";
-import { Product } from "./product.entity";
+import { Exclude, Expose } from "class-transformer";
 
 @Entity()
 export class Category {
   @PrimaryKey({ autoincrement: true })
+  @Expose({ toPlainOnly: true })
   public id: number;
 
   @Property({ length: 80 })
+  @Expose()
   public name: string;
 
+  @Exclude()
   @OneToMany(() => Product, product => product.category, {
     cascade: [Cascade.PERSIST],
   })
