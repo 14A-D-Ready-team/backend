@@ -1,4 +1,4 @@
-import { Token } from "@/token";
+import { Token } from "@/token/token.entity";
 import {
   Collection,
   Entity,
