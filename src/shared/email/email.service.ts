@@ -12,7 +12,7 @@ export class EmailService {
         from: "noreply.ready.team@gmail.com",
         subject: "Ready! üdvözlés",
         //html: "./templates/test-email.html",
-        template: "test-email"
+        template: "test-email",
       });
     } catch (error) {
       console.log(error);
