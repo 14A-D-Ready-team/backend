@@ -12,12 +12,15 @@ import { BaseRepository } from "@/shared/database";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import * as argon2 from "argon2";
 import { EmailService } from "@/shared/email";
+import { Token, TokenService } from "@/token";
+import { TokenDto } from "@/token/dto/token.dto";
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
     private emailService: EmailService,
+    private tokenService: TokenService,
 
     @InjectRepository(User)
     private userRepository: BaseRepository<User>,
@@ -66,5 +69,11 @@ export class AuthService {
     }
 
     return user;
+  }
+
+  public async generateEmailConfirmToken(tokenDto: TokenDto): Promise<Token> {
+    const createdToken = await this.tokenService.createEmailConfirmToken(tokenDto);
+    
+    return createdToken;
   }
 }

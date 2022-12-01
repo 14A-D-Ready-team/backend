@@ -1,3 +1,5 @@
+import { User } from "@/user";
+import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { Module } from "@nestjs/common";
 import { TokenService } from "./token.service";
 

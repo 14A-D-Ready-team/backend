@@ -11,7 +11,6 @@ export class EmailService {
         to: receiverEmail,
         from: "noreply.ready.team@gmail.com",
         subject: "Ready! üdvözlés",
-        //html: "./templates/test-email.html",
         template: "test-email",
       });
     } catch (error) {

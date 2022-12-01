@@ -4,6 +4,7 @@ import { Body, Controller, Post, Session } from "@nestjs/common";
 import { RegistrationDto } from "./dto/registration.dto";
 import { Auth, InjectAuthState } from "./decorator";
 import { AuthState } from "./auth.state";
+import { TokenDto } from "@/token/dto/token.dto";
 @Controller("auth")
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -34,4 +35,10 @@ export class AuthController {
   public async logout(@InjectAuthState() authState: AuthState) {
     await authState.logout();
   }
+
+  @Post("/create-token")
+  public async generateEmailConfirmToken(@Body() tokenDto: TokenDto) {
+    return this.authService.generateEmailConfirmToken(tokenDto);
+  }
+
 }
