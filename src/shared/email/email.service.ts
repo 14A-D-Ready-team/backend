@@ -7,7 +7,7 @@ export class EmailService {
 
   public async sendTestEmail(receiverEmail: string) {
     try {
-      var sentEmail = await this.mailerService.sendMail({
+      const sentEmail = await this.mailerService.sendMail({
         to: receiverEmail,
         from: "noreply.ready.team@gmail.com",
         subject: "Ready! üdvözlés",
@@ -22,7 +22,7 @@ export class EmailService {
   //send Email confirm az well
   public async sendWelcomeEmail(receiverEmail: string) {
     try {
-      var sentEmail = await this.mailerService.sendMail({
+      const sentEmail = await this.mailerService.sendMail({
         to: receiverEmail,
         from: "noreply.ready.team@gmail.com",
         subject: "Ready! üdvözlés",

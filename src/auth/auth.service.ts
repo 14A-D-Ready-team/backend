@@ -24,7 +24,7 @@ export class AuthService {
   ) {}
 
   public async signUp(registrationDto: RegistrationDto): Promise<User> {
-    var createdUser = await this.userService.create(registrationDto);
+    const createdUser = await this.userService.create(registrationDto);
     await this.emailService.sendTestEmail(registrationDto.email);
     //await this.emailService.sendWelcomeEmail(registrationDto.email);
     return createdUser;
