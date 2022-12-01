@@ -1,7 +1,7 @@
 import { Injectable, NotImplementedException } from "@nestjs/common";
 import { Token } from "./token.entity";
-import {v4 as uuidv4} from 'uuid';
-import { TokenType } from './index';
+import { v4 as uuidv4 } from "uuid";
+import { TokenType } from "./index";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { BaseRepository } from "@/shared/database";
 import { TokenData } from "./token-data.interface";
@@ -21,16 +21,14 @@ export class TokenService {
       id,
       type,
       user,
-    })
+    });
 
     token.id = uuidv4();
     token.type = TokenType.EmailVerification;
     token.user.id = user.id;
 
-
-
     this.tokenRepository.persistAndFlush(token);
-    
+
     return token;
   }
 }

@@ -40,5 +40,4 @@ export class AuthController {
   public async generateEmailConfirmToken(@Body() tokenDto: TokenDto) {
     return this.authService.generateEmailConfirmToken(tokenDto);
   }
-
 }

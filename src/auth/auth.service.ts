@@ -72,8 +72,10 @@ export class AuthService {
   }
 
   public async generateEmailConfirmToken(tokenDto: TokenDto): Promise<Token> {
-    const createdToken = await this.tokenService.createEmailConfirmToken(tokenDto);
-    
+    const createdToken = await this.tokenService.createEmailConfirmToken(
+      tokenDto,
+    );
+
     return createdToken;
   }
 }
