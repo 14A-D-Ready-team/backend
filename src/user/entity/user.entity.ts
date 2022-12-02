@@ -70,7 +70,6 @@ export class User {
 
   @OneToMany({
     mappedBy: (token: Token) => token.user,
-    joinColumn: "user_id",
     orphanRemoval: true,
   })
   public tokens = new Collection<Token>(this);

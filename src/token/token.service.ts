@@ -19,7 +19,7 @@ export class TokenService {
     const token = this.tokenRepository.create({
       id: uuidv4(),
       type: TokenType.EmailVerification,
-      user: Reference.createFromPK(User, user.id as any),
+      user,
     });
 
     this.tokenRepository.persistAndFlush(token);
