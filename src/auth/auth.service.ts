@@ -3,6 +3,7 @@ import {
   InvalidLoginException,
   PasswordNotSetException,
   InactiveUserException,
+  InvalidTokenException,
 } from "./exceptions";
 import { LoginDto } from "./dto";
 import { RegistrationDto } from "./dto";
@@ -13,8 +14,6 @@ import { InjectRepository } from "@mikro-orm/nestjs";
 import * as argon2 from "argon2";
 import { EmailService } from "@/shared/email";
 import { Token, TokenService } from "@/token";
-import { TokenDto } from "@/token/dto/token.dto";
-
 @Injectable()
 export class AuthService {
   constructor(

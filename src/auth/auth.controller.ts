@@ -40,4 +40,9 @@ export class AuthController {
   public async sendConfirmEmail(@Body() email: string) {
     return this.authService.sendConfirmEmail(email);
   }
+
+  @Post("/verify-user")
+  public async verifyUser(@Body() tokenId: string) {
+    return this.authService.verifyUser(tokenId);
+  }
 }

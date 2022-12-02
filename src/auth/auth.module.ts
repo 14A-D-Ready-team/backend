@@ -14,7 +14,7 @@ import {
   User,
   UserModule,
 } from "@/user";
-import { TokenModule } from "@/token";
+import { Token, TokenModule } from "@/token";
 import { AuthGuard } from "./guards";
 
 @Module({
@@ -26,6 +26,7 @@ import { AuthGuard } from "./guards";
       Customer,
       BuffetOwner,
       BuffetWorker,
+      Token
     ]),
     TokenModule,
     UserModule,
