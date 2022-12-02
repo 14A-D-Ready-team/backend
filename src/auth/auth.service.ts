@@ -24,6 +24,9 @@ export class AuthService {
 
     @InjectRepository(User)
     private userRepository: BaseRepository<User>,
+
+    @InjectRepository(Token)
+    private tokenRepository: BaseRepository<Token>,
   ) {}
 
   public async signUp(registrationDto: RegistrationDto): Promise<User> {
@@ -87,5 +90,20 @@ export class AuthService {
       const token = await this.tokenService.createEmailConfirmToken(user);
       this.emailService.sendEmailConfirm(user?.email, token.id);
     }
+  }
+
+  public async verifyUser(tokenId: string) {
+
+    const token = await this.tokenRepository.findOne({ id: tokenId }, { populate: ["user"] });
+
+    if (token) {
+      const user = token.user.getEntity();
+      user.status = UserStatus.Active;
+    }
+    else{
+      throw new InvalidTokenException();
+    }
+
+    
   }
 }

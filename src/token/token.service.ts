@@ -22,7 +22,7 @@ export class TokenService {
       user,
     });
 
-    this.tokenRepository.persistAndFlush(token);
+    await this.tokenRepository.persistAndFlush(token);
 
     return token;
   }
