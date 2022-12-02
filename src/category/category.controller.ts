@@ -9,6 +9,7 @@ import {
   Delete,
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
+import { omitBy } from "lodash";
 import { CategoryService } from "./category.service";
 import { CreateCategoryDto, UpdateCategoryDto } from "./dto";
 
@@ -43,6 +44,7 @@ export class CategoryController {
     if (!+id) {
       throw new InvalidIdException();
     }
+    updateCategoryDto = omitBy(updateCategoryDto, value => value === null);
     return this.categoryService.update(+id, updateCategoryDto);
   }
 
