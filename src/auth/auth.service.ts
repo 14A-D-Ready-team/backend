@@ -93,17 +93,16 @@ export class AuthService {
   }
 
   public async verifyUser(tokenId: string) {
-
-    const token = await this.tokenRepository.findOne({ id: tokenId }, { populate: ["user"] });
+    const token = await this.tokenRepository.findOne(
+      { id: tokenId },
+      { populate: ["user"] },
+    );
 
     if (token) {
       const user = token.user.getEntity();
       user.status = UserStatus.Active;
-    }
-    else{
+    } else {
       throw new InvalidTokenException();
     }
-
-    
   }
 }
