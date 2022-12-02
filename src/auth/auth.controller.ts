@@ -36,8 +36,8 @@ export class AuthController {
     await authState.logout();
   }
 
-  @Post("/create-token")
-  public async generateEmailConfirmToken(@Body() tokenDto: TokenDto) {
-    return this.authService.generateEmailConfirmToken(tokenDto);
+  @Post("/send-email-verification")
+  public async sendConfirmEmail(@Body() email: string) {
+    return this.authService.sendConfirmEmail(email);
   }
 }

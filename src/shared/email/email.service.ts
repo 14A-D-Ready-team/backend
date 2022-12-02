@@ -32,7 +32,21 @@ export class EmailService {
     }
   }
 
-  //TODO!!!   WHEN TOKENS ARE MADE
+  //For testing!!!
+
+  public async sendEmailConfirm(receiverEmail: string, tokenId: string) {
+    try {
+      const sentEmail = await this.mailerService.sendMail({
+        to: receiverEmail,
+        from: "noreply.ready.team@gmail.com",
+        subject: "Ready! üdvözlés",
+        html: `${tokenId}`,
+        //TODO!!! Template /w token
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   // public sendPwdResetEmail(receiverEmail: string): void {
   //   this.mailerService

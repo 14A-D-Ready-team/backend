@@ -6,6 +6,7 @@ import { InjectRepository } from "@mikro-orm/nestjs";
 import { BaseRepository } from "@/shared/database";
 import { TokenData } from "./token-data.interface";
 import { User } from "@/user";
+import { Reference } from "@mikro-orm/core";
 
 @Injectable()
 export class TokenService {
@@ -14,18 +15,13 @@ export class TokenService {
     private tokenRepository: BaseRepository<Token>,
   ) {}
 
-  public async createEmailConfirmToken(tokenData: TokenData): Promise<Token> {
-    const { id, type, user } = tokenData;
-
+  public async createEmailConfirmToken(user: User): Promise<Token> {
     const token = this.tokenRepository.create({
-      id,
-      type,
-      user,
+      id: uuidv4(),
+      type: TokenType.EmailVerification,
+      user: user,
+      //user: Reference.createNakedFromPK(User, user.id),
     });
-
-    token.id = uuidv4();
-    token.type = TokenType.EmailVerification;
-    token.user.id = user.id;
 
     this.tokenRepository.persistAndFlush(token);
 
