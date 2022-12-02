@@ -26,7 +26,7 @@ import { AuthGuard } from "./guards";
       Customer,
       BuffetOwner,
       BuffetWorker,
-      Token
+      Token,
     ]),
     TokenModule,
     UserModule,

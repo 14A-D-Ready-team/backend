@@ -5,4 +5,4 @@ export * from "./email-not-found.exception";
 export * from "./password-not-set.exception";
 export * from "./invalid-login.exception";
 export * from "./inactive-user.exception";
-export * from "./invalid-token.exception"
+export * from "./invalid-token.exception";
