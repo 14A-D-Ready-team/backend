@@ -15,12 +15,7 @@ import {
   Param,
   Delete,
 } from "@nestjs/common";
-import {
-  ApiBadRequestResponse,
-  ApiInternalServerErrorResponse,
-  ApiNotFoundResponse,
-  ApiTags,
-} from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
 import { omitBy } from "lodash";
 import { CategoryService } from "./category.service";
 import { CreateCategoryDto, UpdateCategoryDto } from "./dto";
