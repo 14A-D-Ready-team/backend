@@ -39,6 +39,9 @@ export class CategoryService {
   }
 
   public async remove(id: number) {
-    await this.categoryRepository.removeAndFlush({ id });
+    const entity = await this.findOne(id);
+    if (entity) {
+      await this.categoryRepository.removeAndFlush(entity);
+    }
   }
 }
