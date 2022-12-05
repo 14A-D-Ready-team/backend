@@ -98,8 +98,10 @@ export class AuthService {
     );
 
     if (token) {
-      const user = token.user.getEntity();
+      const user = this.userRepository.find(token.user);
       user.status = UserStatus.Active;
+      console.log(user);
+      await this.userRepository.persistAndFlush(user);
     } else {
       throw new InvalidTokenException();
     }

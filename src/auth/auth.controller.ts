@@ -1,6 +1,6 @@
 import { LoginDto } from "./dto/login.dto";
 import { AuthService } from "./auth.service";
-import { Body, Controller, Post, Session } from "@nestjs/common";
+import { Body, Controller, Param, Post, Session } from "@nestjs/common";
 import { RegistrationDto } from "./dto/registration.dto";
 import { Auth, InjectAuthState } from "./decorator";
 import { AuthState } from "./auth.state";
@@ -41,8 +41,8 @@ export class AuthController {
     return this.authService.sendConfirmEmail(email);
   }
 
-  @Post("/verify-user")
-  public async verifyUser(@Body() tokenId: string) {
+  @Post("/verify-user/:tokenId")
+  public async verifyUser(@Param("tokenId") tokenId: string) {
     return this.authService.verifyUser(tokenId);
   }
 }
