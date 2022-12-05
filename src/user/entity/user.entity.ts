@@ -16,13 +16,11 @@ import { UserType, UserStatus } from "../enum";
 
 @Entity()
 export class User {
-  [PrimaryKeyType]?: [number, UserType];
-
   @PrimaryKey({ autoincrement: true })
   @Expose()
   public id!: number;
 
-  @Enum({ primary: true })
+  @Enum()
   @Expose()
   public type!: UserType;
 
@@ -51,6 +49,7 @@ export class User {
   @OneToOne({
     mappedBy: (customer: Customer) => customer.user,
     orphanRemoval: true,
+    eager: true,
   })
   public customer?: IdentifiedReference<Customer>;
 

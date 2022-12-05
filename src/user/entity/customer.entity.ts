@@ -1,9 +1,7 @@
-import { Check, Entity, IdentifiedReference, OneToOne } from "@mikro-orm/core";
-import { UserType } from "../enum";
+import { Entity, IdentifiedReference, OneToOne } from "@mikro-orm/core";
 import { User } from "./user.entity";
 
 @Entity()
-@Check({ expression: `user_type = ${UserType.Customer}` })
 export class Customer {
   @OneToOne({
     inversedBy: (user: User) => user.customer,
