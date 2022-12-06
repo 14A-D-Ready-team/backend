@@ -35,10 +35,14 @@ export class AuthService {
     //TODO send welcome and email confirm email
     //await this.emailService.sendWelcomeEmail(registrationDto.email);
 
-    const emailConfirmToken = await this.tokenService.createEmailConfirmToken(createdUser);
+    const emailConfirmToken = await this.tokenService.createEmailConfirmToken(
+      createdUser,
+    );
 
     //For testing only
-    const PasswordResetToken = await this.tokenService.createPasswordResetToken(createdUser);
+    const PasswordResetToken = await this.tokenService.createPasswordResetToken(
+      createdUser,
+    );
     console.log(emailConfirmToken);
     console.log(PasswordResetToken);
 

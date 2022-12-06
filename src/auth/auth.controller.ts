@@ -52,7 +52,6 @@ export class AuthController {
     @Param("tokenId") tokenId: string,
     @Param("newPassword") newPassword: string,
   ) {
-
     const checkNewPassword = new CheckNewPassword();
 
     await checkNewPassword.CheckPwd(newPassword);
