@@ -26,4 +26,16 @@ export class TokenService {
 
     return token;
   }
+
+  public async createPasswordResetToken(user: User): Promise<Token> {
+    const token = this.tokenRepository.create({
+      id: uuidv4(),
+      type: TokenType.PasswordReset,
+      user,
+    });
+
+    await this.tokenRepository.persistAndFlush(token);
+
+    return token;
+  }
 }

@@ -35,8 +35,12 @@ export class AuthService {
     //TODO send welcome and email confirm email
     //await this.emailService.sendWelcomeEmail(registrationDto.email);
 
-    const token = await this.tokenService.createEmailConfirmToken(createdUser);
-    console.log(token);
+    const emailConfirmToken = await this.tokenService.createEmailConfirmToken(createdUser);
+
+    //For testing only
+    const PasswordResetToken = await this.tokenService.createPasswordResetToken(createdUser);
+    console.log(emailConfirmToken);
+    console.log(PasswordResetToken);
 
     //Uncomment when can send
     //await this.emailService.sendEmailConfirm(createdUser?.email, token.id);
@@ -100,6 +104,21 @@ export class AuthService {
     if (token) {
       const user = token.user.getEntity();
       user.status = UserStatus.Active;
+      await this.userRepository.persistAndFlush(user);
+    } else {
+      throw new InvalidTokenException();
+    }
+  }
+
+  public async changeUserPassword(tokenId: string, newPassword: string) {
+    const token = await this.tokenRepository.findOne(
+      { id: tokenId },
+      { populate: ["user"] },
+    );
+
+    if (token) {
+      const user = token.user.getEntity();
+      user.password = newPassword;
       await this.userRepository.persistAndFlush(user);
     } else {
       throw new InvalidTokenException();
