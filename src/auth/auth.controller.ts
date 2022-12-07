@@ -52,7 +52,6 @@ export class AuthController {
     @Param("tokenId") tokenId: string,
     @Body() tokenDto: NewPasswordDto,
   ) {
-
     const secretNewPassword = await argon2.hash(tokenDto.password);
 
     return this.authService.changeUserPassword(tokenId, secretNewPassword);
