@@ -4,8 +4,8 @@ import { Body, Controller, Param, Post, Session } from "@nestjs/common";
 import { RegistrationDto } from "./dto/registration.dto";
 import { Auth, InjectAuthState } from "./decorator";
 import { AuthState } from "./auth.state";
-import { CheckNewPassword } from "../token/check-new-password";
 import * as argon2 from "argon2";
+import { NewPasswordDto } from "@/auth/dto/new-password.dto";
 @Controller("auth")
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -47,16 +47,13 @@ export class AuthController {
     return this.authService.verifyUser(tokenId);
   }
 
-  @Post("/change-user-password/:tokenId/:newPassword")
+  @Post("/change-user-password/:tokenId")
   public async changeUserPassword(
     @Param("tokenId") tokenId: string,
-    @Param("newPassword") newPassword: string,
+    @Body() tokenDto: NewPasswordDto,
   ) {
-    const checkNewPassword = new CheckNewPassword();
 
-    await checkNewPassword.CheckPwd(newPassword);
-
-    const secretNewPassword = await argon2.hash(newPassword);
+    const secretNewPassword = await argon2.hash(tokenDto.password);
 
     return this.authService.changeUserPassword(tokenId, secretNewPassword);
   }
