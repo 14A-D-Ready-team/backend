@@ -122,7 +122,7 @@ export class AuthService {
 
     if (token) {
       const user = token.user.getEntity();
-      user.password = newPassword;
+      user.password = await argon2.hash(newPassword);
       await this.userRepository.persistAndFlush(user);
     } else {
       throw new InvalidTokenException();

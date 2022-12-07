@@ -50,11 +50,11 @@ export class AuthController {
   @Post("/change-user-password/:tokenId")
   public async changeUserPassword(
     @Param("tokenId") tokenId: string,
-    @Body() tokenDto: NewPasswordDto,
+    @Body() newPasswordDto: NewPasswordDto,
   ) {
-
-    const secretNewPassword = await argon2.hash(tokenDto.password);
-
-    return this.authService.changeUserPassword(tokenId, secretNewPassword);
+    return this.authService.changeUserPassword(
+      tokenId,
+      newPasswordDto.password,
+    );
   }
 }
