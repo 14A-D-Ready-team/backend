@@ -23,7 +23,7 @@ jobs:
       - run:
           name: Run tests
           no_output_timeout: 30m
-          command: npm run test:cov
+          command: npm run test:cov --forceExit
       - run:
           name: Run E2E tests
           command: npm run test:e2e
