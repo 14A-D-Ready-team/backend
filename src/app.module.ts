@@ -12,6 +12,7 @@ import { SerializationModule } from "@shared/serialization";
 import { PolicyModule } from "@/shared/policy";
 import { AppAbilityFactory } from "./app-ability.factory";
 import { ProductModule } from "./product/product.module";
+import { CategoryModule } from "./category/category.module";
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { ProductModule } from "./product/product.module";
     TokenModule,
     AuthModule,
     ProductModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppAbilityFactory],

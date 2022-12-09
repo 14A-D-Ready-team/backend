@@ -1,3 +1,4 @@
+import { Category } from "@/category/entity";
 import {
   Cascade,
   Collection,
@@ -7,7 +8,6 @@ import {
   PrimaryKey,
   Property,
 } from "@mikro-orm/core";
-import { Category } from "./category.entity";
 import { Customization } from "./customization.entity";
 
 @Entity()
