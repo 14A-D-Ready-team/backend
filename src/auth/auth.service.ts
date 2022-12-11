@@ -30,14 +30,14 @@ export class AuthService {
 
   public async signUp(registrationDto: RegistrationDto): Promise<User> {
     const createdUser = await this.userService.create(registrationDto);
-    //await this.emailService.sendTestEmail(registrationDto.email);
-
-    //TODO send welcome and email confirm email
-    //await this.emailService.sendWelcomeEmail(registrationDto.email);
 
     const emailConfirmToken = await this.tokenService.createEmailConfirmToken(
       createdUser,
     );
+
+    //Uncomment when can send
+    //await this.emailService.sendWelcomeEmail(createdUser?.email, emailConfirmToken.id);
+    //await this.emailService.sendPwdResetEmail(createdUser?.email, emailConfirmToken.id);
 
     //For testing only
     const PasswordResetToken = await this.tokenService.createPasswordResetToken(
@@ -45,9 +45,6 @@ export class AuthService {
     );
     console.log(emailConfirmToken);
     console.log(PasswordResetToken);
-
-    //Uncomment when can send
-    //await this.emailService.sendEmailConfirm(createdUser?.email, token.id);
 
     return createdUser;
   }
@@ -95,7 +92,7 @@ export class AuthService {
 
     if (user) {
       const token = await this.tokenService.createEmailConfirmToken(user);
-      this.emailService.sendEmailConfirm(user?.email, token.id);
+      this.emailService.sendWelcomeEmail(user?.email, token.id);
     }
   }
 
