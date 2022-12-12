@@ -1,31 +1,39 @@
 import { Injectable } from "@nestjs/common";
 import { MailerService } from "@nestjs-modules/mailer";
+import { User } from "@/user";
 
 @Injectable()
 export class EmailService {
   constructor(private readonly mailerService: MailerService) {}
 
-  public async sendWelcomeEmail(receiverEmail: string, tokenId: string) {
+  public async sendWelcomeEmail(user: User, tokenId: string) {
     try {
       const sentEmail = await this.mailerService.sendMail({
-        to: receiverEmail,
+        to: user.email,
         from: "noreply.ready.team@gmail.com",
         subject: "Ready! üdvözlés",
         template: "welcome",
-        html: `${tokenId}`,
+        context:{
+          name : user.name,
+          token : tokenId
+        }
       });
     } catch (error) {
       console.log(error);
     }
   }
 
-  public async sendPwdResetEmail(receiverEmail: string, tokenId: string) {
+  public async sendPwdResetEmail(user: User, tokenId: string) {
     try {
       const sentEmail = await this.mailerService.sendMail({
-        to: receiverEmail,
+        to: user.email,
         from: "noreply.ready.team@gmail.com",
-        subject: "Ready! üdvözlés",
-        html: `${tokenId}`,
+        subject: "Ready! jelszó csere",
+        template: "reset-password",
+        context:{
+          name : user.name,
+          token : tokenId
+        }
       });
     } catch (error) {
       console.log(error);

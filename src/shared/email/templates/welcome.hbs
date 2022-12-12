@@ -86,12 +86,12 @@
     <center>
     <table class="email-table">
         <tr class="logo-row">
-            <td align="center"><img class="logo" src="Logo.png" alt="Ready!"></td>
+            {{!-- <td align="center"><img class="logo" src="Logo.png" alt="Ready!"></td> --}}
         </tr>
         <tr class="text-row">
             <td>
                 <div class="text-container">
-                    <h1>Szia *felhasználó*!</h1>
+                    <h1>Szia {{ name }}!</h1>
                     <p>Üdvözlünk a Ready! alkalmazásban!</p>
                     <p>A Ready! használata előtt igazold vissza email-ed a következő gombra kattintva:</p>
                 </div>
@@ -102,6 +102,15 @@
             <td>
                 <div class="link-container">
                     <a href="" class="verification-btn">Email igazolása</a>
+                </div>
+            </td>
+        </tr>
+
+        <tr class="text-row">
+            <td>
+                <div class="greeting-container">
+                    <p>Vagy írd be ezt a kódót a weboldalon:</p>
+                    <p>{{ token }}</p>
                 </div>
             </td>
         </tr>

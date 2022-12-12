@@ -42,6 +42,11 @@ export class AuthController {
     return this.authService.sendConfirmEmail(email);
   }
 
+  @Post("/send-password-reset")
+  public async sendPasswordResetEmail(@Body() email: string) {
+    return this.authService.sendPasswordResetEmail(email);
+  }
+
   @Post("/verify-user/:tokenId")
   public async verifyUser(@Param("tokenId") tokenId: string) {
     return this.authService.verifyUser(tokenId);

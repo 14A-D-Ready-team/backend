@@ -36,15 +36,7 @@ export class AuthService {
     );
 
     //Uncomment when can send
-    //await this.emailService.sendWelcomeEmail(createdUser?.email, emailConfirmToken.id);
-    //await this.emailService.sendPwdResetEmail(createdUser?.email, emailConfirmToken.id);
-
-    //For testing only
-    const PasswordResetToken = await this.tokenService.createPasswordResetToken(
-      createdUser,
-    );
-    console.log(emailConfirmToken);
-    console.log(PasswordResetToken);
+    //await this.emailService.sendWelcomeEmail(createdUser, emailConfirmToken.id);
 
     return createdUser;
   }
@@ -92,7 +84,16 @@ export class AuthService {
 
     if (user) {
       const token = await this.tokenService.createEmailConfirmToken(user);
-      this.emailService.sendWelcomeEmail(user?.email, token.id);
+      this.emailService.sendWelcomeEmail(user, token.id);
+    }
+  }
+
+  public async sendPasswordResetEmail(email: string) {
+    const user = await this.userRepository.findOne({ email });
+
+    if (user) {
+      const token = await this.tokenService.createPasswordResetToken(user);
+      this.emailService.sendPwdResetEmail(user, token.id);
     }
   }
 
