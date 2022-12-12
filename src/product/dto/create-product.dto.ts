@@ -50,6 +50,6 @@ export class CreateProductDto {
   @Expose()
   @ApiProperty()
   @IsNumber({ allowInfinity: false, allowNaN: false, maxDecimalPlaces: 0 })
-  @Min(0)
+  @Min(1)
   public categoryId: number;
 }

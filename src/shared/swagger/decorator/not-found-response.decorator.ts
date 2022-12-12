@@ -5,7 +5,7 @@ import { createErrorCodeDescription } from "../utils";
 export function NotFoundResponse(
   ...additionalExceptions: Type<unknown>[]
 ): MethodDecorator & ClassDecorator {
-  const exceptions = [NotFoundException, ...additionalExceptions];
+  const exceptions = [...additionalExceptions];
 
   return applyDecorators(
     ApiNotFoundResponse({

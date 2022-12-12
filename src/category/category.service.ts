@@ -1,8 +1,9 @@
 import { BaseRepository } from "@/shared/database";
 import { InjectRepository } from "@mikro-orm/nestjs";
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { CreateCategoryDto, UpdateCategoryDto } from "./dto";
 import { Category } from "./entity";
+import { CategoryNotFoundException } from "./exceptions";
 
 @Injectable()
 export class CategoryService {
@@ -28,7 +29,7 @@ export class CategoryService {
   public async update(id: number, payload: UpdateCategoryDto) {
     let categoryToUpdate = await this.findOne(id);
     if (!categoryToUpdate) {
-      throw new NotFoundException();
+      throw new CategoryNotFoundException();
     }
     categoryToUpdate = this.categoryRepository.assign(
       categoryToUpdate,
