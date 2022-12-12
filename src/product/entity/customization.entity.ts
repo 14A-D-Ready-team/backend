@@ -1,3 +1,4 @@
+import { serializeCollection } from "@/shared/serialization";
 import {
   Collection,
   Entity,
@@ -27,12 +28,10 @@ export class Customization {
   public optionCount: OptionCount;
 
   @Expose()
-  @Transform(params => {
-    const value = params.value as Collection<Option>;
-    return value ? value.getItems() : [];
-  })
+  @Transform(serializeCollection)
   @OneToMany(() => Option, option => option.customization, {
     orphanRemoval: true,
+    eager: true,
   })
   public options = new Collection<Option>(this);
 

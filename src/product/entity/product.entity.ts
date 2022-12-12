@@ -1,4 +1,5 @@
 import { Category } from "@/category/entity";
+import { serializeCollection } from "@/shared/serialization";
 import {
   Cascade,
   Collection,
@@ -48,12 +49,10 @@ export class Product {
   public category: Category;
 
   @Expose()
-  @Transform(params => {
-    const value = params.value as Collection<Customization>;
-    return value ? value.getItems() : [];
-  })
+  @Transform(serializeCollection)
   @OneToMany(() => Customization, customization => customization.product, {
     orphanRemoval: true,
+    eager: true,
   })
   public customizations = new Collection<Customization>(this);
 }
