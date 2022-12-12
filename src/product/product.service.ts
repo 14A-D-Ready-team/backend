@@ -5,8 +5,9 @@ import { InjectRepository } from "@mikro-orm/nestjs";
 import { Injectable } from "@nestjs/common";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
-import { Product } from "./entity";
+import { Customization, Option, Product } from "./entity";
 import { ProductNotFoundException } from "./exceptions";
+import { OptionCount } from "./option-count.enum";
 
 @Injectable()
 export class ProductService {
@@ -31,6 +32,14 @@ export class ProductService {
         ? payload.discountedPrice
         : undefined,
     });
+    const c = new Customization();
+    c.description = "asdasdasd";
+    c.optionCount = OptionCount.MultipleChoice;
+    const o = new Option();
+    o.name = "asdasd";
+    o.extraCost = 100;
+    c.options.add(o);
+    product.customizations.add(c);
     await this.productRepository.persistAndFlush(product);
     return product;
   }
