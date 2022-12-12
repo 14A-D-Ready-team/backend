@@ -13,10 +13,10 @@ export class EmailService {
         from: "noreply.ready.team@gmail.com",
         subject: "Ready! üdvözlés",
         template: "welcome",
-        context:{
-          name : user.name,
-          token : tokenId
-        }
+        context: {
+          name: user.name,
+          token: tokenId,
+        },
       });
     } catch (error) {
       console.log(error);
@@ -30,10 +30,10 @@ export class EmailService {
         from: "noreply.ready.team@gmail.com",
         subject: "Ready! jelszó csere",
         template: "reset-password",
-        context:{
-          name : user.name,
-          token : tokenId
-        }
+        context: {
+          name: user.name,
+          token: tokenId,
+        },
       });
     } catch (error) {
       console.log(error);
