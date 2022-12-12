@@ -1,4 +1,4 @@
-import { Token } from "@/token";
+import { Token } from "@/token/token.entity";
 import {
   Collection,
   Entity,
@@ -10,6 +10,7 @@ import {
   PrimaryKeyType,
   Property,
 } from "@mikro-orm/core";
+import { ApiProperty } from "@nestjs/swagger";
 import { Expose } from "class-transformer";
 import { Admin, BuffetOwner, BuffetWorker, Customer } from ".";
 import { UserType, UserStatus } from "../enum";
@@ -24,10 +25,12 @@ export class User {
   @Expose()
   public type!: UserType;
 
+  @ApiProperty()
   @Property({ length: 50 })
   @Expose()
   public name!: string;
 
+  @ApiProperty()
   @Property({ length: 80, unique: true })
   @Expose()
   public email!: string;
@@ -35,6 +38,7 @@ export class User {
   @Property({ length: 255 })
   public password?: string;
 
+  @ApiProperty({ enum: UserStatus })
   @Enum()
   @Expose()
   public status!: UserStatus;

@@ -10,6 +10,10 @@ import { TokenModule } from "@/token";
 import { sessionConfig, SessionMiddleware } from "@shared/session";
 import { SerializationModule } from "@shared/serialization";
 import { emailConfig, EmailModule } from "@/shared/email";
+import { PolicyModule } from "@/shared/policy";
+import { AppAbilityFactory } from "./app-ability.factory";
+import { ProductModule } from "./product/product.module";
+import { CategoryModule } from "./category/category.module";
 
 @Module({
   imports: [
@@ -21,13 +25,16 @@ import { emailConfig, EmailModule } from "@/shared/email";
     }),
     SerializationModule,
     ValidationModule,
+    PolicyModule,
+    EmailModule,
     UserModule,
     TokenModule,
     AuthModule,
-    EmailModule,
+    ProductModule,
+    CategoryModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AppAbilityFactory],
 })
 export class AppModule {
   public configure(consumer: MiddlewareConsumer) {

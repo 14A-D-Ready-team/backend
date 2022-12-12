@@ -7,6 +7,7 @@ export const validationPipeConfig: ValidationPipeOptions = {
   transformOptions: {
     excludeExtraneousValues: true,
     enableImplicitConversion: true,
+    exposeUnsetFields: false,
   },
   exceptionFactory,
 };
