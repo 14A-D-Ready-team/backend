@@ -6,6 +6,17 @@ import { Auth, InjectAuthState } from "./decorator";
 import { AuthState } from "./auth.state";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
 import { User } from "@/user";
+import {
+  BadRequestResponse,
+  InternalServerErrorResponse,
+  ServiceUnavailableResponse,
+} from "@/shared/swagger";
+import { InvalidDataException } from "@/shared/validation/exceptions";
+import {
+  InactiveUserException,
+  InvalidLoginException,
+  PasswordNotSetException,
+} from "./exceptions";
 
 @ApiTags("auth")
 @Controller("auth")
@@ -19,6 +30,14 @@ export class AuthController {
 
   @Post("/signin")
   @ApiResponse({ status: 200, type: User })
+  @BadRequestResponse(
+    InvalidDataException,
+    InvalidLoginException,
+    PasswordNotSetException,
+    InactiveUserException,
+  )
+  @ServiceUnavailableResponse()
+  @InternalServerErrorResponse()
   public async signIn(
     @Body() loginDto: LoginDto,
     @Session() session: Record<string, any>,
