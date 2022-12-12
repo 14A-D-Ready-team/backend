@@ -6,6 +6,7 @@ import { Injectable } from "@nestjs/common";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { Product } from "./entity";
+import { ProductNotFoundException } from "./exceptions";
 
 @Injectable()
 export class ProductService {
@@ -30,23 +31,32 @@ export class ProductService {
         ? payload.discountedPrice
         : undefined,
     });
-    await this.productRepository.persistAndFlush(category);
-    return category;
+    await this.productRepository.persistAndFlush(product);
+    return product;
   }
 
   public findAll() {
-    return `This action returns all product`;
+    return this.productRepository.findAll();
   }
 
   public findOne(id: number) {
-    return `This action returns a #${id} product`;
+    return this.productRepository.findOne(id);
   }
 
-  public update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  public async update(id: number, payload: UpdateProductDto) {
+    let productToUpdate = await this.findOne(id);
+    if (!productToUpdate) {
+      throw new ProductNotFoundException();
+    }
+    productToUpdate = this.productRepository.assign(productToUpdate, payload);
+    await this.productRepository.persistAndFlush(productToUpdate);
+    return productToUpdate;
   }
 
-  public remove(id: number) {
-    return `This action removes a #${id} product`;
+  public async remove(id: number) {
+    const entity = await this.findOne(id);
+    if (entity) {
+      await this.productRepository.removeAndFlush(entity);
+    }
   }
 }

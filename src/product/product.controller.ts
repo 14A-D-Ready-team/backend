@@ -11,6 +11,7 @@ import { ProductService } from "./product.service";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { ApiTags } from "@nestjs/swagger";
+import { InvalidIdException } from "@/shared/exceptions";
 
 @ApiTags("product")
 @Controller("product")
@@ -29,6 +30,9 @@ export class ProductController {
 
   @Get(":id")
   public findOne(@Param("id") id: string) {
+    if (!+id) {
+      throw new InvalidIdException();
+    }
     return this.productService.findOne(+id);
   }
 
@@ -37,11 +41,17 @@ export class ProductController {
     @Param("id") id: string,
     @Body() updateProductDto: UpdateProductDto,
   ) {
+    if (!+id) {
+      throw new InvalidIdException();
+    }
     return this.productService.update(+id, updateProductDto);
   }
 
   @Delete(":id")
   public remove(@Param("id") id: string) {
+    if (!+id) {
+      throw new InvalidIdException();
+    }
     return this.productService.remove(+id);
   }
 }
