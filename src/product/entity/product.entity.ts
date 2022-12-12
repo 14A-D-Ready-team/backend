@@ -25,7 +25,7 @@ export class Product {
   public fullPrice: number;
 
   @Property({ type: "decimal" })
-  public discountedPrice: number;
+  public discountedPrice?: number;
 
   @Property({ type: "mediumint" })
   public stock: number;
