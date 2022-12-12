@@ -61,11 +61,6 @@ export class AuthController {
     await authState.logout();
   }
 
-  @Post("/send-welcome-email")
-  public async sendWelcomeEmail(@Body() email: string) {
-    return this.authService.sendWelcomeEmail(email);
-  }
-
   @Post("/send-email-verification")
   public async sendConfirmEmail(@Body() email: string) {
     return this.authService.sendConfirmEmail(email);

@@ -79,15 +79,6 @@ export class AuthService {
     return user;
   }
 
-  public async sendWelcomeEmail(email: string) {
-    const user = await this.userRepository.findOne({ email });
-
-    if (user) {
-      const token = await this.tokenService.createEmailConfirmToken(user);
-      this.emailService.sendWelcomeEmail(user, token.id);
-    }
-  }
-
   public async sendConfirmEmail(email: string) {
     const user = await this.userRepository.findOne({ email });
 
