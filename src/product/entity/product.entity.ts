@@ -4,6 +4,7 @@ import {
   Cascade,
   Collection,
   Entity,
+  IdentifiedReference,
   ManyToOne,
   OneToMany,
   PrimaryKey,
@@ -46,7 +47,7 @@ export class Product {
   @ManyToOne({
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
   })
-  public category: Category;
+  public category: IdentifiedReference<Category>;
 
   @Expose()
   @Transform(serializeCollection)
