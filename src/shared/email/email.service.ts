@@ -23,6 +23,23 @@ export class EmailService {
     }
   }
 
+  public async sendConfirmEmail(user: User, tokenId: string) {
+    try {
+      const sentEmail = await this.mailerService.sendMail({
+        to: user.email,
+        from: "noreply.ready.team@gmail.com",
+        subject: "Ready! email megerősítés",
+        template: "email-confirm",
+        context: {
+          name: user.name,
+          token: tokenId,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   public async sendPwdResetEmail(user: User, tokenId: string) {
     try {
       const sentEmail = await this.mailerService.sendMail({
