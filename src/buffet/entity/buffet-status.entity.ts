@@ -27,5 +27,4 @@ export class BuffetStatus {
 
   @ManyToOne({ eager: true })
   public buffet: IdentifiedReference<Buffet>;
-
 }

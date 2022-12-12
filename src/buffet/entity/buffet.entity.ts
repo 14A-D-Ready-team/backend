@@ -3,7 +3,7 @@ import { Product } from "@/product";
 import { Token } from "@/token";
 import { BuffetOwner, BuffetWorker } from "@/user";
 import {
-    Cascade,
+  Cascade,
   Collection,
   Entity,
   IdentifiedReference,
@@ -77,9 +77,13 @@ export class Buffet {
   })
   public employees = new Collection<BuffetWorker>(this);
 
-  @OneToMany(() => BuffetInviteToken, buffetInviteToken => buffetInviteToken.id, {
-    orphanRemoval: true,
-  })
+  @OneToMany(
+    () => BuffetInviteToken,
+    buffetInviteToken => buffetInviteToken.id,
+    {
+      orphanRemoval: true,
+    },
+  )
   public inviteTokens = new Collection<BuffetInviteToken>(this);
 
   @OneToMany(() => BuffetReview, buffetReview => buffetReview.id, {

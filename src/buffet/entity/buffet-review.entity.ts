@@ -1,4 +1,10 @@
-import { Cascade, Entity, ManyToOne, PrimaryKey, Property } from "@mikro-orm/core";
+import {
+  Cascade,
+  Entity,
+  ManyToOne,
+  PrimaryKey,
+  Property,
+} from "@mikro-orm/core";
 import { Expose } from "class-transformer";
 import { Buffet } from "./buffet.entity";
 
@@ -8,7 +14,7 @@ export class BuffetReview {
   @Expose()
   public id: number;
 
-  @Property({ type: "decimal"})
+  @Property({ type: "decimal" })
   public stars: number;
 
   @ManyToOne({
