@@ -17,15 +17,11 @@ import { UserType, UserStatus } from "../enum";
 
 @Entity()
 export class User {
-  [PrimaryKeyType]?: [number, UserType];
-
-  @ApiProperty()
   @PrimaryKey({ autoincrement: true })
   @Expose()
   public id!: number;
 
-  @ApiProperty({ enum: UserType })
-  @Enum({ primary: true })
+  @Enum()
   @Expose()
   public type!: UserType;
 
@@ -57,6 +53,7 @@ export class User {
   @OneToOne({
     mappedBy: (customer: Customer) => customer.user,
     orphanRemoval: true,
+    eager: true,
   })
   public customer?: IdentifiedReference<Customer>;
 
@@ -76,7 +73,6 @@ export class User {
 
   @OneToMany({
     mappedBy: (token: Token) => token.user,
-    joinColumn: "user_id",
     orphanRemoval: true,
   })
   public tokens = new Collection<Token>(this);

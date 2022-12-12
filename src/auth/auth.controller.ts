@@ -1,9 +1,11 @@
 import { LoginDto } from "./dto/login.dto";
 import { AuthService } from "./auth.service";
-import { Body, Controller, Get, Post, Session } from "@nestjs/common";
+import { Body, Controller, Param, Post, Session } from "@nestjs/common";
 import { RegistrationDto } from "./dto/registration.dto";
 import { Auth, InjectAuthState } from "./decorator";
 import { AuthState } from "./auth.state";
+import * as argon2 from "argon2";
+import { NewPasswordDto } from "@/auth/dto/new-password.dto";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
 import { User } from "@/user";
 import {
@@ -24,7 +26,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post("/signup")
-  public signUp(@Body() registrationDto: RegistrationDto) {
+  public async signUp(@Body() registrationDto: RegistrationDto) {
     return this.authService.signUp(registrationDto);
   }
 
@@ -57,5 +59,31 @@ export class AuthController {
   @Auth()
   public async logout(@InjectAuthState() authState: AuthState) {
     await authState.logout();
+  }
+
+  @Post("/send-email-verification")
+  public async sendConfirmEmail(@Body() email: string) {
+    return this.authService.sendConfirmEmail(email);
+  }
+
+  @Post("/send-password-reset")
+  public async sendPasswordResetEmail(@Body() email: string) {
+    return this.authService.sendPasswordResetEmail(email);
+  }
+
+  @Post("/verify-user/:tokenId")
+  public async verifyUser(@Param("tokenId") tokenId: string) {
+    return this.authService.verifyUser(tokenId);
+  }
+
+  @Post("/change-user-password/:tokenId")
+  public async changeUserPassword(
+    @Param("tokenId") tokenId: string,
+    @Body() newPasswordDto: NewPasswordDto,
+  ) {
+    return this.authService.changeUserPassword(
+      tokenId,
+      newPasswordDto.password,
+    );
   }
 }
