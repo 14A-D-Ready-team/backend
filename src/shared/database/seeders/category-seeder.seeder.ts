@@ -12,6 +12,10 @@ export class CategorySeeder extends Seeder {
       "Édességek",
       "Gyorsételek",
       "Fincsi ®",
+      "Forró italok",
+      "Fornetti",
+      "Peksnack",
+      "Nassolnivalók",
     ];
     const categories = categoryNames.map(n => {
       const category = new CategoryFactory(em).makeOne({ name: n });
