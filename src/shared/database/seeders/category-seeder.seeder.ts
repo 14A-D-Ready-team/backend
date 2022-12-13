@@ -10,7 +10,7 @@ export class CategorySeeder extends Seeder {
       "Melegszendvicsek",
       "Péksütik",
       "Édességek",
-      "Fast Food",
+      "Gyorsételek",
       "Fincsi ®",
     ];
     const categories = categoryNames.map(n => {
