@@ -16,6 +16,6 @@ export class Token {
   @Enum()
   public type!: TokenType;
 
-  @ManyToOne({ referenceColumnName: "id", joinColumn: "user_id", eager: true })
+  @ManyToOne({ eager: true })
   public user!: IdentifiedReference<User>;
 }

@@ -3,6 +3,7 @@ import {
   InvalidLoginException,
   PasswordNotSetException,
   InactiveUserException,
+  InvalidTokenException,
 } from "./exceptions";
 import { LoginDto } from "./dto";
 import { RegistrationDto } from "./dto";
@@ -11,18 +12,33 @@ import { User, UserService, UserStatus } from "@/user";
 import { BaseRepository } from "@/shared/database";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import * as argon2 from "argon2";
-
+import { EmailService } from "@/shared/email";
+import { Token, TokenService } from "@/token";
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
+    private emailService: EmailService,
+    private tokenService: TokenService,
 
     @InjectRepository(User)
     private userRepository: BaseRepository<User>,
+
+    @InjectRepository(Token)
+    private tokenRepository: BaseRepository<Token>,
   ) {}
 
   public async signUp(registrationDto: RegistrationDto): Promise<User> {
-    return this.userService.create(registrationDto);
+    const createdUser = await this.userService.create(registrationDto);
+
+    const emailConfirmToken = await this.tokenService.createEmailConfirmToken(
+      createdUser,
+    );
+
+    //Uncomment when can send
+    //await this.emailService.sendWelcomeEmail(createdUser, emailConfirmToken.id);
+
+    return createdUser;
   }
 
   public async signIn(loginDto: LoginDto): Promise<User> {
@@ -61,5 +77,53 @@ export class AuthService {
     }
 
     return user;
+  }
+
+  public async sendConfirmEmail(email: string) {
+    const user = await this.userRepository.findOne({ email });
+
+    if (user) {
+      const token = await this.tokenService.createEmailConfirmToken(user);
+      this.emailService.sendConfirmEmail(user, token.id);
+    }
+  }
+
+  public async sendPasswordResetEmail(email: string) {
+    const user = await this.userRepository.findOne({ email });
+
+    if (user) {
+      const token = await this.tokenService.createPasswordResetToken(user);
+      this.emailService.sendPwdResetEmail(user, token.id);
+    }
+  }
+
+  public async verifyUser(tokenId: string) {
+    const token = await this.tokenRepository.findOne(
+      { id: tokenId },
+      { populate: ["user"] },
+    );
+
+    if (token) {
+      const user = token.user.getEntity();
+      user.status = UserStatus.Active;
+      await this.userRepository.persistAndFlush(user);
+    } else {
+      throw new InvalidTokenException();
+    }
+  }
+
+  public async changeUserPassword(tokenId: string, newPassword: string) {
+    const token = await this.tokenRepository.findOne(
+      { id: tokenId },
+      { populate: ["user"] },
+    );
+
+    if (token) {
+      const user = token.user.getEntity();
+      user.password = await argon2.hash(newPassword);
+      await this.userRepository.persistAndFlush(user);
+    } else {
+      throw new InvalidTokenException();
+    }
   }
 }

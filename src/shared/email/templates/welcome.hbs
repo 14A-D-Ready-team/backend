@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email html</title>
+
+</head>
+<body>
+    <style>
+
+        body{
+            margin: 0;
+            background-color: white;
+            font-family: Arial;
+        }
+
+        table{
+            width: 100%;
+            max-width: 650px;
+            border-spacing: 0px;
+            background-color: white;
+        }
+
+        h1{
+            font-size: 24px;
+        }
+
+        p{
+            font-size: 16px;
+        }
+
+        .logo-row{
+            background-color: black;
+        }
+        .logo{
+            height: 200px;
+            width: 200px;
+        }
+
+        .text-row div,.link-row div{
+            padding: 0px 30px;
+        }
+
+        .text-container h1,p{
+            margin: 20px 0px;
+        }
+
+        .text-container h1{
+            color: rgba(195, 11, 0, 1);
+        }
+        .greeting-container p{
+            margin: 10px 0px;
+        }
+        .link-container{
+            margin: 30px 0px;
+        }
+        .footer{
+            background-color: rgba(236, 236, 236, 1);
+        }
+        .footer td{
+            color: rgba(117, 117, 117, 1);
+            padding: 0px 3%;
+            font-size: 8px;
+            height: 50px;
+            text-align: center;
+            width: 33%;
+        }
+
+        .verification-btn{
+            display: block;
+            background-color: rgba(195, 11, 0, 1);
+            color: white;
+            width: 80%;
+            max-width: 300px;
+            padding: 12px 0px;
+            text-decoration: none;
+            border-radius: 30px;
+        }
+        .web-link{
+            color: rgba(195, 11, 0, 1);
+        }
+
+    </style>
+    <center>
+    <table class="email-table">
+        <tr class="logo-row">
+            {{!-- <td align="center"><img class="logo" src="Logo.png" alt="Ready!"></td> --}}
+        </tr>
+        <tr class="text-row">
+            <td>
+                <div class="text-container">
+                    <h1>Szia {{ name }}!</h1>
+                    <p>Üdvözlünk a Ready! alkalmazásban!</p>
+                    <p>A Ready! használata előtt igazold vissza email-ed a következő gombra kattintva:</p>
+                </div>
+            </td>
+        </tr>
+        
+        <tr class="link-row" align="center">
+            <td>
+                <div class="link-container">
+                    <a href="" class="verification-btn">Email igazolása</a>
+                </div>
+            </td>
+        </tr>
+
+        <tr class="text-row">
+            <td>
+                <div class="greeting-container">
+                    <p>Vagy írd be ezt a kódót a weboldalon:</p>
+                    <p>{{ token }}</p>
+                </div>
+            </td>
+        </tr>
+
+        <tr class="text-row">
+            <td>
+                <div class="greeting-container">
+                    <p>Köszönjük és jó étvágyat!</p>
+                    <p>-A Ready! csapata</p>
+                </div>
+            </td>
+        </tr>
+              
+        <tr align="center" class="link-row">
+            <td>
+                <div class="link-container">
+                    <a href="" class="web-link">Weboldal</a>
+                </div>
+            </td>
+        </tr>
+ 
+        <tr class="footer-row" align="center">
+            <table class="footer">
+                <tr align="center">
+                    <td>©Ready! team</td>
+                    <td>Győr, Szent István út 7, 9021</td>
+                    <td>Minden jog fenntartva</td>
+                </tr>
+            </table>
+        </tr>
+    </table>
+</center>
+</body>
+</html>
