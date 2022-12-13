@@ -1,5 +1,6 @@
 import { Category } from "@/category";
 import { Product } from "@/product";
+import { BuffetReview } from "@/review/entity/buffet-review.entity";
 import { Token } from "@/token";
 import { BuffetOwner, BuffetWorker } from "@/user";
 import {
@@ -16,7 +17,6 @@ import {
 import { Expose } from "class-transformer";
 import { BuffetStatusEnum } from "../enum/buffet-status.enum";
 import { BuffetInviteToken } from "./buffet-invite-token.entity";
-import { BuffetReview } from "./buffet-review.entity";
 import { BuffetStatus } from "./buffet-status.entity";
 
 @Entity()
@@ -53,25 +53,21 @@ export class Buffet {
   })
   public statuses = new Collection<Buffet>(this);
 
-  //TODO on product side
   @OneToMany(() => Product, product => product.id, {
     orphanRemoval: true,
   })
   public produts = new Collection<Product>(this);
 
-  //TODO on category side
   @OneToMany(() => Category, category => category.id, {
     orphanRemoval: true,
   })
   public categories = new Collection<Category>(this);
 
-  //TODO on owner side
   @ManyToOne({
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
   })
   public owner: BuffetOwner;
 
-  //TODO on worker side
   @OneToMany(() => BuffetWorker, buffetWorker => buffetWorker.user.id, {
     orphanRemoval: true,
   })

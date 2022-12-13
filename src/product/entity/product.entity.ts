@@ -1,3 +1,4 @@
+import { Buffet } from "@/buffet/entity/buffet.entity";
 import { Category } from "@/category/entity";
 import {
   Cascade,
@@ -39,4 +40,9 @@ export class Product {
     orphanRemoval: true,
   })
   public customizations = new Collection<Customization>(this);
+
+  @ManyToOne({
+    cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
+  })
+  public buffet: Buffet;
 }

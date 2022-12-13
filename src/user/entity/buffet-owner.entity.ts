@@ -1,4 +1,5 @@
-import { Entity, IdentifiedReference, OneToOne } from "@mikro-orm/core";
+import { Buffet } from "@/buffet/entity/buffet.entity";
+import { Collection, Entity, IdentifiedReference, OneToMany, OneToOne } from "@mikro-orm/core";
 import { User } from "./user.entity";
 
 @Entity()
@@ -8,4 +9,9 @@ export class BuffetOwner {
     primary: true,
   })
   public user!: IdentifiedReference<User>;
+
+  @OneToMany(() => Buffet, buffet => buffet.id, {
+    orphanRemoval: true,
+  })
+  public categories = new Collection<Buffet>(this);
 }
