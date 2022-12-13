@@ -3,6 +3,7 @@ import {
   Collection,
   Entity,
   Enum,
+  IdentifiedReference,
   ManyToOne,
   OneToMany,
   PrimaryKey,
@@ -36,5 +37,5 @@ export class Customization {
   public options = new Collection<Option>(this);
 
   @ManyToOne()
-  public product: Product;
+  public product: IdentifiedReference<Product>;
 }

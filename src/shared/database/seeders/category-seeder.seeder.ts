@@ -1,9 +1,10 @@
 import type { EntityManager } from "@mikro-orm/core";
 import { Seeder } from "@mikro-orm/seeder";
 import { CategoryFactory } from "../factories";
+import { SeederContext } from "../utils";
 
 export class CategorySeeder extends Seeder {
-  public async run(em: EntityManager): Promise<void> {
+  public async run(em: EntityManager, context: SeederContext): Promise<void> {
     const categoryNames = [
       "Italok",
       "Melegszendvicsek",
@@ -12,8 +13,11 @@ export class CategorySeeder extends Seeder {
       "Fast Food",
       "Fincsi ®",
     ];
-    for (const categoryName of categoryNames) {
-      await new CategoryFactory(em).createOne({ name: categoryName });
-    }
+    const categories = categoryNames.map(n => {
+      const category = new CategoryFactory(em).makeOne({ name: n });
+      context.categories = { ...(context.categories || {}), [n]: category };
+      return category;
+    });
+    await em.persistAndFlush(categories);
   }
 }

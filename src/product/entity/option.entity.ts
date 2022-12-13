@@ -1,4 +1,10 @@
-import { Entity, ManyToOne, PrimaryKey, Property } from "@mikro-orm/core";
+import {
+  Entity,
+  IdentifiedReference,
+  ManyToOne,
+  PrimaryKey,
+  Property,
+} from "@mikro-orm/core";
 import { Expose } from "class-transformer";
 import { Customization } from "./customization.entity";
 
@@ -17,5 +23,5 @@ export class Option {
   public extraCost: number;
 
   @ManyToOne()
-  public customization: Customization;
+  public customization: IdentifiedReference<Customization>;
 }
