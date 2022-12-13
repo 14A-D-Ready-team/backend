@@ -4,6 +4,7 @@ import {
   ManyToOne,
   PrimaryKey,
   Property,
+  Reference,
 } from "@mikro-orm/core";
 import { Expose } from "class-transformer";
 import { Customization } from "./customization.entity";
@@ -24,4 +25,12 @@ export class Option {
 
   @ManyToOne()
   public customization: IdentifiedReference<Customization>;
+
+  constructor(name: string, extraCost: number, customization?: Customization) {
+    this.name = name;
+    this.extraCost = extraCost;
+    if (customization) {
+      this.customization = Reference.create(customization);
+    }
+  }
 }

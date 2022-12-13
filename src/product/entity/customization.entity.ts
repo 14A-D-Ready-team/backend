@@ -38,4 +38,14 @@ export class Customization {
 
   @ManyToOne()
   public product: IdentifiedReference<Product>;
+
+  constructor(
+    description: string,
+    optionCount: OptionCount,
+    options: Option[] = [],
+  ) {
+    this.description = description;
+    this.optionCount = optionCount;
+    this.options = new Collection<Option>(this, options);
+  }
 }

@@ -32,14 +32,7 @@ export class ProductService {
         ? payload.discountedPrice
         : undefined,
     });
-    const c = new Customization();
-    c.description = "asdasdasd";
-    c.optionCount = OptionCount.MultipleChoice;
-    const o = new Option();
-    o.name = "asdasd";
-    o.extraCost = 100;
-    c.options.add(o);
-    product.customizations.add(c);
+
     await this.productRepository.persistAndFlush(product);
     return product;
   }
