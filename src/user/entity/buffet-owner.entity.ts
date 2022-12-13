@@ -1,5 +1,11 @@
 import { Buffet } from "@/buffet/entity/buffet.entity";
-import { Collection, Entity, IdentifiedReference, OneToMany, OneToOne } from "@mikro-orm/core";
+import {
+  Collection,
+  Entity,
+  IdentifiedReference,
+  OneToMany,
+  OneToOne,
+} from "@mikro-orm/core";
 import { User } from "./user.entity";
 
 @Entity()
