@@ -20,7 +20,7 @@ export class BuffetStatus {
   @Expose()
   public status: BuffetStatusEnum;
 
-  @Property({ length: 100 })
+  @Property()
   @Expose()
   public date: Date;
 

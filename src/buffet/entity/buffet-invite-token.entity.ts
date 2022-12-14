@@ -1,6 +1,4 @@
-import { Cascade, Entity, PrimaryKey } from "@mikro-orm/core";
-import { ManyToOne } from "@mikro-orm/core/decorators";
-import { Expose } from "class-transformer";
+import { Cascade, Entity, IdentifiedReference, ManyToOne, PrimaryKey } from "@mikro-orm/core";
 import { Buffet } from "./buffet.entity";
 
 @Entity()
@@ -11,5 +9,5 @@ export class BuffetInviteToken {
   @ManyToOne({
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
   })
-  public buffet: Buffet;
+  public buffet: IdentifiedReference<Buffet>;
 }

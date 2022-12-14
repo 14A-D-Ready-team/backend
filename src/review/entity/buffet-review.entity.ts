@@ -1,12 +1,13 @@
+import { Buffet } from "@/buffet/entity/buffet.entity";
 import {
   Cascade,
   Entity,
+  IdentifiedReference,
   ManyToOne,
   PrimaryKey,
   Property,
 } from "@mikro-orm/core";
 import { Expose } from "class-transformer";
-import { Buffet } from "./buffet.entity";
 
 @Entity()
 export class BuffetReview {
@@ -20,5 +21,5 @@ export class BuffetReview {
   @ManyToOne({
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
   })
-  public buffet: Buffet;
+  public buffet: IdentifiedReference<Buffet>;
 }

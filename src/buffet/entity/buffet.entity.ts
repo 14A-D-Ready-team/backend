@@ -1,8 +1,7 @@
-import { Category } from "@/category";
-import { Product } from "@/product";
+import { Category } from "@/category/entity";
+import { Product } from "@/product/entity";
 import { BuffetReview } from "@/review/entity/buffet-review.entity";
-import { Token } from "@/token";
-import { BuffetOwner, BuffetWorker } from "@/user";
+import { BuffetOwner, BuffetWorker } from "@/user/entity";
 import {
   Cascade,
   Collection,
@@ -10,12 +9,10 @@ import {
   IdentifiedReference,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryKey,
   Property,
 } from "@mikro-orm/core";
 import { Expose } from "class-transformer";
-import { BuffetStatusEnum } from "../enum/buffet-status.enum";
 import { BuffetInviteToken } from "./buffet-invite-token.entity";
 import { BuffetStatus } from "./buffet-status.entity";
 
@@ -45,20 +42,17 @@ export class Buffet {
   @Expose()
   public description: string;
 
-  @ManyToOne({})
-  public buffetOwner?: IdentifiedReference<BuffetOwner>;
-
-  @OneToMany(() => BuffetStatus, buffetStatus => buffetStatus.status, {
+  @OneToMany(() => BuffetStatus, buffetStatus => buffetStatus.buffet, {
     orphanRemoval: true,
   })
-  public statuses = new Collection<Buffet>(this);
+  public statuses = new Collection<BuffetStatus>(this);
 
-  @OneToMany(() => Product, product => product.id, {
+  @OneToMany(() => Product, product => product.buffet, {
     orphanRemoval: true,
   })
-  public produts = new Collection<Product>(this);
+  public products = new Collection<Product>(this);
 
-  @OneToMany(() => Category, category => category.id, {
+  @OneToMany(() => Category, category => category.buffet, {
     orphanRemoval: true,
   })
   public categories = new Collection<Category>(this);
@@ -66,23 +60,23 @@ export class Buffet {
   @ManyToOne({
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
   })
-  public owner: BuffetOwner;
+  public owner: IdentifiedReference<BuffetOwner>;
 
-  @OneToMany(() => BuffetWorker, buffetWorker => buffetWorker.user.id, {
+  @OneToMany(() => BuffetWorker, buffetWorker => buffetWorker.buffet, {
     orphanRemoval: true,
   })
   public employees = new Collection<BuffetWorker>(this);
 
   @OneToMany(
     () => BuffetInviteToken,
-    buffetInviteToken => buffetInviteToken.id,
+    buffetInviteToken => buffetInviteToken.buffet,
     {
       orphanRemoval: true,
     },
   )
   public inviteTokens = new Collection<BuffetInviteToken>(this);
 
-  @OneToMany(() => BuffetReview, buffetReview => buffetReview.id, {
+  @OneToMany(() => BuffetReview, buffetReview => buffetReview.buffet, {
     orphanRemoval: true,
   })
   public reviews = new Collection<BuffetReview>(this);
