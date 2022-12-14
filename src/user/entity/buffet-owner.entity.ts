@@ -16,7 +16,7 @@ export class BuffetOwner {
   })
   public user!: IdentifiedReference<User>;
 
-  @OneToMany(() => Buffet, buffet => buffet.owner, {
+  @OneToMany(() => Buffet, buffet => buffet.buffetOwner, {
     orphanRemoval: true,
   })
   public buffet = new Collection<Buffet>(this);

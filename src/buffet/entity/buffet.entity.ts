@@ -60,7 +60,7 @@ export class Buffet {
   @ManyToOne({
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
   })
-  public owner: IdentifiedReference<BuffetOwner>;
+  public buffetOwner: IdentifiedReference<BuffetOwner>;
 
   @OneToMany(() => BuffetWorker, buffetWorker => buffetWorker.buffet, {
     orphanRemoval: true,
