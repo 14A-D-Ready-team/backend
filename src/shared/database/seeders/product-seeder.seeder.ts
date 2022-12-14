@@ -46,7 +46,7 @@ export class ProductSeeder extends Seeder {
       new Option("Mustár", 0, c),
       new Option("Majonéz", 0, c),
       new Option("BBQ", 0, c),
-      new Option("Pesto", 0, c),
+      new Option("Pesto", 100, c),
       new Option("Csípős", 0, c),
     ];
     c.options.add(options);
