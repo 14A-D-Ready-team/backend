@@ -46,7 +46,11 @@ export class ProductService {
     const discountedPrice = this.createPriceQuery(query, "discountedPrice");
 
     return await this.productRepository.find(
-      { category, fullPrice, discountedPrice },
+      {
+        ...(category ? { category } : {}),
+        ...(fullPrice ? { fullPrice } : {}),
+        ...(discountedPrice ? { discountedPrice } : {}),
+      },
       { limit: query.take, offset: query.skip },
     );
   }
