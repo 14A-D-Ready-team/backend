@@ -20,27 +20,27 @@ import { BuffetStatus } from "./buffet-status.entity";
 export class Buffet {
   @PrimaryKey({ autoincrement: true })
   @Expose()
-  public id: number;
+  public id!: number;
 
   @Property({ length: 100 })
   @Expose()
-  public name: string;
+  public name!: string;
 
   @Property({ length: 100 })
   @Expose()
-  public location: string;
+  public location!: string;
 
   @Property({ length: 100 })
   @Expose()
-  public address: string;
+  public address!: string;
 
   @Property({ length: 20 })
   @Expose()
-  public hours: string;
+  public hours?: string;
 
   @Property({ length: 225 })
   @Expose()
-  public description: string;
+  public description?: string;
 
   @OneToMany(() => BuffetStatus, buffetStatus => buffetStatus.buffet, {
     orphanRemoval: true,
@@ -50,22 +50,22 @@ export class Buffet {
   @OneToMany(() => Product, product => product.buffet, {
     orphanRemoval: true,
   })
-  public products = new Collection<Product>(this);
+  public products? = new Collection<Product>(this);
 
   @OneToMany(() => Category, category => category.buffet, {
     orphanRemoval: true,
   })
-  public categories = new Collection<Category>(this);
+  public categories? = new Collection<Category>(this);
 
   @ManyToOne({
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
   })
-  public buffetOwner: IdentifiedReference<BuffetOwner>;
+  public buffetOwner!: IdentifiedReference<BuffetOwner>;
 
   @OneToMany(() => BuffetWorker, buffetWorker => buffetWorker.buffet, {
     orphanRemoval: true,
   })
-  public employees = new Collection<BuffetWorker>(this);
+  public employees? = new Collection<BuffetWorker>(this);
 
   @OneToMany(
     () => BuffetInviteToken,
@@ -74,10 +74,10 @@ export class Buffet {
       orphanRemoval: true,
     },
   )
-  public inviteTokens = new Collection<BuffetInviteToken>(this);
+  public inviteTokens? = new Collection<BuffetInviteToken>(this);
 
   @OneToMany(() => BuffetReview, buffetReview => buffetReview.buffet, {
     orphanRemoval: true,
   })
-  public reviews = new Collection<BuffetReview>(this);
+  public reviews? = new Collection<BuffetReview>(this);
 }
