@@ -8,6 +8,7 @@ import { UpdateProductDto } from "./dto/update-product.dto";
 import { Customization, Option, Product } from "./entity";
 import { ProductNotFoundException } from "./exceptions";
 import { OptionCount } from "./option-count.enum";
+import { FilterProductsQuery } from "./query";
 
 @Injectable()
 export class ProductService {
@@ -37,8 +38,8 @@ export class ProductService {
     return product;
   }
 
-  public findAll() {
-    return this.productRepository.findAll();
+  public findAll(query: FilterProductsQuery) {
+    this.productRepository.findAll({ filters: {} });
   }
 
   public findOne(id: number) {

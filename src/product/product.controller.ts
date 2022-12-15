@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from "@nestjs/common";
 import { ProductService } from "./product.service";
 import { ApiTags } from "@nestjs/swagger";
@@ -20,6 +21,7 @@ import { InvalidDataException } from "@/shared/validation";
 import { CreateProductDto, UpdateProductDto } from "./dto";
 import { ProductNotFoundException } from "./exceptions";
 import { CategoryNotFoundException } from "@/category";
+import { FilterProductsQuery } from "./query";
 
 @ApiTags("product")
 @Controller("product")
@@ -36,11 +38,14 @@ export class ProductController {
   }
 
   @Get()
+  @BadRequestResponse(InvalidDataException)
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
-  public findAll() {
+  public findAll(@Query() query: FilterProductsQuery) {
     return this.productService.findAll();
   }
+
+  public search() {}
 
   @Get(":id")
   @BadRequestResponse(InvalidIdException)
