@@ -1,6 +1,7 @@
 import { Category } from "@/category";
 import { CategoryNotFoundException } from "@/category";
 import { BaseRepository } from "@/shared/database";
+import type { OperatorMap } from "@mikro-orm/core/typings";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { Injectable } from "@nestjs/common";
 import { CreateProductDto } from "./dto/create-product.dto";
@@ -38,8 +39,16 @@ export class ProductService {
     return product;
   }
 
-  public findAll(query: FilterProductsQuery) {
-    this.productRepository.findAll({ filters: {} });
+  public async find(query: FilterProductsQuery) {
+    const category = await this.getCategoryFromQuery(query);
+
+    const fullPrice = this.createPriceQuery(query, "fullPrice");
+    const discountedPrice = this.createPriceQuery(query, "discountedPrice");
+
+    this.productRepository.find(
+      { category, fullPrice, discountedPrice },
+      { limit: query.take, offset: query.skip },
+    );
   }
 
   public findOne(id: number) {
@@ -61,5 +70,38 @@ export class ProductService {
     if (entity) {
       await this.productRepository.removeAndFlush(entity);
     }
+  }
+
+  private async getCategoryFromQuery(
+    query: FilterProductsQuery,
+  ): Promise<Category | undefined> {
+    if (!query.categoryId) {
+      return;
+    }
+
+    const category = await this.categoryRepository.findOne(query.categoryId);
+    if (!category) {
+      throw new CategoryNotFoundException();
+    }
+    return category;
+  }
+
+  private createPriceQuery(
+    query: FilterProductsQuery,
+    pricePropertyName: "fullPrice" | "discountedPrice",
+  ) {
+    let priceQuery: OperatorMap<number> | undefined = undefined;
+
+    const priceProperty = query[pricePropertyName];
+    if (priceProperty) {
+      if (priceProperty.value != undefined) {
+        priceQuery = { $eq: priceProperty.value };
+      } else {
+        priceQuery = {
+          $and: [{ $gte: priceProperty.min }, { $lte: priceProperty.max }],
+        };
+      }
+    }
+    return priceQuery;
   }
 }

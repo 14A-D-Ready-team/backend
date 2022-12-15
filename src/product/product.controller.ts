@@ -21,7 +21,7 @@ import { InvalidDataException } from "@/shared/validation";
 import { CreateProductDto, UpdateProductDto } from "./dto";
 import { ProductNotFoundException } from "./exceptions";
 import { CategoryNotFoundException } from "@/category";
-import { FilterProductsQuery } from "./query";
+import { FilterProductsQuery, SearchProductsQuery } from "./query";
 
 @ApiTags("product")
 @Controller("product")
@@ -41,11 +41,15 @@ export class ProductController {
   @BadRequestResponse(InvalidDataException)
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
-  public findAll(@Query() query: FilterProductsQuery) {
-    return this.productService.findAll();
+  public find(@Query() query: FilterProductsQuery) {
+    return this.productService.find(query);
   }
 
-  public search() {}
+  @Get("search")
+  @BadRequestResponse(InvalidDataException)
+  @ServiceUnavailableResponse()
+  @InternalServerErrorResponse()
+  public search(@Query() query: SearchProductsQuery) {}
 
   @Get(":id")
   @BadRequestResponse(InvalidIdException)

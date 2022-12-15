@@ -19,7 +19,13 @@ export class FilterProductsQuery extends PaginationQuery {
   @IsOptional()
   @IsInstance(NumberFilterQuery)
   @ValidateNested()
-  public price?: NumberFilterQuery;
+  public fullPrice?: NumberFilterQuery;
+
+  @Expose()
+  @IsOptional()
+  @IsInstance(NumberFilterQuery)
+  @ValidateNested()
+  public discountedPrice?: NumberFilterQuery;
 
   @Expose()
   @IsOptional()
