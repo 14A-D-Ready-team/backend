@@ -26,6 +26,7 @@ export class Buffet {
   @Expose()
   public name!: string;
 
+  //coordináta
   @Property({ length: 100 })
   @Expose()
   public location!: string;

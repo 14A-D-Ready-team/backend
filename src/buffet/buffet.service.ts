@@ -30,18 +30,6 @@ export class BuffetService {
     return buffet;
   }
 
-  //   public async find(query: FilterProductsQuery) {
-  //     const category = await this.getCategoryFromQuery(query);
-
-  //     const fullPrice = this.createPriceQuery(query, "fullPrice");
-  //     const discountedPrice = this.createPriceQuery(query, "discountedPrice");
-
-  //     this.productRepository.find(
-  //       { category, fullPrice, discountedPrice },
-  //       { limit: query.take, offset: query.skip },
-  //     );
-  //   }
-
   public findOne(id: number) {
     return this.buffetRepository.findOne(id);
   }

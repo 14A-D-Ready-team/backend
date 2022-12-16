@@ -22,14 +22,6 @@ export class BuffetController {
     return this.buffetService.create(createBuffetDto, authState.user!);
   }
 
-//   @Get()
-//   @BadRequestResponse(InvalidDataException)
-//   @ServiceUnavailableResponse()
-//   @InternalServerErrorResponse()
-//   public find(@Query() query: FilterProductsQuery) { // TODO
-//     return this.buffetService.find(query);
-//   }
-
   @Get(":id")
   @BadRequestResponse(InvalidIdException)
   @InternalServerErrorResponse()
