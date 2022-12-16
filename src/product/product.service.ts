@@ -1,6 +1,7 @@
 import { Category } from "@/category";
 import { CategoryNotFoundException } from "@/category";
 import { BaseRepository } from "@/shared/database";
+import { PaginatedResponse } from "@/shared/pagination";
 import type { OperatorMap } from "@mikro-orm/core/typings";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { Injectable } from "@nestjs/common";
@@ -39,13 +40,15 @@ export class ProductService {
     return product;
   }
 
-  public async find(query: FilterProductsQuery) {
+  public async find(
+    query: FilterProductsQuery,
+  ): Promise<PaginatedResponse<Product>> {
     const category = await this.getCategoryFromQuery(query);
 
     const fullPrice = this.createPriceQuery(query, "fullPrice");
     const discountedPrice = this.createPriceQuery(query, "discountedPrice");
 
-    return await this.productRepository.find(
+    const [products, count] = await this.productRepository.findAndCount(
       {
         ...(category ? { category } : {}),
         ...(fullPrice ? { fullPrice } : {}),
@@ -53,6 +56,8 @@ export class ProductService {
       },
       { limit: query.take, offset: query.skip },
     );
+
+    return { items: products, count };
   }
 
   public findOne(id: number) {

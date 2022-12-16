@@ -1,4 +1,5 @@
-import { NumberFilterQuery, PaginationQuery } from "@shared/filtering";
+import { PaginationQuery } from "@/shared/pagination";
+import { NumberFilterQuery } from "@shared/filtering";
 import { Expose } from "class-transformer";
 import {
   IsInstance,
