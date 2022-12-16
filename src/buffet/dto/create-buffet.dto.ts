@@ -35,9 +35,4 @@ export class CreateBuffetDto {
   @IsString()
   @MaxLength(255)
   public description: string;
-
-  @Expose()
-  @IsNumber({ allowInfinity: false, allowNaN: false, maxDecimalPlaces: 0 })
-  @Min(1)
-  public ownerId: number;
 }

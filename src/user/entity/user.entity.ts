@@ -7,7 +7,6 @@ import {
   OneToMany,
   OneToOne,
   PrimaryKey,
-  PrimaryKeyType,
   Property,
 } from "@mikro-orm/core";
 import { ApiProperty } from "@nestjs/swagger";

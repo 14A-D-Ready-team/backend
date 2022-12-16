@@ -1,11 +1,11 @@
-import { CreateProductDto } from "@/product/dto/create-product.dto";
-import { UpdateProductDto } from "@/product/dto/update-product.dto";
+import { Auth, AuthState, InjectAuthState } from "@/auth";
 import { InvalidIdException } from "@/shared/exceptions";
 import { NotFoundResponse, BadRequestResponse, ServiceUnavailableResponse, InternalServerErrorResponse } from "@/shared/swagger";
 import { InvalidDataException } from "@/shared/validation/exceptions";
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
 import { BuffetService } from "./buffet.service";
 import { CreateBuffetDto } from "./dto/create-buffet.dto";
+import { UpdateBuffetDto } from "./dto/update-buffet.dto";
 import { BuffetNotFoundException } from "./exception/buffet-not-found.exception";
 
 @Controller("buffet")
@@ -17,8 +17,9 @@ export class BuffetController {
   @BadRequestResponse(InvalidDataException)
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
-  public create(@Body() createBuffetDto: CreateBuffetDto) {
-    return this.buffetService.create(createBuffetDto);
+  @Auth()
+  public create(@Body() createBuffetDto: CreateBuffetDto, @InjectAuthState() authState: AuthState) {
+    return this.buffetService.create(createBuffetDto, authState.user!);
   }
 
 //   @Get()
@@ -47,12 +48,12 @@ export class BuffetController {
   @ServiceUnavailableResponse()
   public update(
     @Param("id") id: string,
-    @Body() updateProductDto: UpdateProductDto, //TODO!!!
+    @Body() updateBuffetDto: UpdateBuffetDto, 
   ) {
     if (!+id) {
       throw new InvalidIdException();
     }
-    return this.buffetService.update(+id, updateProductDto); //HERE TOO
+    return this.buffetService.update(+id, updateBuffetDto);
   }
 
   @Delete(":id")
