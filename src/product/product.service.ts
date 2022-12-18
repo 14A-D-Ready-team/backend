@@ -2,6 +2,7 @@ import { Category } from "@/category";
 import { CategoryNotFoundException } from "@/category";
 import { BaseRepository } from "@/shared/database";
 import { PaginatedResponse } from "@/shared/pagination";
+import { Reference } from "@mikro-orm/core";
 import type { OperatorMap } from "@mikro-orm/core/typings";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { Injectable } from "@nestjs/common";
@@ -72,6 +73,17 @@ export class ProductService {
     if (!productToUpdate) {
       throw new ProductNotFoundException();
     }
+
+    if (payload.categoryId) {
+      const category = await this.categoryRepository.findOne(
+        payload.categoryId,
+      );
+      if (!category) {
+        throw new CategoryNotFoundException();
+      }
+      productToUpdate.category = Reference.create(category);
+    }
+
     productToUpdate = this.productRepository.assign(productToUpdate, payload);
     await this.productRepository.persistAndFlush(productToUpdate);
     return productToUpdate;

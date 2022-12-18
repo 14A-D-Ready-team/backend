@@ -39,7 +39,7 @@ export class Product {
   @Property({ type: "mediumint" })
   public stock: number;
 
-  @Expose()
+  @Expose({ name: "categoryId" })
   @Transform(params => {
     const value = params.value as Category;
     return value?.id;
