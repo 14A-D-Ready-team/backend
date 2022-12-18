@@ -17,7 +17,10 @@ import {
   NotFoundResponse,
   ServiceUnavailableResponse,
 } from "@/shared/swagger";
-import { InvalidDataException } from "@/shared/validation";
+import {
+  InvalidDataException,
+  InvalidJsonException,
+} from "@/shared/validation";
 import { CreateProductDto, UpdateProductDto } from "./dto";
 import { ProductNotFoundException } from "./exceptions";
 import { CategoryNotFoundException } from "@/category";
@@ -46,7 +49,7 @@ export class ProductController {
   }
 
   @Get("search")
-  @BadRequestResponse(InvalidDataException)
+  @BadRequestResponse(InvalidDataException, InvalidJsonException)
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
   public search(@Query() query: SearchProductsQuery) {}

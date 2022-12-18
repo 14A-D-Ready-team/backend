@@ -1,4 +1,4 @@
-import { PaginationQuery } from "@shared/filtering";
+import { PaginationQuery } from "@/shared/pagination";
 import { Expose } from "class-transformer";
 import { IsNotEmpty, IsString } from "class-validator";
 

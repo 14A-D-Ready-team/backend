@@ -3,6 +3,7 @@ import { MikroOrmModuleSyncOptions } from "@mikro-orm/nestjs";
 import { isDevelopment } from "@/environment";
 import { BaseRepository } from "./base.repository";
 import { kebabCase } from "lodash";
+import { LoadStrategy } from "@mikro-orm/core";
 
 export default {
   type: "mysql",
@@ -12,6 +13,7 @@ export default {
   debug: isDevelopment,
   connect: true,
   discovery: { warnWhenNoEntities: false },
+  loadStrategy: LoadStrategy.JOINED,
   entityRepository: BaseRepository,
   seeder: {
     path: "dist/shared/database/seeders",

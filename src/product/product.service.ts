@@ -54,10 +54,13 @@ export class ProductService {
         ...(fullPrice ? { fullPrice } : {}),
         ...(discountedPrice ? { discountedPrice } : {}),
       },
-      { limit: query.take, offset: query.skip },
+      {
+        limit: query.take === undefined ? (null as any) : query.take,
+        offset: query.skip,
+      },
     );
 
-    return { items: products, count };
+    return new PaginatedResponse(products, count);
   }
 
   public findOne(id: number) {
@@ -107,7 +110,8 @@ export class ProductService {
         priceQuery = { $eq: priceProperty.value };
       } else {
         priceQuery = {
-          $and: [{ $gte: priceProperty.min }, { $lte: priceProperty.max }],
+          $gte: priceProperty.min,
+          $lte: priceProperty.max,
         };
       }
     }
