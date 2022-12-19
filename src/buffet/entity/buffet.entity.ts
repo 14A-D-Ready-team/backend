@@ -29,7 +29,7 @@ export class Buffet {
   //coordináta
   @Property({ length: 100 })
   @Expose()
-  public location!: string;
+  public coords!: string;
 
   @Property({ length: 100 })
   @Expose()

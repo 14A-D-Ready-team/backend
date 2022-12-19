@@ -15,7 +15,7 @@ export class CreateBuffetDto {
   @IsString()
   @MinLength(1)
   @MaxLength(100)
-  public location: string;
+  public coords: string;
 
   @Expose()
   @ApiProperty()
