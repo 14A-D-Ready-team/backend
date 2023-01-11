@@ -26,6 +26,70 @@ export class ProductSeeder extends Seeder {
           this.createCheeseCustomization(),
         ],
       },
+      {
+        name: "Sonkás-kukoricás melegszendvics",
+        category: Reference.create(context.categories["Melegszendvicsek"]),
+        customizationsArray: [
+          this.createSauceCustomization(),
+          this.createCheeseCustomization(),
+        ],
+      },
+      {
+        name: "Snickers",
+        category: Reference.create(context.categories["Édességek"]),
+        customizationsArray: [],
+      },
+      {
+        name: "Mars",
+        category: Reference.create(context.categories["Édességek"]),
+        customizationsArray: [],
+      },
+      {
+        name: "Bounty",
+        category: Reference.create(context.categories["Édességek"]),
+        customizationsArray: [],
+      },
+
+      {
+        name: "Twix",
+        category: Reference.create(context.categories["Édességek"]),
+        customizationsArray: [],
+      },
+      {
+        name: "Kinder Bueno",
+        category: Reference.create(context.categories["Édességek"]),
+        customizationsArray: [],
+      },
+      {
+        name: "Sonkás-sajtos szendvics",
+        category: Reference.create(context.categories["Fincsi ®"]),
+        customizationsArray: [],
+      },
+      {
+        name: "Rántott húsos szendvics",
+        category: Reference.create(context.categories["Fincsi ®"]),
+        customizationsArray: [],
+      },
+      {
+        name: "Tzazikis gyros",
+        category: Reference.create(context.categories["Fincsi ®"]),
+        customizationsArray: [],
+      },
+      {
+        name: "Chillis gyros",
+        category: Reference.create(context.categories["Fincsi ®"]),
+        customizationsArray: [],
+      },
+      {
+        name: "Kávé",
+        category: Reference.create(context.categories["Forró italok"]),
+        customizationsArray: [this.createSugarCustomization()],
+      },
+      {
+        name: "Forrócsoki",
+        category: Reference.create(context.categories["Forró italok"]),
+        customizationsArray: [this.createSugarCustomization()],
+      },
     ];
 
     const products = productData.map(p => {
@@ -58,6 +122,16 @@ export class ProductSeeder extends Seeder {
     const options = [
       new Option("Sajttal", 0, c),
       new Option("Sajt nélkül", 0, c),
+    ];
+    c.options.add(options);
+    return c;
+  }
+
+  private createSugarCustomization() {
+    const c = new Customization("Cukorral", OptionCount.SingleChoice);
+    const options = [
+      new Option("Cukorral", 0, c),
+      new Option("Cukor nélkül", 0, c),
     ];
     c.options.add(options);
     return c;
