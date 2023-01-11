@@ -10,45 +10,34 @@ type ProductData = Partial<Product> & { customizationsArray?: Customization[] };
 export class ProductSeeder extends Seeder {
   public async run(em: EntityManager, context: SeederContext): Promise<void> {
     const productData: ProductData[] = [
-
       {
         name: "Coca Cola",
         category: Reference.create(context.categories["Italok"]),
-        customizationsArray: [
-          this.createSodaSizeCustomization(),
-        ],
+        customizationsArray: [this.createSodaSizeCustomization()],
       },
 
       {
         name: "Pepsi",
         category: Reference.create(context.categories["Italok"]),
-        customizationsArray: [
-          this.createSodaSizeCustomization(),
-        ],
+        customizationsArray: [this.createSodaSizeCustomization()],
       },
 
       {
         name: "Fanta",
         category: Reference.create(context.categories["Italok"]),
-        customizationsArray: [
-          this.createSodaSizeCustomization(),
-        ],
+        customizationsArray: [this.createSodaSizeCustomization()],
       },
 
       {
         name: "Mountain Dew",
         category: Reference.create(context.categories["Italok"]),
-        customizationsArray: [
-          this.createSodaSizeCustomization(),
-        ],
+        customizationsArray: [this.createSodaSizeCustomization()],
       },
 
       {
         name: "Kinley",
         category: Reference.create(context.categories["Italok"]),
-        customizationsArray: [
-          this.createSodaSizeCustomization(),
-        ],
+        customizationsArray: [this.createSodaSizeCustomization()],
       },
 
       {
@@ -106,25 +95,19 @@ export class ProductSeeder extends Seeder {
       {
         name: "Nyalóka",
         category: Reference.create(context.categories["Édességek"]),
-        customizationsArray: [
-          this.createCandyFlavourCustomization(),
-        ],
+        customizationsArray: [this.createCandyFlavourCustomization()],
       },
 
       {
         name: "Gumicukor",
         category: Reference.create(context.categories["Édességek"]),
-        customizationsArray: [
-          this.createCandyFlavourCustomization(),
-        ],
+        customizationsArray: [this.createCandyFlavourCustomization()],
       },
 
       {
         name: "Toffix",
         category: Reference.create(context.categories["Édességek"]),
-        customizationsArray: [
-          this.createCandyFlavourCustomization(),
-        ],
+        customizationsArray: [this.createCandyFlavourCustomization()],
       },
 
       {
@@ -197,41 +180,31 @@ export class ProductSeeder extends Seeder {
       {
         name: "Cappuccino",
         category: Reference.create(context.categories["Forró italok"]),
-        customizationsArray: [
-          this.createSugarCustomization(),
-        ],
+        customizationsArray: [this.createSugarCustomization()],
       },
 
       {
         name: "Esspresso",
         category: Reference.create(context.categories["Forró italok"]),
-        customizationsArray: [
-          this.createSugarCustomization(),
-        ],
+        customizationsArray: [this.createSugarCustomization()],
       },
 
       {
         name: "Zöld tea",
         category: Reference.create(context.categories["Forró italok"]),
-        customizationsArray: [
-          this.createSugarCustomization(),
-        ],
+        customizationsArray: [this.createSugarCustomization()],
       },
 
       {
         name: "Yorkshire Gold",
         category: Reference.create(context.categories["Forró italok"]),
-        customizationsArray: [
-          this.createSugarCustomization(),
-        ],
+        customizationsArray: [this.createSugarCustomization()],
       },
 
       {
         name: "Americano",
         category: Reference.create(context.categories["Forró italok"]),
-        customizationsArray: [
-          this.createSugarCustomization(),
-        ],
+        customizationsArray: [this.createSugarCustomization()],
       },
 
       {
@@ -273,11 +246,8 @@ export class ProductSeeder extends Seeder {
       {
         name: "Nógrádi Ropogós",
         category: Reference.create(context.categories["Nassolnivalók"]),
-        customizationsArray: [
-          this.createSnackSizeCustomization(),
-        ],
+        customizationsArray: [this.createSnackSizeCustomization()],
       },
-
     ];
 
     const products = productData.map(p => {
