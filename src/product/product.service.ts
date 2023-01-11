@@ -1,11 +1,13 @@
 import { Category } from "@/category";
 import { CategoryNotFoundException } from "@/category";
 import { BaseRepository } from "@/shared/database";
+import { NumberFilterQuery } from "@/shared/filtering";
 import { PaginatedResponse } from "@/shared/pagination";
 import { Reference } from "@mikro-orm/core";
 import type { OperatorMap } from "@mikro-orm/core/typings";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { Injectable } from "@nestjs/common";
+import { timeout } from "rxjs";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { Customization, Option, Product } from "./entity";
@@ -44,17 +46,8 @@ export class ProductService {
   public async find(
     query: FilterProductsQuery,
   ): Promise<PaginatedResponse<Product>> {
-    const category = await this.getCategoryFromQuery(query);
-
-    const fullPrice = this.createPriceQuery(query, "fullPrice");
-    const discountedPrice = this.createPriceQuery(query, "discountedPrice");
-
     const [products, count] = await this.productRepository.findAndCount(
-      {
-        ...(category ? { category } : {}),
-        ...(fullPrice ? { fullPrice } : {}),
-        ...(discountedPrice ? { discountedPrice } : {}),
-      },
+      query.toDbQuery(),
       {
         limit: query.take === undefined ? (null as any) : query.take,
         offset: query.skip,
@@ -108,25 +101,5 @@ export class ProductService {
       throw new CategoryNotFoundException();
     }
     return category;
-  }
-
-  private createPriceQuery(
-    query: FilterProductsQuery,
-    pricePropertyName: "fullPrice" | "discountedPrice",
-  ) {
-    let priceQuery: OperatorMap<number> | undefined = undefined;
-
-    const priceProperty = query[pricePropertyName];
-    if (priceProperty) {
-      if (priceProperty.value != undefined) {
-        priceQuery = { $eq: priceProperty.value };
-      } else {
-        priceQuery = {
-          $gte: priceProperty.min,
-          $lte: priceProperty.max,
-        };
-      }
-    }
-    return priceQuery;
   }
 }

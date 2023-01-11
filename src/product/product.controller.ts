@@ -45,6 +45,7 @@ export class ProductController {
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
   public find(@Query() query: FilterProductsQuery) {
+    console.log(query);
     return this.productService.find(query);
   }
 

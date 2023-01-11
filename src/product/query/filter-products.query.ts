@@ -8,6 +8,7 @@ import {
   Min,
   ValidateNested,
 } from "class-validator";
+import { omitBy } from "lodash";
 
 export class FilterProductsQuery extends PaginationQuery {
   @Expose()
@@ -33,4 +34,16 @@ export class FilterProductsQuery extends PaginationQuery {
   @IsInstance(NumberFilterQuery)
   @ValidateNested()
   public stock?: NumberFilterQuery;
+
+  public toDbQuery() {
+    const query = {
+      ...(this.categoryId && { category: this.categoryId }),
+      ...(this.fullPrice && { fullPrice: this.fullPrice.toDbQuery() }),
+      ...(this.discountedPrice && {
+        discountedPrice: this.discountedPrice.toDbQuery(),
+      }),
+      ...(this.stock && { stock: this.stock.toDbQuery() }),
+    };
+    return omitBy(query, value => value === undefined);
+  }
 }

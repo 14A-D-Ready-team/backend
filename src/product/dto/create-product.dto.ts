@@ -22,7 +22,7 @@ export class CreateProductDto {
   @ApiProperty()
   @IsString()
   @MinLength(1)
-  @MaxLength(500)
+  @MaxLength(800)
   public description: string;
 
   @Expose()
