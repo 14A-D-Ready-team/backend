@@ -16,6 +16,7 @@ import {
 import { Seeder } from "@mikro-orm/seeder";
 import { hash } from "argon2";
 import { UserFactory } from "../factories";
+import { v1 } from "uuid";
 
 type UserData = Partial<User>;
 
@@ -67,20 +68,25 @@ export class UserSeeder extends Seeder {
         type: UserType.BuffetOwner,
         status: UserStatus.Active,
       },
-      {
-        name: "Moe Lester",
-        email: "moe.lester@gmail.com",
-        password: await hash("Jelszo123$!"),
-        customer: Reference.create(new Customer()),
-        type: UserType.Customer,
-        status: UserStatus.Active,
-      },
-      ...factory.make(20, {
-        customer: Reference.create(new Customer()),
-        password: await hash("Jelszo123$!"),
-      }),
     ];
 
-    const users = userData.map(u => {});
+    const users: User[] = [];
+
+    for (const u of userData) {
+      const user = factory.makeOne(u);
+      users.push(user);
+    }
+
+    const passwordHash = await hash("Jelszo123$!");
+    for (let i = 0; i < 50; i++) {
+      users.push(
+        factory.makeOne({
+          customer: Reference.create(new Customer()),
+          password: passwordHash,
+        }),
+      );
+    }
+
+    await em.persistAndFlush(users);
   }
 }
