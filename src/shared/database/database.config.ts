@@ -23,4 +23,8 @@ export default {
     emit: "ts",
     fileName: (className: string) => kebabCase(className) + ".seeder", // seeder file naming convention
   },
+  migrations: {
+    pathTs: "src/shared/database/migrations",
+    path: "dist/shared/database/migrations",
+  },
 } as MikroOrmModuleSyncOptions;
