@@ -12,6 +12,10 @@ export default {
   connect: true,
   discovery: { warnWhenNoEntities: false },
   entityRepository: BaseRepository,
+  schemaGenerator: {
+    disableForeignKeys: false,
+  },
+
   seeder: {
     path: "dist/shared/database/seeders",
     pathTs: "src/shared/database/seeders",
