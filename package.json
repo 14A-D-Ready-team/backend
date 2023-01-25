@@ -28,6 +28,7 @@
     "@mikro-orm/cli": "^5.5.3",
     "@mikro-orm/core": "^5.5.3",
     "@mikro-orm/mysql": "^5.5.3",
+    "@mikro-orm/postgresql": "^5.5.3",
     "@mikro-orm/nestjs": "^5.1.2",
     "@nestjs-modules/mailer": "^1.8.1",
     "@mikro-orm/reflection": "^5.5.3",
