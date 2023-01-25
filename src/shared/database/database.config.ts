@@ -5,7 +5,6 @@ import { BaseRepository } from "./base.repository";
 import { kebabCase } from "lodash";
 
 export default {
-  type: "mysql",
   entities: ["./dist/**/*.entity.js"],
   entitiesTs: ["./dist/**/*.entity.d.ts"],
   metadataProvider: TsMorphMetadataProvider,
