@@ -40,6 +40,11 @@ export class Product {
   @Property({ type: "integer" })
   public stock: number;
 
+  @ManyToOne({
+    cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
+  })
+  public buffet?: Buffet;
+
   @Expose({ name: "categoryId" })
   @Transform(params => {
     const value = params.value as Category;
@@ -57,9 +62,4 @@ export class Product {
     eager: true,
   })
   public customizations = new Collection<Customization>(this);
-
-  @ManyToOne({
-    cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
-  })
-  public buffet: Buffet;
 }
