@@ -41,6 +41,7 @@ export class Product {
   public stock: number;
 
   @ManyToOne({
+    entity: () => Buffet,
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
   })
   public buffet?: Buffet;
@@ -51,6 +52,7 @@ export class Product {
     return value?.id;
   })
   @ManyToOne({
+    entity: () => Category,
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
   })
   public category: IdentifiedReference<Category>;
