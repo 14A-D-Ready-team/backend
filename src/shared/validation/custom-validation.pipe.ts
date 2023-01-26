@@ -1,5 +1,6 @@
 import { ValidationPipe } from "@nestjs/common";
 import { ArgumentMetadata, Injectable } from "@nestjs/common";
+import { InvalidJsonException } from "./exceptions";
 import { validationPipeConfig } from "./validation-pipe.config";
 
 @Injectable()
@@ -9,7 +10,7 @@ export class CustomValidationPipe extends ValidationPipe {
   }
 
   public transform(value: unknown, metadata: ArgumentMetadata) {
-    if (value && metadata.type === "query" && typeof value === "object") {
+    if (value && metadata.type === "query" && typeof value == "object") {
       value = this.serializeQueryParams(value);
     }
 
@@ -17,16 +18,16 @@ export class CustomValidationPipe extends ValidationPipe {
   }
 
   private serializeQueryParams(queryParams: object) {
-    const serializedQueryParams = {} as object;
+    const rawJsonKeyValues = Object.entries(queryParams).map(
+      ([key, value]) => `"${key}":${value}`,
+    );
 
-    for (const [key, value] of Object.entries(queryParams)) {
-      try {
-        Reflect.set(serializedQueryParams, key, JSON.parse(value));
-      } catch (error) {
-        Reflect.set(serializedQueryParams, key, value);
-      }
+    const rawJson = `{ ${rawJsonKeyValues.join(",")} }`;
+
+    try {
+      return JSON.parse(rawJson);
+    } catch (error) {
+      throw new InvalidJsonException();
     }
-
-    return serializedQueryParams;
   }
 }

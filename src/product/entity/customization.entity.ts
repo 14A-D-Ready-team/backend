@@ -1,32 +1,51 @@
+import { serializeCollection } from "@/shared/serialization";
 import {
   Collection,
   Entity,
   Enum,
+  IdentifiedReference,
   ManyToOne,
   OneToMany,
   PrimaryKey,
   Property,
 } from "@mikro-orm/core";
+import { Expose, Transform } from "class-transformer";
 import { OptionCount } from "../option-count.enum";
 import { Option } from "./option.entity";
 import { Product } from "./product.entity";
 
 @Entity()
 export class Customization {
+  @Expose()
   @PrimaryKey({ autoincrement: true })
   public id: number;
 
+  @Expose()
   @Property({ length: 120 })
   public description: string;
 
+  @Expose()
   @Enum()
   public optionCount: OptionCount;
 
+  @Expose()
+  @Transform(serializeCollection)
   @OneToMany(() => Option, option => option.customization, {
     orphanRemoval: true,
+    eager: true,
   })
   public options = new Collection<Option>(this);
 
   @ManyToOne()
-  public product: Product;
+  public product: IdentifiedReference<Product>;
+
+  constructor(
+    description: string,
+    optionCount: OptionCount,
+    options: Option[] = [],
+  ) {
+    this.description = description;
+    this.optionCount = optionCount;
+    this.options = new Collection<Option>(this, options);
+  }
 }

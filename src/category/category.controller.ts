@@ -19,6 +19,7 @@ import { ApiTags } from "@nestjs/swagger";
 import { omitBy } from "lodash";
 import { CategoryService } from "./category.service";
 import { CreateCategoryDto, UpdateCategoryDto } from "./dto";
+import { CategoryNotFoundException } from "./exceptions";
 
 @ApiTags("category")
 @Controller("category")
@@ -52,7 +53,7 @@ export class CategoryController {
   }
 
   @Patch(":id")
-  @NotFoundResponse()
+  @NotFoundResponse(CategoryNotFoundException)
   @BadRequestResponse(InvalidIdException, InvalidDataException)
   @InternalServerErrorResponse()
   @ServiceUnavailableResponse()

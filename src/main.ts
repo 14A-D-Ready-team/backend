@@ -11,6 +11,7 @@ import { CustomValidationPipe } from "@shared/validation";
 import { AuthGuard } from "@/auth";
 import { SerializerInterceptor } from "@shared/serialization";
 import { PolicyGuard } from "./shared/policy";
+import { Exclude, Expose, plainToInstance } from "class-transformer";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
