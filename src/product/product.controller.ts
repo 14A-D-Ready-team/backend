@@ -6,11 +6,25 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from "@nestjs/common";
 import { ProductService } from "./product.service";
-import { CreateProductDto } from "./dto/create-product.dto";
-import { UpdateProductDto } from "./dto/update-product.dto";
 import { ApiTags } from "@nestjs/swagger";
+import { InvalidIdException } from "@/shared/exceptions";
+import {
+  BadRequestResponse,
+  InternalServerErrorResponse,
+  NotFoundResponse,
+  ServiceUnavailableResponse,
+} from "@/shared/swagger";
+import {
+  InvalidDataException,
+  InvalidJsonException,
+} from "@/shared/validation";
+import { CreateProductDto, UpdateProductDto } from "./dto";
+import { ProductNotFoundException } from "./exceptions";
+import { CategoryNotFoundException } from "@/category";
+import { FilterProductsQuery, SearchProductsQuery } from "./query";
 
 @ApiTags("product")
 @Controller("product")
@@ -18,27 +32,63 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
+  @NotFoundResponse(CategoryNotFoundException)
+  @BadRequestResponse(InvalidDataException)
+  @ServiceUnavailableResponse()
+  @InternalServerErrorResponse()
+  public create(@Body() createProductDto: CreateProductDto) {
     return this.productService.create(createProductDto);
   }
 
   @Get()
-  findAll() {
-    return this.productService.findAll();
+  @BadRequestResponse(InvalidDataException)
+  @ServiceUnavailableResponse()
+  @InternalServerErrorResponse()
+  public find(@Query() query: FilterProductsQuery) {
+    console.log(query);
+    return this.productService.find(query);
   }
 
+  @Get("search")
+  @BadRequestResponse(InvalidDataException, InvalidJsonException)
+  @ServiceUnavailableResponse()
+  @InternalServerErrorResponse()
+  public search(@Query() query: SearchProductsQuery) {}
+
   @Get(":id")
-  findOne(@Param("id") id: string) {
+  @BadRequestResponse(InvalidIdException)
+  @InternalServerErrorResponse()
+  @ServiceUnavailableResponse()
+  public findOne(@Param("id") id: string) {
+    if (!+id) {
+      throw new InvalidIdException();
+    }
     return this.productService.findOne(+id);
   }
 
   @Patch(":id")
-  update(@Param("id") id: string, @Body() updateProductDto: UpdateProductDto) {
+  @NotFoundResponse(ProductNotFoundException)
+  @BadRequestResponse(InvalidIdException, InvalidDataException)
+  @InternalServerErrorResponse()
+  @ServiceUnavailableResponse()
+  public update(
+    @Param("id") id: string,
+    @Body() updateProductDto: UpdateProductDto,
+  ) {
+    if (!+id) {
+      throw new InvalidIdException();
+    }
     return this.productService.update(+id, updateProductDto);
   }
 
   @Delete(":id")
-  remove(@Param("id") id: string) {
+  @BadRequestResponse(InvalidIdException)
+  @InternalServerErrorResponse()
+  @ServiceUnavailableResponse()
+  public remove(@Param("id") id: string) {
+    if (!+id) {
+      throw new InvalidIdException();
+    }
     return this.productService.remove(+id);
   }
 }
