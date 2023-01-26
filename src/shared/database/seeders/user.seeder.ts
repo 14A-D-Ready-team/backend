@@ -52,14 +52,14 @@ export class UserSeeder extends Seeder {
         type: UserType.Admin,
         status: UserStatus.Active,
       },
-      {
+      /* {
         name: "Cserepes Virág",
         email: "flower123@gmail.com",
         password: await hash("Jelszo123$!"),
         buffetWorker: Reference.create(new BuffetWorker()),
         type: UserType.BuffetWorker,
         status: UserStatus.Active,
-      },
+      }, */
       {
         name: "Végh Béla",
         email: "bela123@gmail.com",
