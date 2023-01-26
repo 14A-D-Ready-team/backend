@@ -6,7 +6,6 @@ import { kebabCase } from "lodash";
 import { LoadStrategy } from "@mikro-orm/core";
 
 export default {
-  type: "mysql",
   entities: ["./dist/**/*.entity.js"],
   entitiesTs: ["./dist/**/*.entity.d.ts"],
   metadataProvider: TsMorphMetadataProvider,
@@ -15,6 +14,10 @@ export default {
   discovery: { warnWhenNoEntities: false },
   loadStrategy: LoadStrategy.JOINED,
   entityRepository: BaseRepository,
+  schemaGenerator: {
+    disableForeignKeys: false,
+  },
+
   seeder: {
     path: "dist/shared/database/seeders",
     pathTs: "src/shared/database/seeders",

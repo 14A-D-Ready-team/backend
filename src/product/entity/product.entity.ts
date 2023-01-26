@@ -36,7 +36,7 @@ export class Product {
   public discountedPrice?: number;
 
   @Expose()
-  @Property({ type: "mediumint" })
+  @Property({ type: "integer" })
   public stock: number;
 
   @Expose({ name: "categoryId" })
