@@ -24,10 +24,10 @@ export class Product {
   @Property({ type: "decimal" })
   public fullPrice: number;
 
-  @Property({ type: "decimal" })
+  @Property({ type: "integer" })
   public discountedPrice: number;
 
-  @Property({ type: "mediumint" })
+  @Property({ type: "" })
   public stock: number;
 
   @ManyToOne({
