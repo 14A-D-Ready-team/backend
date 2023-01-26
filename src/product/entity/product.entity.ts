@@ -1,3 +1,4 @@
+import { Buffet } from "@/buffet/entity/buffet.entity";
 import { Category } from "@/category/entity";
 import { serializeCollection } from "@/shared/serialization";
 import {
@@ -56,4 +57,9 @@ export class Product {
     eager: true,
   })
   public customizations = new Collection<Customization>(this);
+
+  @ManyToOne({
+    cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
+  })
+  public buffet: Buffet;
 }

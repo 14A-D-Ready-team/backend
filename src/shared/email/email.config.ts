@@ -14,6 +14,9 @@ export const emailConfig = registerAs("email", () => {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASSWORD,
       },
+      tls: {
+        rejectUnauthorized: false,
+      },
     },
     defaults: {
       from: '"Ready Team" <noreply.ready.team@gmail.com>',

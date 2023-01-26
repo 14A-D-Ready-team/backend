@@ -72,12 +72,12 @@ export class UserService {
       this.buffetOwnerRepository.persistAndFlush(buffetOwner);
     }
 
-    if (user.type === UserType.BuffetWorker) {
-      const bufferWorker = this.buffetWorkerRepository.create({
-        user,
-      });
-      this.buffetWorkerRepository.persistAndFlush(bufferWorker);
-    }
+    // if (user.type === UserType.BuffetWorker) {
+    //   const bufferWorker = this.buffetWorkerRepository.create({
+    //     user,
+    //   });
+    //   this.buffetWorkerRepository.persistAndFlush(bufferWorker);
+    // }
 
     return user;
   }

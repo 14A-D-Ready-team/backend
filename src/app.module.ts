@@ -14,6 +14,7 @@ import { PolicyModule } from "@/shared/policy";
 import { AppAbilityFactory } from "./app-ability.factory";
 import { ProductModule } from "./product/product.module";
 import { CategoryModule } from "./category/category.module";
+import { BuffetModule } from "./buffet/buffet.module";
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { CategoryModule } from "./category/category.module";
     AuthModule,
     ProductModule,
     CategoryModule,
+    BuffetModule
   ],
   controllers: [AppController],
   providers: [AppService, AppAbilityFactory],

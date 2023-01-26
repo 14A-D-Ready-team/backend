@@ -1,8 +1,11 @@
+import { Buffet } from "@/buffet/entity/buffet.entity";
 import { Product } from "@/product/entity";
 import {
   Cascade,
   Collection,
   Entity,
+  IdentifiedReference,
+  ManyToOne,
   OneToMany,
   PrimaryKey,
   Property,
@@ -24,4 +27,10 @@ export class Category {
     cascade: [Cascade.PERSIST],
   })
   public products = new Collection<Product>(this);
+
+  @ManyToOne({
+    cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
+  })
+  public buffet?: IdentifiedReference<Buffet>; 
+
 }
