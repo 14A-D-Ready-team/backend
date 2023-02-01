@@ -1,6 +1,4 @@
 import { Buffet } from "@/buffet/entity/buffet.entity";
-import { BuffetOwner, User } from "@/user";
-import { Reference } from "@mikro-orm/core";
 import { Factory, Faker } from "@mikro-orm/seeder";
 
 export class BuffetFactory extends Factory<Buffet> {

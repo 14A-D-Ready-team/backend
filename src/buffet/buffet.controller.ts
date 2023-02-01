@@ -53,16 +53,7 @@ export class BuffetController {
     user.buffetOwner = Reference.create(new BuffetOwner());
 
     await this.userRepository.persistAndFlush(user);
-
-    // {
-    //   "name": "ASd",
-    //   "location": "ASD",
-    //   "coords": "aasdadssafd",
-    //   "address": "asd",
-    //   "hours": "9-5",
-    //   "description": "asdfdsafdsw"
-    // }
-
+    
     return this.buffetService.create(createBuffetDto, user);
   }
   // public create(@Body() createBuffetDto: CreateBuffetDto, @InjectAuthState() authState: AuthState) {

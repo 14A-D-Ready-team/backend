@@ -1,7 +1,6 @@
 import { EntityManager } from "@mikro-orm/core";
 import { Seeder } from "@mikro-orm/seeder";
 import { BuffetFactory } from "../factories";
-import { SeederContext } from "../utils";
 import { getBuffetData } from "./buffet.data";
 
 export class BuffetSeeder extends Seeder {
