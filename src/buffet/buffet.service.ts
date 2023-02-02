@@ -7,7 +7,8 @@ import { CreateBuffetDto } from "./dto/create-buffet.dto";
 import { UpdateBuffetDto } from "./dto/update-buffet.dto";
 import { Buffet } from "./entity/buffet.entity";
 import { BuffetNotFoundException } from "./exception/buffet-not-found.exception";
-import { FilterBuffetsQuery } from "./filtered-buffets.query";
+import { SearchBuffetsQuery } from "./query";
+import { FilterBuffetsQuery } from "./query/filtered-buffets.query";
 
 @Injectable()
 export class BuffetService {
@@ -16,11 +17,10 @@ export class BuffetService {
     private buffetRepository: BaseRepository<Buffet>,
 
     @InjectRepository(User)
-    private userRepository: BaseRepository<User>
+    private userRepository: BaseRepository<User>,
   ) {}
 
   public async create(payload: CreateBuffetDto, user: User) {
-    
     //kell check hogy owner e majd (AUTHORIZÁCIÓBAN)
 
     const buffet = this.buffetRepository.create({
@@ -47,6 +47,21 @@ export class BuffetService {
       },
     );
 
+    return new PaginatedResponse(buffets, count);
+  }
+
+  public async search(
+    query: SearchBuffetsQuery,
+    name: string,
+  ): Promise<PaginatedResponse<Buffet>> {
+    const [buffets, count] = await this.buffetRepository.findAndCount(
+      query.toDbQuery(),
+      {
+        //limit: query.search === undefined ? (null as any) : query.search,
+        
+      },
+    );
+  
     return new PaginatedResponse(buffets, count);
   }
 

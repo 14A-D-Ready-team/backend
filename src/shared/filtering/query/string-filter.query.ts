@@ -1,32 +1,17 @@
 import { OperatorMap } from "@mikro-orm/core/typings";
 import { Expose } from "class-transformer";
-import { IsNumber, IsOptional, IsString } from "class-validator";
-import { omitBy } from "lodash";
+import { IsOptional, IsString } from "class-validator";
 
-export class NumberFilterQuery {
+export class StringFilterQuery {
   @Expose()
   @IsOptional()
   @IsString()
-  public stringToFiler?: string;
+  public searchString?: string;
 
   public toDbQuery(): OperatorMap<string> | undefined {
-
-    let strings : string[];
-
-    
-
-    // if (this.value != undefined) {
-    //   return { $eq: this.value };
-    // }
-    // if (this.min != undefined || this.max != undefined) {
-    //   return omitBy(
-    //     {
-    //       $gte: this.min,
-    //       $lte: this.max,
-    //     },
-    //     value => value == undefined,
-    //   );
-    // }
+    if (this.searchString != undefined) {
+      return { $like: this.searchString };
+    }
 
     return undefined;
   }
