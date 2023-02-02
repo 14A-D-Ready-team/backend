@@ -1,19 +1,18 @@
 import { ConfigType } from "@nestjs/config";
 import { Inject, Injectable, NestMiddleware } from "@nestjs/common";
+import { Handler } from "express";
 import session from "express-session";
 import { sessionConfig } from "./session.config";
-import { Handler } from "express";
-import { findConfigFile } from "@ts-morph/common/lib/typescript";
-import pgSessionStore from "connect-pg-simple";
+import { Sequelize } from "sequelize";
+import connectSession from "connect-session-sequelize";
 
-const SessionStore = pgSessionStore(session);
 @Injectable()
 export class SessionMiddleware implements NestMiddleware {
   private expressSession: Handler;
 
   constructor(
     @Inject(sessionConfig.KEY)
-    config: ConfigType<typeof sessionConfig>,
+    private config: ConfigType<typeof sessionConfig>,
   ) {
     this.expressSession = session({
       secret: config.secret,
@@ -27,16 +26,23 @@ export class SessionMiddleware implements NestMiddleware {
       rolling: true,
       resave: true,
       saveUninitialized: false,
-      store: config.isRender
-        ? new SessionStore({
-            createTableIfMissing: true,
-            conString: config.connectionString,
-          })
-        : undefined,
+      store: config.isRender ? this.initializeSessionStore() : undefined,
     });
   }
 
   public use(req: any, res: any, next: () => void) {
     this.expressSession(req, res, next);
+  }
+
+  private initializeSessionStore() {
+    const SequelizeStore = connectSession(session.Store);
+
+    const sequelize = new Sequelize(this.config.connectionString!, {
+      dialect: "postgres",
+    });
+
+    return new SequelizeStore({
+      db: sequelize,
+    });
   }
 }
