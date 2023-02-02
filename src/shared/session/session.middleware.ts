@@ -5,6 +5,7 @@ import session, { Store } from "express-session";
 import { sessionConfig } from "./session.config";
 import { Sequelize } from "sequelize";
 import connectSession from "connect-session-sequelize";
+import express from "express";
 
 @Injectable()
 export class SessionMiddleware implements NestMiddleware {
@@ -32,7 +33,8 @@ export class SessionMiddleware implements NestMiddleware {
     });
   }
 
-  public use(req: any, res: any, next: () => void) {
+  public use(req: express.Request, res: any, next: () => void) {
+    console.log(req.cookies);
     this.expressSession(req, res, next);
   }
 
