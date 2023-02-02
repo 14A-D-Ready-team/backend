@@ -11,10 +11,10 @@ import { CustomValidationPipe } from "@shared/validation";
 import { AuthGuard } from "@/auth";
 import { SerializerInterceptor } from "@shared/serialization";
 import { PolicyGuard } from "./shared/policy";
-import { Exclude, Expose, plainToInstance } from "class-transformer";
+import { NestExpressApplication } from "@nestjs/platform-express";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   const config = new DocumentBuilder()
     .setTitle("Ready App API")
@@ -31,6 +31,7 @@ async function bootstrap() {
   app.enableShutdownHooks();
   app.enableCors();
   app.use(helmet());
+  app.set("trust proxy", 1);
   app.useGlobalPipes(new CustomValidationPipe());
   app.useGlobalFilters(
     new UnhandledExceptionFilter(),
