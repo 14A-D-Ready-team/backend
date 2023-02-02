@@ -21,6 +21,7 @@ export class SessionMiddleware implements NestMiddleware {
         sameSite: "none",
         httpOnly: true,
         maxAge: config.cookie.maxAge,
+        domain: config.cookie.domain,
       },
       name: config.cookie.name,
       rolling: true,
