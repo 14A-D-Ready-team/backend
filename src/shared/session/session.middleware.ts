@@ -1,7 +1,7 @@
 import { ConfigType } from "@nestjs/config";
 import { Inject, Injectable, NestMiddleware } from "@nestjs/common";
 import { Handler } from "express";
-import session from "express-session";
+import session, { Store } from "express-session";
 import { sessionConfig } from "./session.config";
 import { Sequelize } from "sequelize";
 import connectSession from "connect-session-sequelize";
@@ -42,8 +42,11 @@ export class SessionMiddleware implements NestMiddleware {
       dialect: "postgres",
     });
 
-    return new SequelizeStore({
+    const store = new SequelizeStore({
       db: sequelize,
     });
+    store.sync({});
+
+    return store;
   }
 }
