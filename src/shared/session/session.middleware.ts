@@ -4,7 +4,9 @@ import session from "express-session";
 import { sessionConfig } from "./session.config";
 import { Handler } from "express";
 import { findConfigFile } from "@ts-morph/common/lib/typescript";
+import pgSessionStore from "connect-pg-simple";
 
+const SessionStore = pgSessionStore(session);
 @Injectable()
 export class SessionMiddleware implements NestMiddleware {
   private expressSession: Handler;
@@ -25,6 +27,12 @@ export class SessionMiddleware implements NestMiddleware {
       rolling: true,
       resave: true,
       saveUninitialized: false,
+      store: config.isRender
+        ? new SessionStore({
+            createTableIfMissing: true,
+            conString: config.connectionString,
+          })
+        : undefined,
     });
   }
 
