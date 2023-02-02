@@ -3,6 +3,7 @@ import { Inject, Injectable, NestMiddleware } from "@nestjs/common";
 import session from "express-session";
 import { sessionConfig } from "./session.config";
 import { Handler } from "express";
+import { findConfigFile } from "@ts-morph/common/lib/typescript";
 
 @Injectable()
 export class SessionMiddleware implements NestMiddleware {
@@ -16,10 +17,13 @@ export class SessionMiddleware implements NestMiddleware {
       secret: config.secret,
       cookie: {
         secure: config.cookie.secure,
-        sameSite: "strict",
+        sameSite: "none",
+        httpOnly: true,
+        maxAge: config.cookie.maxAge,
       },
       name: config.cookie.name,
-      resave: false,
+      rolling: true,
+      resave: true,
       saveUninitialized: false,
     });
   }

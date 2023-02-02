@@ -6,6 +6,8 @@ export const sessionConfig = registerAs("session", () => {
     cookie: {
       secure: process.env.NODE_ENV === "production",
       name: process.env.SESSION_COOKIE_NAME,
+      maxAge:
+        parseInt(process.env.SESSION_COOKIE_MAX_AGE_HR || "0") * 60 * 60 * 1000,
     },
   };
 });

@@ -36,7 +36,7 @@ export class AuthService {
     );
 
     //Uncomment when can send
-    //await this.emailService.sendWelcomeEmail(createdUser, emailConfirmToken.id);
+    await this.emailService.sendWelcomeEmail(createdUser, emailConfirmToken.id);
 
     return createdUser;
   }
