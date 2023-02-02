@@ -25,9 +25,9 @@ export class SessionMiddleware implements NestMiddleware {
         domain: config.cookie.domain,
       },
       name: config.cookie.name,
-      rolling: true,
-      resave: true,
-      saveUninitialized: false,
+      rolling: false,
+      resave: false,
+      saveUninitialized: true,
       store: config.isRender ? this.initializeSessionStore() : undefined,
       proxy: true,
     });
