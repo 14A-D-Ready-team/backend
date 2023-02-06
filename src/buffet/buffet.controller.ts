@@ -7,7 +7,10 @@ import {
   ServiceUnavailableResponse,
   InternalServerErrorResponse,
 } from "@/shared/swagger";
-import { InvalidDataException, InvalidJsonException } from "@/shared/validation/exceptions";
+import {
+  InvalidDataException,
+  InvalidJsonException,
+} from "@/shared/validation/exceptions";
 import { BuffetOwner, User } from "@/user";
 import { Reference } from "@mikro-orm/core";
 import { InjectRepository } from "@mikro-orm/nestjs";
@@ -71,6 +74,7 @@ export class BuffetController {
     return this.buffetService.findOne(+id);
   }
 
+
   @Get()
   @BadRequestResponse(InvalidDataException)
   @ServiceUnavailableResponse()
@@ -86,10 +90,11 @@ export class BuffetController {
   @InternalServerErrorResponse()
   public search(
     @Param("name") name: string,
-    @Query() query: SearchBuffetsQuery
-    ) {
-      return this.buffetService.search(query, name);
-    }
+    @Query() query: SearchBuffetsQuery,
+  ) {
+    console.log(query);
+    return this.buffetService.search(query, name);
+  }
 
   @Patch(":id")
   @NotFoundResponse(BuffetNotFoundException)

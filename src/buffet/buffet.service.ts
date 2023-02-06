@@ -50,6 +50,11 @@ export class BuffetService {
     return new PaginatedResponse(buffets, count);
   }
 
+
+  //kiirja az összes büfét jelenleg
+  //sztem a namet itt meg kéne adnom h a name paramra keressen rá
+  //a kilogolt query a controllerbe ürest SearchBuffetQueryt ad -> SearchBuffetQuery { } 
+  //should probably Ádosz
   public async search(
     query: SearchBuffetsQuery,
     name: string,
@@ -57,13 +62,14 @@ export class BuffetService {
     const [buffets, count] = await this.buffetRepository.findAndCount(
       query.toDbQuery(),
       {
-        //limit: query.search === undefined ? (null as any) : query.search,
-        
+        limit: query.take === undefined ? (null as any) : query.take,
+        offset: query.skip,
       },
     );
   
     return new PaginatedResponse(buffets, count);
   }
+
 
   public async update(id: number, payload: UpdateBuffetDto) {
     let buffetToUpdate = await this.findOne(id);

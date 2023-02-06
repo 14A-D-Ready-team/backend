@@ -4,16 +4,16 @@ import { Expose } from "class-transformer";
 import { IsString, IsNotEmpty } from "class-validator";
 import { omitBy } from "lodash";
 
-export class SearchBuffetsQuery extends StringFilterQuery {
+export class SearchBuffetsQuery extends PaginationQuery {
   @Expose()
-  @IsString()
-  @IsNotEmpty()
-  public search: string;
+  // @IsString()
+  // @IsNotEmpty()
+  public search!: StringFilterQuery;
 
   public toDbQuery() {
     const query = {
-      ...(this.search && { search: this.search }),
+      ...(this.search && { search: this.search.toDbQuery() }),
     };
-    return omitBy(query, value => value === undefined);
+    return omitBy(query, search => search === undefined);
   }
 }
