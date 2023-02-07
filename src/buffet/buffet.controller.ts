@@ -29,7 +29,6 @@ import { CreateBuffetDto } from "./dto/create-buffet.dto";
 import { UpdateBuffetDto } from "./dto/update-buffet.dto";
 import { BuffetNotFoundException } from "./exception/buffet-not-found.exception";
 import { SearchBuffetsQuery } from "./query";
-import { FilterBuffetsQuery } from "./query/filtered-buffets.query";
 
 @Controller("buffet")
 export class BuffetController {
@@ -63,6 +62,16 @@ export class BuffetController {
   //   return this.buffetService.create(createBuffetDto, authState.user!);
   // }
 
+  //getall search és rendezés is
+  @Get()
+  @BadRequestResponse(InvalidDataException)
+  @ServiceUnavailableResponse()
+  @InternalServerErrorResponse()
+  public find(@Query() query: SearchBuffetsQuery) {
+    console.log(query);
+    return this.buffetService.find(query);
+  }
+  
   @Get(":id")
   @BadRequestResponse(InvalidIdException)
   @InternalServerErrorResponse()
@@ -72,28 +81,6 @@ export class BuffetController {
       throw new InvalidIdException();
     }
     return this.buffetService.findOne(+id);
-  }
-
-
-  @Get()
-  @BadRequestResponse(InvalidDataException)
-  @ServiceUnavailableResponse()
-  @InternalServerErrorResponse()
-  public find(@Query() query: FilterBuffetsQuery) {
-    console.log(query);
-    return this.buffetService.find(query);
-  }
-
-  @Get("search/:name")
-  @BadRequestResponse(InvalidDataException, InvalidJsonException)
-  @ServiceUnavailableResponse()
-  @InternalServerErrorResponse()
-  public search(
-    @Param("name") name: string,
-    @Query() query: SearchBuffetsQuery,
-  ) {
-    console.log(query);
-    return this.buffetService.search(query, name);
   }
 
   @Patch(":id")

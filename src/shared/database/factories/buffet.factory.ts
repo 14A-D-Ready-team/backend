@@ -15,7 +15,7 @@ export class BuffetFactory extends Factory<Buffet> {
       name: faker.company.name(),
       coords: lat + ", " + long,
       address: faker.address.streetAddress(),
-      hours: hourFrom + " " + hourTo,
+      hours: hourFrom + "-" + hourTo,
       description: faker.lorem.paragraph(),
       //buffetOwner: ,
     };

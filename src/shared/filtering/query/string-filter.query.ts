@@ -10,9 +10,9 @@ export class StringFilterQuery {
 
   public toDbQuery(): OperatorMap<string> | undefined {
     if (this.searchString != undefined) {
-      return { $like: this.searchString };
+      return { $like: "%" + this.searchString + "%" };
     }
-
+    
     return undefined;
   }
 }

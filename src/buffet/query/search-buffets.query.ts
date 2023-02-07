@@ -1,18 +1,27 @@
 import { StringFilterQuery } from "@/shared/filtering";
 import { PaginationQuery } from "@/shared/pagination";
 import { Expose } from "class-transformer";
-import { IsString, IsNotEmpty } from "class-validator";
+import { IsIn, IsNotEmpty, IsOptional } from "class-validator";
 import { omitBy } from "lodash";
 
 export class SearchBuffetsQuery extends PaginationQuery {
   @Expose()
-  // @IsString()
-  // @IsNotEmpty()
-  public search!: StringFilterQuery;
+  @IsOptional()
+  public search?: StringFilterQuery;
+
+  @Expose()
+  @IsOptional()
+  @IsIn(["name"])
+  public orderByField?: string; 
+
+  @Expose()
+  @IsOptional()
+  @IsIn(["ASC", "DESC"])
+  public order?: string; 
 
   public toDbQuery() {
     const query = {
-      ...(this.search && { search: this.search.toDbQuery() }),
+      ...(this.search && { name: this.search.toDbQuery() }),
     };
     return omitBy(query, search => search === undefined);
   }

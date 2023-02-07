@@ -8,7 +8,6 @@ import { UpdateBuffetDto } from "./dto/update-buffet.dto";
 import { Buffet } from "./entity/buffet.entity";
 import { BuffetNotFoundException } from "./exception/buffet-not-found.exception";
 import { SearchBuffetsQuery } from "./query";
-import { FilterBuffetsQuery } from "./query/filtered-buffets.query";
 
 @Injectable()
 export class BuffetService {
@@ -36,40 +35,23 @@ export class BuffetService {
     return this.buffetRepository.findOne(id);
   }
 
+  //getall search és rendezés is
   public async find(
-    query: FilterBuffetsQuery,
-  ): Promise<PaginatedResponse<Buffet>> {
-    const [buffets, count] = await this.buffetRepository.findAndCount(
-      query.toDbQuery(),
-      {
-        limit: query.take === undefined ? (null as any) : query.take,
-        offset: query.skip,
-      },
-    );
-
-    return new PaginatedResponse(buffets, count);
-  }
-
-
-  //kiirja az összes büfét jelenleg
-  //sztem a namet itt meg kéne adnom h a name paramra keressen rá
-  //a kilogolt query a controllerbe ürest SearchBuffetQueryt ad -> SearchBuffetQuery { } 
-  //should probably Ádosz
-  public async search(
     query: SearchBuffetsQuery,
-    name: string,
   ): Promise<PaginatedResponse<Buffet>> {
     const [buffets, count] = await this.buffetRepository.findAndCount(
       query.toDbQuery(),
       {
         limit: query.take === undefined ? (null as any) : query.take,
         offset: query.skip,
+        orderBy:
+          query.orderByField === undefined
+            ? undefined 
+            : { [query.orderByField]: query.order || "ASC" },
       },
     );
-  
     return new PaginatedResponse(buffets, count);
   }
-
 
   public async update(id: number, payload: UpdateBuffetDto) {
     let buffetToUpdate = await this.findOne(id);
