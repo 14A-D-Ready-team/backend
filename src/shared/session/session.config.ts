@@ -4,7 +4,7 @@ export const sessionConfig = registerAs("session", () => {
   return {
     secret: process.env.SESSION_SECRET || "",
     cookie: {
-      secure: process.env.NODE_ENV === "production",
+      secure: process.env.SESSION_COOKIE_SECURE === "true",
       name: process.env.SESSION_COOKIE_NAME,
       maxAge:
         parseInt(process.env.SESSION_COOKIE_MAX_AGE_HR || "0") * 60 * 60 * 1000,
