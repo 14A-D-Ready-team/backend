@@ -19,6 +19,7 @@ import {
   InvalidLoginException,
   PasswordNotSetException,
 } from "./exceptions";
+import { EmailDto } from "./dto";
 
 @ApiTags("auth")
 @Controller("auth")
@@ -62,12 +63,12 @@ export class AuthController {
   }
 
   @Post("/send-email-verification")
-  public async sendConfirmEmail(@Body() email: string) {
+  public async sendConfirmEmail(@Body() email: EmailDto) {
     return this.authService.sendConfirmEmail(email);
   }
 
   @Post("/send-password-reset")
-  public async sendPasswordResetEmail(@Body() email: string) {
+  public async sendPasswordResetEmail(@Body() email: EmailDto) {
     return this.authService.sendPasswordResetEmail(email);
   }
 
