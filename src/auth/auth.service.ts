@@ -5,7 +5,7 @@ import {
   InactiveUserException,
   InvalidTokenException,
 } from "./exceptions";
-import { LoginDto } from "./dto";
+import { EmailDto, LoginDto } from "./dto";
 import { RegistrationDto } from "./dto";
 import { Injectable } from "@nestjs/common";
 import { User, UserService, UserStatus } from "@/user";
@@ -79,7 +79,8 @@ export class AuthService {
     return user;
   }
 
-  public async sendConfirmEmail(email: string) {
+  public async sendConfirmEmail(emailDto: EmailDto) {
+    const email = emailDto.email;
     const user = await this.userRepository.findOne({ email });
 
     if (user) {
@@ -88,7 +89,8 @@ export class AuthService {
     }
   }
 
-  public async sendPasswordResetEmail(email: string) {
+  public async sendPasswordResetEmail(emailDto: EmailDto) {
+    const email = emailDto.email;
     const user = await this.userRepository.findOne({ email });
 
     if (user) {
