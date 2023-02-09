@@ -9,7 +9,10 @@ export class CustomValidationPipe extends ValidationPipe {
     super(validationPipeConfig);
   }
 
-  public transform(value: unknown, metadata: ArgumentMetadata) {
+  public async transform(value: unknown, metadata: ArgumentMetadata) {
+    if (metadata.type === "custom") {
+      return value;
+    }
     if (value && metadata.type === "query" && typeof value == "object") {
       value = this.serializeQueryParams(value);
     }
