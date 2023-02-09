@@ -44,23 +44,9 @@ export class BuffetController {
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
   @Auth()
-  public async create(@Body() createBuffetDto: CreateBuffetDto) {
-    //user létrehozása a testhez
-    const user = new User();
-    user.name = "asd";
-    user.email = "assd@asd.com";
-    user.password = "SupaS3cr3t!!!";
-    user.type = 2;
-    user.status = 0;
-    user.buffetOwner = Reference.create(new BuffetOwner());
-
-    await this.userRepository.persistAndFlush(user);
-
-    return this.buffetService.create(createBuffetDto, user);
+  public create(@Body() createBuffetDto: CreateBuffetDto, @InjectAuthState() authState: AuthState) {
+    return this.buffetService.create(createBuffetDto, authState.user!);
   }
-  // public create(@Body() createBuffetDto: CreateBuffetDto, @InjectAuthState() authState: AuthState) {
-  //   return this.buffetService.create(createBuffetDto, authState.user!);
-  // }
 
   //getall search és rendezés is
   @Get()
