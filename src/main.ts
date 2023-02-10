@@ -12,6 +12,7 @@ import { AuthGuard } from "@/auth";
 import { SerializerInterceptor } from "@shared/serialization";
 import { PolicyGuard } from "./shared/policy";
 import { NestExpressApplication } from "@nestjs/platform-express";
+import cookieParser from "cookie-parser";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -30,6 +31,8 @@ async function bootstrap() {
 
   app.enableShutdownHooks();
   app.enableCors();
+
+  app.use(cookieParser());
   app.use(helmet());
   app.set("trust proxy", 1);
   app.useGlobalPipes(new CustomValidationPipe());

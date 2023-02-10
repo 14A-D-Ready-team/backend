@@ -25,6 +25,7 @@ import { CreateProductDto, UpdateProductDto } from "./dto";
 import { ProductNotFoundException } from "./exceptions";
 import { CategoryNotFoundException } from "@/category";
 import { FilterProductsQuery, SearchProductsQuery } from "./query";
+import { Auth, AuthState, InjectAuthState } from "@/auth";
 
 @ApiTags("product")
 @Controller("product")
@@ -41,11 +42,15 @@ export class ProductController {
   }
 
   @Get()
+  @Auth()
   @BadRequestResponse(InvalidDataException)
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
-  public find(@Query() query: FilterProductsQuery) {
-    console.log(query);
+  public find(
+    @Query() query: FilterProductsQuery,
+    @InjectAuthState() authState: AuthState,
+  ) {
+    console.log(authState.user);
     return this.productService.find(query);
   }
 
