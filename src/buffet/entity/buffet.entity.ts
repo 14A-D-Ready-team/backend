@@ -12,7 +12,7 @@ import {
   PrimaryKey,
   Property,
 } from "@mikro-orm/core";
-import { Expose } from "class-transformer";
+import { Expose, Transform } from "class-transformer";
 import { BuffetInviteToken } from "./buffet-invite-token.entity";
 import { BuffetStatus } from "./buffet-status.entity";
 
@@ -58,6 +58,11 @@ export class Buffet {
   })
   public categories? = new Collection<Category>(this);
 
+  @Expose({name : "ownerId"})
+  @Transform(params=> {
+    const owner = params.value as BuffetOwner;
+    return owner.user.id;
+  })
   @ManyToOne({
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
   })
