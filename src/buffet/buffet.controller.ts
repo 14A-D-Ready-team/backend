@@ -1,6 +1,7 @@
 import { Auth, AuthState, InjectAuthState } from "@/auth";
 import { BaseRepository } from "@/shared/database";
 import { InvalidIdException } from "@/shared/exceptions";
+import { CheckPolicies } from "@/shared/policy";
 import {
   NotFoundResponse,
   BadRequestResponse,
@@ -44,6 +45,8 @@ export class BuffetController {
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
   @Auth()
+  //TODO!!! megcsinálni jogokat
+  @CheckPolicies(ability=>true)
   public create(@Body() createBuffetDto: CreateBuffetDto, @InjectAuthState() authState: AuthState) {
     return this.buffetService.create(createBuffetDto, authState.user!);
   }
