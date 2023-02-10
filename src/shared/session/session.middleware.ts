@@ -33,7 +33,6 @@ export class SessionMiddleware implements NestMiddleware {
   }
 
   public use(req: express.Request, res: any, next: () => void) {
-    console.log(req.cookies);
     this.expressSession(req, res, next);
   }
 

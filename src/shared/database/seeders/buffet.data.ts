@@ -10,7 +10,6 @@ export function getBuffetData(): BuffetData[] {
       address: "Nagysándor József utca 52",
       hours: "10-16",
       description: "R.I.P",
-      //buffetOwner:
     },
     {
       name: "Jedlik büfé",
@@ -18,7 +17,6 @@ export function getBuffetData(): BuffetData[] {
       address: "Jedlik suli GYőr",
       hours: "8-14",
       description: "Szemét",
-      //buffetOwner:
     },
   ];
 }
