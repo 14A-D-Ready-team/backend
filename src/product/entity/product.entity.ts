@@ -40,6 +40,10 @@ export class Product {
   @Property({ type: "integer" })
   public stock: number;
 
+  @Expose()
+  @Property({ length: 8000 })
+  public image?: string;
+
   @ManyToOne({
     entity: () => Buffet,
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],

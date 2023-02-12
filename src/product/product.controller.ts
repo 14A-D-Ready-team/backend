@@ -7,6 +7,11 @@ import {
   Param,
   Delete,
   Query,
+  UploadedFiles,
+  UseInterceptors,
+  ParseFilePipeBuilder,
+  HttpStatus,
+  UploadedFile,
 } from "@nestjs/common";
 import { ProductService } from "./product.service";
 import { ApiTags } from "@nestjs/swagger";
@@ -26,6 +31,11 @@ import { ProductNotFoundException } from "./exceptions";
 import { CategoryNotFoundException } from "@/category";
 import { FilterProductsQuery, SearchProductsQuery } from "./query";
 import { Auth, AuthState, InjectAuthState } from "@/auth";
+import {
+  FileFieldsInterceptor,
+  FileInterceptor,
+} from "@nestjs/platform-express";
+import { UploadCleanupInterceptor } from "@shared/file-upload";
 
 @ApiTags("product")
 @Controller("product")
@@ -37,8 +47,24 @@ export class ProductController {
   @BadRequestResponse(InvalidDataException)
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
-  public create(@Body() createProductDto: CreateProductDto) {
-    return this.productService.create(createProductDto);
+  @UseInterceptors(FileInterceptor("image"), UploadCleanupInterceptor)
+  public create(
+    @Body() createProductDto: CreateProductDto,
+    @UploadedFile(
+      new ParseFilePipeBuilder()
+        .addFileTypeValidator({
+          fileType: "image/*",
+        })
+        .addMaxSizeValidator({
+          maxSize: 10000000,
+        })
+        .build({
+          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+        }),
+    )
+    image: Express.Multer.File,
+  ) {
+    return this.productService.create(createProductDto, image);
   }
 
   @Get()
@@ -50,7 +76,6 @@ export class ProductController {
     @Query() query: FilterProductsQuery,
     @InjectAuthState() authState: AuthState,
   ) {
-    console.log(authState.user);
     return this.productService.find(query);
   }
 

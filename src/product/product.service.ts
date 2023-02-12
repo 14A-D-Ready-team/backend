@@ -1,18 +1,16 @@
 import { Category } from "@/category";
 import { CategoryNotFoundException } from "@/category";
 import { BaseRepository } from "@/shared/database";
-import { NumberFilterQuery } from "@/shared/filtering";
 import { PaginatedResponse } from "@/shared/pagination";
 import { Reference } from "@mikro-orm/core";
-import type { OperatorMap } from "@mikro-orm/core/typings";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { Injectable } from "@nestjs/common";
-import { timeout } from "rxjs";
+import { createReadStream } from "fs";
+import { readFile } from "fs/promises";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
-import { Customization, Option, Product } from "./entity";
+import { Product } from "./entity";
 import { ProductNotFoundException } from "./exceptions";
-import { OptionCount } from "./option-count.enum";
 import { FilterProductsQuery } from "./query";
 
 @Injectable()
@@ -25,7 +23,7 @@ export class ProductService {
     private categoryRepository: BaseRepository<Category>,
   ) {}
 
-  public async create(payload: CreateProductDto) {
+  public async create(payload: CreateProductDto, image: Express.Multer.File) {
     const category = await this.categoryRepository.findOne(payload.categoryId);
     if (!category) {
       throw new CategoryNotFoundException();
@@ -37,6 +35,7 @@ export class ProductService {
       discountedPrice: payload.discountedPrice
         ? payload.discountedPrice
         : undefined,
+      image: (await readFile(image.path)).toString("base64"),
     });
 
     await this.productRepository.persistAndFlush(product);

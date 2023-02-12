@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Expose } from "class-transformer";
+import { Expose, Transform } from "class-transformer";
 import {
   IsNumber,
   IsOptional,
@@ -32,9 +32,20 @@ export class CreateProductDto {
   public fullPrice: number;
 
   @Expose()
+  @Transform(({ value }) => {
+    if (value === undefined) {
+      return undefined;
+    }
+
+    if (["null", null].includes(value)) {
+      return null;
+    }
+
+    return +value;
+  })
   @ApiProperty({
-    description:
-      "If you want to unset the discounted price, set it to null, BUT NOT undefined",
+    description: `If you want to unset the discounted price, set it to null, BUT NOT undefined. 
+    For update, undefined means no change, null means unset.`,
   })
   @IsOptional()
   @IsNumber({ allowInfinity: false, allowNaN: false })
