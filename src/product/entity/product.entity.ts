@@ -41,8 +41,8 @@ export class Product {
   public stock: number;
 
   @Expose()
-  @Property({ length: 8000 })
-  public image?: string;
+  @Property({ length: 10000000 })
+  public image: string;
 
   @ManyToOne({
     entity: () => Buffet,

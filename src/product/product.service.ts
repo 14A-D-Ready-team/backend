@@ -5,7 +5,6 @@ import { PaginatedResponse } from "@/shared/pagination";
 import { Reference } from "@mikro-orm/core";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { Injectable } from "@nestjs/common";
-import { createReadStream } from "fs";
 import { readFile } from "fs/promises";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";

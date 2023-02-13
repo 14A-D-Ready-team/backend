@@ -3,6 +3,7 @@ import { Customization, Option, Product } from "@/product/entity";
 import { OptionCount } from "@/product/option-count.enum";
 import { Reference } from "@mikro-orm/core";
 import { Dictionary } from "lodash";
+import defaultImg from "./product-images/default";
 
 type ProductData = Partial<Product> & { customizationsArray?: Customization[] };
 
@@ -14,30 +15,35 @@ export function getProductData(context: {
       name: "Coca Cola",
       category: Reference.create(context.categories["Italok"]),
       customizationsArray: [createSodaSizeCustomization()],
+      image: defaultImg,
     },
 
     {
       name: "Pepsi",
       category: Reference.create(context.categories["Italok"]),
       customizationsArray: [createSodaSizeCustomization()],
+      image: defaultImg,
     },
 
     {
       name: "Fanta",
       category: Reference.create(context.categories["Italok"]),
       customizationsArray: [createSodaSizeCustomization()],
+      image: defaultImg,
     },
 
     {
       name: "Mountain Dew",
       category: Reference.create(context.categories["Italok"]),
       customizationsArray: [createSodaSizeCustomization()],
+      image: defaultImg,
     },
 
     {
       name: "Kinley",
       category: Reference.create(context.categories["Italok"]),
       customizationsArray: [createSodaSizeCustomization()],
+      image: defaultImg,
     },
 
     {
@@ -47,6 +53,7 @@ export function getProductData(context: {
         createSauceCustomization(),
         createCheeseCustomization(),
       ],
+      image: defaultImg,
     },
 
     {
@@ -56,6 +63,7 @@ export function getProductData(context: {
         createSauceCustomization(),
         createCheeseCustomization(),
       ],
+      image: defaultImg,
     },
     {
       name: "Sonkás-kukoricás melegszendvics",
@@ -64,6 +72,7 @@ export function getProductData(context: {
         createSauceCustomization(),
         createCheeseCustomization(),
       ],
+      image: defaultImg,
     },
     {
       name: "Magyaros melegszendvics",
@@ -72,109 +81,130 @@ export function getProductData(context: {
         createSauceCustomization(),
         createCheeseCustomization(),
       ],
+      image: defaultImg,
     },
     {
       name: "Mars",
       category: Reference.create(context.categories["Édességek"]),
       customizationsArray: [],
+      image: defaultImg,
     },
     {
       name: "Bounty",
       category: Reference.create(context.categories["Édességek"]),
       customizationsArray: [],
+      image: defaultImg,
     },
     {
       name: "Pogácsa",
       category: Reference.create(context.categories["Péksütik"]),
+      image: defaultImg,
     },
 
     {
       name: "Pizzás háromszög",
       category: Reference.create(context.categories["Péksütik"]),
+      image: defaultImg,
     },
 
     {
       name: "Kakaóscsiga",
       category: Reference.create(context.categories["Péksütik"]),
+      image: defaultImg,
     },
 
     {
       name: "Lekváros bukta",
       category: Reference.create(context.categories["Péksütik"]),
+      image: defaultImg,
     },
 
     {
       name: "Perec",
       category: Reference.create(context.categories["Péksütik"]),
+      image: defaultImg,
     },
 
     {
       name: "Nyalóka",
       category: Reference.create(context.categories["Édességek"]),
       customizationsArray: [createCandyFlavourCustomization()],
+      image: defaultImg,
     },
 
     {
       name: "Gumicukor",
       category: Reference.create(context.categories["Édességek"]),
       customizationsArray: [createCandyFlavourCustomization()],
+      image: defaultImg,
     },
 
     {
       name: "Toffix",
       category: Reference.create(context.categories["Édességek"]),
       customizationsArray: [createCandyFlavourCustomization()],
+      image: defaultImg,
     },
 
     {
       name: "Snickers",
       category: Reference.create(context.categories["Édességek"]),
+      image: defaultImg,
     },
 
     {
       name: "Milky Way",
       category: Reference.create(context.categories["Édességek"]),
+      image: defaultImg,
     },
 
     {
       name: "Twix",
       category: Reference.create(context.categories["Édességek"]),
       customizationsArray: [],
+      image: defaultImg,
     },
     {
       name: "Kinder Bueno",
       category: Reference.create(context.categories["Édességek"]),
       customizationsArray: [],
+      image: defaultImg,
     },
     {
       name: "Sonkás-sajtos szendvics",
       category: Reference.create(context.categories["Fincsi ®"]),
       customizationsArray: [],
+      image: defaultImg,
     },
     {
       name: "Rántott húsos szendvics",
       category: Reference.create(context.categories["Fincsi ®"]),
       customizationsArray: [],
+      image: defaultImg,
     },
     {
       name: "Tzazikis gyros",
       category: Reference.create(context.categories["Fincsi ®"]),
       customizationsArray: [],
+      image: defaultImg,
     },
     {
       name: "Chillis gyros",
       category: Reference.create(context.categories["Fincsi ®"]),
       customizationsArray: [],
+      image: defaultImg,
     },
     {
       name: "Kávé",
       category: Reference.create(context.categories["Forró italok"]),
       customizationsArray: [createSugarCustomization()],
+      image: defaultImg,
     },
     {
       name: "Forrócsoki",
       category: Reference.create(context.categories["Forró italok"]),
       customizationsArray: [createSugarCustomization()],
+      image: defaultImg,
     },
 
     {
@@ -184,6 +214,7 @@ export function getProductData(context: {
         createSauceCustomization(),
         createCheeseCustomization(),
       ],
+      image: defaultImg,
     },
 
     {
@@ -193,6 +224,7 @@ export function getProductData(context: {
         createSauceCustomization(),
         createCheeseCustomization(),
       ],
+      image: defaultImg,
     },
 
     {
@@ -202,61 +234,72 @@ export function getProductData(context: {
         createSauceCustomization(),
         createCheeseCustomization(),
       ],
+      image: defaultImg,
     },
 
     {
       name: "Csibefalatos-csípős fincsi szendvics",
       category: Reference.create(context.categories["Fincsi ®"]),
+      image: defaultImg,
     },
 
     {
       name: "Csibefalatos-mézes-mustáros fincsi szendvics",
       category: Reference.create(context.categories["Fincsi ®"]),
+      image: defaultImg,
     },
 
     {
       name: "Tarjás fincsi szendvics",
       category: Reference.create(context.categories["Fincsi ®"]),
+      image: defaultImg,
     },
 
     {
       name: "Rántott-csirkemelles fincsi szendvics",
       category: Reference.create(context.categories["Fincsi ®"]),
+      image: defaultImg,
     },
 
     {
       name: "Szalámis-tojásos fincsi szendvics",
       category: Reference.create(context.categories["Fincsi ®"]),
+      image: defaultImg,
     },
 
     {
       name: "Cappuccino",
       category: Reference.create(context.categories["Forró italok"]),
       customizationsArray: [createSugarCustomization()],
+      image: defaultImg,
     },
 
     {
       name: "Esspresso",
       category: Reference.create(context.categories["Forró italok"]),
       customizationsArray: [createSugarCustomization()],
+      image: defaultImg,
     },
 
     {
       name: "Zöld tea",
       category: Reference.create(context.categories["Forró italok"]),
       customizationsArray: [createSugarCustomization()],
+      image: defaultImg,
     },
 
     {
       name: "Yorkshire Gold",
       category: Reference.create(context.categories["Forró italok"]),
       customizationsArray: [createSugarCustomization()],
+      image: defaultImg,
     },
 
     {
       name: "Americano",
       category: Reference.create(context.categories["Forró italok"]),
       customizationsArray: [createSugarCustomization()],
+      image: defaultImg,
     },
 
     {
@@ -266,6 +309,7 @@ export function getProductData(context: {
         createSnackFlavourCustomization(),
         createSnackSizeCustomization(),
       ],
+      image: defaultImg,
     },
 
     {
@@ -275,6 +319,7 @@ export function getProductData(context: {
         createSnackFlavourCustomization(),
         createSnackSizeCustomization(),
       ],
+      image: defaultImg,
     },
 
     {
@@ -284,6 +329,7 @@ export function getProductData(context: {
         createSnackFlavourCustomization(),
         createSnackSizeCustomization(),
       ],
+      image: defaultImg,
     },
 
     {
@@ -293,12 +339,14 @@ export function getProductData(context: {
         createSnackFlavourCustomization(),
         createSnackSizeCustomization(),
       ],
+      image: defaultImg,
     },
 
     {
       name: "Nógrádi Ropogós",
       category: Reference.create(context.categories["Nassolnivalók"]),
       customizationsArray: [createSnackSizeCustomization()],
+      image: defaultImg,
     },
   ];
 }
