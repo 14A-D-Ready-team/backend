@@ -4,12 +4,14 @@ import { ContainsCapitalLetter } from "../../shared/validation/decorator/contain
 import { ContainsLowercaseLetter } from "../../shared/validation/decorator/contains-lowercase-letter.decorator";
 import { Expose } from "class-transformer";
 import { IsString, Matches, MaxLength, MinLength } from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
 
 const allowedForPassword =
   /^[ AaÁáBbCcDdEeÉéFfGgHhIiÍíJjKkLlMmNnOoÓóÖöŐőPpQqRrSsTtUuÚúÜüŰűVvWwXxYyZz0123456789ÂÃÄÅÆÇÈÊËÌÎÏÐÑÒÔÕØÙÛÝÞßàâãäåæçèêëìîïðñòôõøùûýþÿ<>#&@{};,.:_?!~'+%-=()€$ˇ^˘°˛`˙´´˝¨¸\-\[\]]*$/;
 
 export class NewPasswordDto {
   @Expose()
+  @ApiProperty()
   @IsString()
   @MinLength(8)
   @MaxLength(255)

@@ -13,6 +13,7 @@ import { ContainsNumber } from "../../shared/validation/decorator/contains-numbe
 import { ContainsCapitalLetter } from "../../shared/validation/decorator/contains-capital-letter.decorator";
 import { ContainsLowercaseLetter } from "../../shared/validation/decorator/contains-lowercase-letter.decorator";
 import { IsValidName } from "../decorator/is-valid-name.decorator";
+import { ApiProperty } from "@nestjs/swagger";
 
 // NONO karakter: "
 const allowedForName =
@@ -22,6 +23,7 @@ const allowedForPassword =
 
 export class RegistrationDto {
   @Expose()
+  @ApiProperty()
   @IsString()
   @MinLength(3)
   @MaxLength(50)
@@ -30,12 +32,14 @@ export class RegistrationDto {
   public name!: string;
 
   @Expose()
+  @ApiProperty()
   @IsString()
   @IsEmail()
   @MaxLength(80)
   public email!: string;
 
   @Expose()
+  @ApiProperty()
   @IsString()
   @MinLength(8)
   @MaxLength(255)
@@ -47,6 +51,7 @@ export class RegistrationDto {
   public password!: string;
 
   @Expose()
+  @ApiProperty()
   @IsEnum(UserType)
   public type!: UserType;
 }
