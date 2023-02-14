@@ -4,4 +4,4 @@ import { MulterConfigService } from "./multer-config.service";
 @Module({
   providers: [MulterConfigService],
 })
-export class FileUploadModule {}
+export class StorageModule {}

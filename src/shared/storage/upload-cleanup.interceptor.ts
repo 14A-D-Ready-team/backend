@@ -8,7 +8,7 @@ import { Response } from "express";
 import { join } from "path";
 import { finalize } from "rxjs/operators";
 import rimraf from "rimraf";
-import { fileUploadConfig } from "./file-upload.config";
+import { fileUploadConfig } from "./storage.config";
 
 @Injectable()
 export class UploadCleanupInterceptor implements NestInterceptor {

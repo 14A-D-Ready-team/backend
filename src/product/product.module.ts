@@ -5,12 +5,12 @@ import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { Product } from "./entity";
 import { Category } from "@/category";
 import { MulterModule } from "@nestjs/platform-express";
-import { FileUploadModule, MulterConfigService } from "@shared/file-upload";
+import { StorageModule, MulterConfigService } from "@/shared/storage";
 @Module({
   imports: [
     MikroOrmModule.forFeature([Product, Category]),
     MulterModule.registerAsync({
-      imports: [FileUploadModule],
+      imports: [StorageModule],
       useClass: MulterConfigService,
     }),
   ],

@@ -35,6 +35,7 @@ export class ProductService {
         ? payload.discountedPrice
         : undefined,
       image: (await readFile(image.path)).toString("base64"),
+      imageType: image.mimetype,
     });
 
     await this.productRepository.persistAndFlush(product);

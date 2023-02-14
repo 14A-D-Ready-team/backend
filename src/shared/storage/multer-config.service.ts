@@ -8,7 +8,7 @@ import { diskStorage } from "multer";
 import { access, mkdir } from "fs";
 import { promisify } from "util";
 import { tmpdir } from "os";
-import { fileUploadConfig } from "./file-upload.config";
+import { fileUploadConfig } from "./storage.config";
 import { Request, Response } from "express";
 
 const existsAsync = function (path: string) {

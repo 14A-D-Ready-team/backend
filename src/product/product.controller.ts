@@ -12,6 +12,9 @@ import {
   ParseFilePipeBuilder,
   HttpStatus,
   UploadedFile,
+  StreamableFile,
+  Header,
+  Res,
 } from "@nestjs/common";
 import { ProductService } from "./product.service";
 import { ApiTags } from "@nestjs/swagger";
@@ -35,7 +38,8 @@ import {
   FileFieldsInterceptor,
   FileInterceptor,
 } from "@nestjs/platform-express";
-import { UploadCleanupInterceptor } from "@shared/file-upload";
+import { UploadCleanupInterceptor } from "@/shared/storage";
+import { Response } from "express";
 
 @ApiTags("product")
 @Controller("product")
@@ -79,12 +83,6 @@ export class ProductController {
     return this.productService.find(query);
   }
 
-  @Get("search")
-  @BadRequestResponse(InvalidDataException, InvalidJsonException)
-  @ServiceUnavailableResponse()
-  @InternalServerErrorResponse()
-  public search(@Query() query: SearchProductsQuery) {}
-
   @Get(":id")
   @BadRequestResponse(InvalidIdException)
   @InternalServerErrorResponse()
@@ -94,6 +92,28 @@ export class ProductController {
       throw new InvalidIdException();
     }
     return this.productService.findOne(+id);
+  }
+
+  @Get("/:id/image")
+  @Header("Cross-Origin-Resource-Policy", "cross-origin")
+  @BadRequestResponse(InvalidIdException)
+  @InternalServerErrorResponse()
+  @ServiceUnavailableResponse()
+  public async getImage(
+    @Param("id") id: string,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    if (!+id) {
+      throw new InvalidIdException();
+    }
+    const product = await this.productService.findOne(+id);
+    if (!product) {
+      return;
+    }
+
+    res.setHeader("Content-Type", product.imageType);
+
+    return new StreamableFile(Buffer.from(product.image, "base64"));
   }
 
   @Patch(":id")
