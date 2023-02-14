@@ -4,10 +4,9 @@ import { Body, Controller, Param, Post, Session } from "@nestjs/common";
 import { RegistrationDto } from "./dto/registration.dto";
 import { Auth, InjectAuthState } from "./decorator";
 import { AuthState } from "./auth.state";
-import * as argon2 from "argon2";
 import { NewPasswordDto } from "@/auth/dto/new-password.dto";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
-import { User } from "@/user";
+import { User, UserStatus } from "@/user";
 import {
   BadRequestResponse,
   InternalServerErrorResponse,
@@ -15,16 +14,13 @@ import {
 } from "@/shared/swagger";
 import { InvalidDataException } from "@/shared/validation/exceptions";
 import {
-  EmailNotFoundException,
   InactiveUserException,
   InvalidLoginException,
   InvalidTokenException,
   PasswordNotSetException,
 } from "./exceptions";
 import { EmailDto } from "./dto";
-import { InvalidPasswordException } from "./exceptions/invalid-password-exception";
 import { EmailDuplicateException } from "@/user/duplicate-email.exeption";
-import { InvalidIdException } from "@/shared/exceptions";
 
 @ApiTags("auth")
 @Controller("auth")
@@ -33,13 +29,7 @@ export class AuthController {
 
   @Post("/signup")
   @ApiResponse({ status: 200, type: User })
-  @BadRequestResponse(
-    InvalidDataException,
-    PasswordNotSetException,
-    EmailNotFoundException,
-    InvalidPasswordException,
-    EmailDuplicateException,
-  )
+  @BadRequestResponse(InvalidDataException, EmailDuplicateException)
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
   public async signUp(@Body() registrationDto: RegistrationDto) {
@@ -67,24 +57,21 @@ export class AuthController {
 
   @Post("/session-signin")
   @ApiResponse({ status: 200, type: User })
-  @BadRequestResponse(
-    InvalidDataException,
-    InactiveUserException,
-    InvalidLoginException,
-  )
+  @BadRequestResponse(InactiveUserException)
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
   @Auth()
   public async sessionSignIn(@InjectAuthState() authState: AuthState) {
-    return authState.user;
+    const user = authState.user;
+    if (user?.status === UserStatus.Inactive) {
+      throw new InactiveUserException();
+    }
+
+    return user;
   }
 
   @Post("/logout")
   @ApiResponse({ status: 200 })
-  @BadRequestResponse(
-    InvalidDataException,
-    InvalidLoginException,
-  )
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
   @Auth()
@@ -94,9 +81,7 @@ export class AuthController {
 
   @Post("/send-email-verification")
   @ApiResponse({ status: 200 })
-  @BadRequestResponse(
-    EmailNotFoundException,
-  )
+  @BadRequestResponse()
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
   public async sendConfirmEmail(@Body() email: EmailDto) {
@@ -105,9 +90,7 @@ export class AuthController {
 
   @Post("/send-password-reset")
   @ApiResponse({ status: 200 })
-  @BadRequestResponse(
-    EmailNotFoundException,
-  )
+  @BadRequestResponse()
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
   public async sendPasswordResetEmail(@Body() email: EmailDto) {
@@ -116,11 +99,7 @@ export class AuthController {
 
   @Post("/verify-user/:tokenId")
   @ApiResponse({ status: 200, type: User })
-  @BadRequestResponse(
-    InvalidDataException,
-    InvalidTokenException,
-    InvalidIdException,
-  )
+  @BadRequestResponse(InvalidTokenException)
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
   public async verifyUser(@Param("tokenId") tokenId: string) {
@@ -129,11 +108,7 @@ export class AuthController {
 
   @Post("/change-user-password/:tokenId")
   @ApiResponse({ status: 200, type: User })
-  @BadRequestResponse(
-    InvalidDataException,
-    InvalidTokenException,
-    InvalidIdException,
-  )
+  @BadRequestResponse(InvalidDataException, InvalidTokenException)
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
   public async changeUserPassword(
