@@ -35,11 +35,11 @@ export class Buffet {
   @Expose()
   public address!: string;
 
-  @Property({ length: 20 })
+  @Property({ length: 200 })
   @Expose()
   public hours?: string;
 
-  @Property({ length: 225 })
+  @Property({ length: 800 })
   @Expose()
   public description?: string;
 
