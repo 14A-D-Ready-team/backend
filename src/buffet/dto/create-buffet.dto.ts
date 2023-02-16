@@ -27,12 +27,12 @@ export class CreateBuffetDto {
   @Expose()
   @ApiProperty()
   @IsString()
-  @MaxLength(15)
+  @MaxLength(200)
   public hours: string;
 
   @Expose()
   @ApiProperty()
   @IsString()
-  @MaxLength(255)
+  @MaxLength(800)
   public description: string;
 }
