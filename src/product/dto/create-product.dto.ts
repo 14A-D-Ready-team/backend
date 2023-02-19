@@ -1,6 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Expose, Transform } from "class-transformer";
+import { Expose, plainToInstance, Transform, Type } from "class-transformer";
 import {
+  IsArray,
+  IsDefined,
+  IsInstance,
   IsNumber,
   IsOptional,
   IsPositive,
@@ -9,6 +12,7 @@ import {
   Min,
   MinLength,
 } from "class-validator";
+import { EditCustomizationDto } from "./edit-customization.dto";
 
 export class CreateProductDto {
   @Expose()
@@ -63,4 +67,20 @@ export class CreateProductDto {
   @IsNumber({ allowInfinity: false, allowNaN: false, maxDecimalPlaces: 0 })
   @Min(1)
   public categoryId: number;
+
+  @Expose()
+  @Transform(({ value }) => {
+    if (value === undefined) {
+      return undefined;
+    }
+
+    const obj = JSON.parse(value);
+    return plainToInstance(EditCustomizationDto, obj);
+  })
+  @ApiProperty()
+  @IsDefined()
+  @IsArray()
+  @IsInstance(EditCustomizationDto, { each: true })
+  @ApiProperty()
+  public customizations: EditCustomizationDto[];
 }
