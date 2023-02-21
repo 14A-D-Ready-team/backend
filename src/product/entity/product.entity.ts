@@ -83,6 +83,7 @@ export class Product {
         this,
         customizations.map(c => new Customization(c)),
       );
+      console.log(this.customizations.getItems());
     }
   }
 }
