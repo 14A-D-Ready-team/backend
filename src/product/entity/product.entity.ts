@@ -12,6 +12,7 @@ import {
   Property,
 } from "@mikro-orm/core";
 import { Expose, Transform } from "class-transformer";
+import { EditCustomizationDto } from "../dto";
 import { Customization } from "./customization.entity";
 
 @Entity()
@@ -68,6 +69,20 @@ export class Product {
   @OneToMany(() => Customization, customization => customization.product, {
     orphanRemoval: true,
     eager: true,
+    cascade: [Cascade.ALL],
   })
   public customizations = new Collection<Customization>(this);
+
+  constructor(
+    data: Partial<Product> & { customizations?: EditCustomizationDto[] } = {},
+  ) {
+    const { customizations, ...rest } = data;
+    Object.assign(this, rest);
+    if (customizations) {
+      this.customizations = new Collection<Customization>(
+        this,
+        customizations.map(c => new Customization(c)),
+      );
+    }
+  }
 }

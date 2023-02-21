@@ -1,5 +1,6 @@
 import { serializeCollection } from "@/shared/serialization";
 import {
+  Cascade,
   Collection,
   Entity,
   Enum,
@@ -10,6 +11,7 @@ import {
   Property,
 } from "@mikro-orm/core";
 import { Expose, Transform } from "class-transformer";
+import { EditCustomizationDto } from "../dto";
 import { OptionCount } from "../option-count.enum";
 import { Option } from "./option.entity";
 import { Product } from "./product.entity";
@@ -33,19 +35,37 @@ export class Customization {
   @OneToMany(() => Option, option => option.customization, {
     orphanRemoval: true,
     eager: true,
+    cascade: [Cascade.ALL],
   })
   public options = new Collection<Option>(this);
 
   @ManyToOne()
   public product: IdentifiedReference<Product>;
 
+  constructor(data: EditCustomizationDto);
   constructor(
     description: string,
     optionCount: OptionCount,
-    options: Option[] = [],
+    options?: Option[],
+  );
+  constructor(
+    param1: string | EditCustomizationDto,
+    optionCount?: OptionCount,
+    options?: Option[],
   ) {
-    this.description = description;
-    this.optionCount = optionCount;
-    this.options = new Collection<Option>(this, options);
+    if (typeof param1 === "string") {
+      this.description = param1;
+      this.optionCount = optionCount!;
+      this.options = new Collection<Option>(this, options);
+    } else {
+      const { options, ...rest } = param1;
+      Object.assign(this, rest);
+      if (options) {
+        this.options = new Collection<Option>(
+          this,
+          options.map(o => new Option(o)),
+        );
+      }
+    }
   }
 }
