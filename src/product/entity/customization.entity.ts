@@ -9,6 +9,7 @@ import {
   OneToMany,
   PrimaryKey,
   Property,
+  Reference,
 } from "@mikro-orm/core";
 import { Expose, Transform } from "class-transformer";
 import { EditCustomizationDto } from "../dto";
@@ -42,7 +43,7 @@ export class Customization {
   @ManyToOne()
   public product: IdentifiedReference<Product>;
 
-  constructor(data: EditCustomizationDto);
+  constructor(data: EditCustomizationDto, product: Product);
   constructor(
     description: string,
     optionCount: OptionCount,
@@ -50,20 +51,25 @@ export class Customization {
   );
   constructor(
     param1: string | EditCustomizationDto,
-    optionCount?: OptionCount,
+    param2?: OptionCount | Product,
     options?: Option[],
   ) {
     if (typeof param1 === "string") {
       this.description = param1;
-      this.optionCount = optionCount!;
+      this.optionCount = param2 as OptionCount;
       this.options = new Collection<Option>(this, options);
     } else {
       const { options, ...rest } = param1;
+
       Object.assign(this, rest);
+
+      if (param2) {
+        this.product = Reference.create(param2 as Product);
+      }
       if (options) {
         this.options = new Collection<Option>(
           this,
-          options.map(o => new Option(o)),
+          options.map(o => new Option(o, this)),
         );
       }
     }

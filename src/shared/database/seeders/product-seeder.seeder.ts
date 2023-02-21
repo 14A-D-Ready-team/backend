@@ -7,10 +7,7 @@ import { getProductData } from "./product.data";
 export class ProductSeeder extends Seeder {
   public async run(em: EntityManager, context: SeederContext): Promise<void> {
     for (const p of getProductData(context)) {
-      const customizations = p.customizationsArray!;
-      delete p.customizationsArray;
       const product = new ProductFactory(em).makeOne(p);
-      product.customizations.add(customizations);
 
       await em.persistAndFlush(product);
     }

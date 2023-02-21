@@ -23,14 +23,16 @@ export class ProductService {
   ) {}
 
   public async create(payload: CreateProductDto, image: Express.Multer.File) {
-    const category = await this.categoryRepository.findOne(payload.categoryId);
+    const category: Category | null = await this.categoryRepository.findOne(
+      payload.categoryId,
+    );
     if (!category) {
       throw new CategoryNotFoundException();
     }
 
-    const product = this.productRepository.create({
+    const product = new Product({
       ...payload,
-      category,
+      category: Reference.create(category),
       discountedPrice: payload.discountedPrice
         ? payload.discountedPrice
         : undefined,

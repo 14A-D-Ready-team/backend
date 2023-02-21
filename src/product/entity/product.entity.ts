@@ -15,6 +15,10 @@ import { Expose, Transform } from "class-transformer";
 import { EditCustomizationDto } from "../dto";
 import { Customization } from "./customization.entity";
 
+export type RawProduct = Omit<Partial<Product>, "customizations"> & {
+  customizations?: EditCustomizationDto[];
+};
+
 @Entity()
 export class Product {
   @Expose()
@@ -73,17 +77,14 @@ export class Product {
   })
   public customizations = new Collection<Customization>(this);
 
-  constructor(
-    data: Partial<Product> & { customizations?: EditCustomizationDto[] } = {},
-  ) {
+  constructor(data: RawProduct = {}) {
     const { customizations, ...rest } = data;
     Object.assign(this, rest);
     if (customizations) {
       this.customizations = new Collection<Customization>(
         this,
-        customizations.map(c => new Customization(c)),
+        customizations.map(c => new Customization(c, this)),
       );
-      console.log(this.customizations.getItems());
     }
   }
 }

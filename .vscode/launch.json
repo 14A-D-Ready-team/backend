@@ -4,20 +4,12 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug Backend",
-      "args": [
-        "${workspaceFolder}/src/main.ts"
-      ],
+      "name": "Launch with npm",
+      "runtimeExecutable": "npm",
       "runtimeArgs": [
-        "--nolazy",
-        "-r",
-        "ts-node/register",
-        "-r",
-        "tsconfig-paths/register"
+        "run-script",
+        "start:debug"
       ],
-      "sourceMaps": true,
-      "cwd": "${workspaceRoot}",
-      "console": "integratedTerminal"
     }
   ]
 }

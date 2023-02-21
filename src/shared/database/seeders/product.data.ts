@@ -1,20 +1,19 @@
 import { Category } from "@/category/entity";
-import { Customization, Option, Product } from "@/product/entity";
+import { EditCustomizationDto } from "@/product/dto";
+import { Customization, Option, Product, RawProduct } from "@/product/entity";
 import { OptionCount } from "@/product/option-count.enum";
 import { Reference } from "@mikro-orm/core";
 import { Dictionary } from "lodash";
 import defaultImg from "./product-images/default";
 
-type ProductData = Partial<Product> & { customizationsArray?: Customization[] };
-
 export function getProductData(context: {
   categories: Dictionary<Category>;
-}): ProductData[] {
+}): RawProduct[] {
   return [
     {
       name: "Coca Cola",
       category: Reference.create(context.categories["Italok"]),
-      customizationsArray: [createSodaSizeCustomization()],
+      customizations: [createSodaSizeCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
@@ -22,7 +21,7 @@ export function getProductData(context: {
     {
       name: "Pepsi",
       category: Reference.create(context.categories["Italok"]),
-      customizationsArray: [createSodaSizeCustomization()],
+      customizations: [createSodaSizeCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
@@ -30,7 +29,7 @@ export function getProductData(context: {
     {
       name: "Fanta",
       category: Reference.create(context.categories["Italok"]),
-      customizationsArray: [createSodaSizeCustomization()],
+      customizations: [createSodaSizeCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
@@ -38,7 +37,7 @@ export function getProductData(context: {
     {
       name: "Mountain Dew",
       category: Reference.create(context.categories["Italok"]),
-      customizationsArray: [createSodaSizeCustomization()],
+      customizations: [createSodaSizeCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
@@ -46,7 +45,7 @@ export function getProductData(context: {
     {
       name: "Kinley",
       category: Reference.create(context.categories["Italok"]),
-      customizationsArray: [createSodaSizeCustomization()],
+      customizations: [createSodaSizeCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
@@ -54,10 +53,7 @@ export function getProductData(context: {
     {
       name: "Sonkás melegszendvics",
       category: Reference.create(context.categories["Melegszendvicsek"]),
-      customizationsArray: [
-        createSauceCustomization(),
-        createCheeseCustomization(),
-      ],
+      customizations: [createSauceCustomization(), createCheeseCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
@@ -65,44 +61,35 @@ export function getProductData(context: {
     {
       name: "Gombás melegszendvics",
       category: Reference.create(context.categories["Melegszendvicsek"]),
-      customizationsArray: [
-        createSauceCustomization(),
-        createCheeseCustomization(),
-      ],
+      customizations: [createSauceCustomization(), createCheeseCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
     {
       name: "Sonkás-kukoricás melegszendvics",
       category: Reference.create(context.categories["Melegszendvicsek"]),
-      customizationsArray: [
-        createSauceCustomization(),
-        createCheeseCustomization(),
-      ],
+      customizations: [createSauceCustomization(), createCheeseCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
     {
       name: "Magyaros melegszendvics",
       category: Reference.create(context.categories["Melegszendvicsek"]),
-      customizationsArray: [
-        createSauceCustomization(),
-        createCheeseCustomization(),
-      ],
+      customizations: [createSauceCustomization(), createCheeseCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
     {
       name: "Mars",
       category: Reference.create(context.categories["Édességek"]),
-      customizationsArray: [],
+      customizations: [],
       image: defaultImg,
       imageType: "image/png",
     },
     {
       name: "Bounty",
       category: Reference.create(context.categories["Édességek"]),
-      customizationsArray: [],
+      customizations: [],
       image: defaultImg,
       imageType: "image/png",
     },
@@ -144,7 +131,7 @@ export function getProductData(context: {
     {
       name: "Nyalóka",
       category: Reference.create(context.categories["Édességek"]),
-      customizationsArray: [createCandyFlavourCustomization()],
+      customizations: [createCandyFlavourCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
@@ -152,7 +139,7 @@ export function getProductData(context: {
     {
       name: "Gumicukor",
       category: Reference.create(context.categories["Édességek"]),
-      customizationsArray: [createCandyFlavourCustomization()],
+      customizations: [createCandyFlavourCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
@@ -160,7 +147,7 @@ export function getProductData(context: {
     {
       name: "Toffix",
       category: Reference.create(context.categories["Édességek"]),
-      customizationsArray: [createCandyFlavourCustomization()],
+      customizations: [createCandyFlavourCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
@@ -182,56 +169,56 @@ export function getProductData(context: {
     {
       name: "Twix",
       category: Reference.create(context.categories["Édességek"]),
-      customizationsArray: [],
+      customizations: [],
       image: defaultImg,
       imageType: "image/png",
     },
     {
       name: "Kinder Bueno",
       category: Reference.create(context.categories["Édességek"]),
-      customizationsArray: [],
+      customizations: [],
       image: defaultImg,
       imageType: "image/png",
     },
     {
       name: "Sonkás-sajtos szendvics",
       category: Reference.create(context.categories["Fincsi ®"]),
-      customizationsArray: [],
+      customizations: [],
       image: defaultImg,
       imageType: "image/png",
     },
     {
       name: "Rántott húsos szendvics",
       category: Reference.create(context.categories["Fincsi ®"]),
-      customizationsArray: [],
+      customizations: [],
       image: defaultImg,
       imageType: "image/png",
     },
     {
       name: "Tzazikis gyros",
       category: Reference.create(context.categories["Fincsi ®"]),
-      customizationsArray: [],
+      customizations: [],
       image: defaultImg,
       imageType: "image/png",
     },
     {
       name: "Chillis gyros",
       category: Reference.create(context.categories["Fincsi ®"]),
-      customizationsArray: [],
+      customizations: [],
       image: defaultImg,
       imageType: "image/png",
     },
     {
       name: "Kávé",
       category: Reference.create(context.categories["Forró italok"]),
-      customizationsArray: [createSugarCustomization()],
+      customizations: [createSugarCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
     {
       name: "Forrócsoki",
       category: Reference.create(context.categories["Forró italok"]),
-      customizationsArray: [createSugarCustomization()],
+      customizations: [createSugarCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
@@ -239,10 +226,7 @@ export function getProductData(context: {
     {
       name: "Hamburger",
       category: Reference.create(context.categories["Gyorsételek"]),
-      customizationsArray: [
-        createSauceCustomization(),
-        createCheeseCustomization(),
-      ],
+      customizations: [createSauceCustomization(), createCheeseCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
@@ -250,10 +234,7 @@ export function getProductData(context: {
     {
       name: "Pizza szelet",
       category: Reference.create(context.categories["Gyorsételek"]),
-      customizationsArray: [
-        createSauceCustomization(),
-        createCheeseCustomization(),
-      ],
+      customizations: [createSauceCustomization(), createCheeseCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
@@ -261,10 +242,7 @@ export function getProductData(context: {
     {
       name: "Hot Dog",
       category: Reference.create(context.categories["Gyorsételek"]),
-      customizationsArray: [
-        createSauceCustomization(),
-        createCheeseCustomization(),
-      ],
+      customizations: [createSauceCustomization(), createCheeseCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
@@ -307,7 +285,7 @@ export function getProductData(context: {
     {
       name: "Cappuccino",
       category: Reference.create(context.categories["Forró italok"]),
-      customizationsArray: [createSugarCustomization()],
+      customizations: [createSugarCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
@@ -315,7 +293,7 @@ export function getProductData(context: {
     {
       name: "Esspresso",
       category: Reference.create(context.categories["Forró italok"]),
-      customizationsArray: [createSugarCustomization()],
+      customizations: [createSugarCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
@@ -323,7 +301,7 @@ export function getProductData(context: {
     {
       name: "Zöld tea",
       category: Reference.create(context.categories["Forró italok"]),
-      customizationsArray: [createSugarCustomization()],
+      customizations: [createSugarCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
@@ -331,7 +309,7 @@ export function getProductData(context: {
     {
       name: "Yorkshire Gold",
       category: Reference.create(context.categories["Forró italok"]),
-      customizationsArray: [createSugarCustomization()],
+      customizations: [createSugarCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
@@ -339,7 +317,7 @@ export function getProductData(context: {
     {
       name: "Americano",
       category: Reference.create(context.categories["Forró italok"]),
-      customizationsArray: [createSugarCustomization()],
+      customizations: [createSugarCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
@@ -347,7 +325,7 @@ export function getProductData(context: {
     {
       name: "Chio Chipsz",
       category: Reference.create(context.categories["Nassolnivalók"]),
-      customizationsArray: [
+      customizations: [
         createSnackFlavourCustomization(),
         createSnackSizeCustomization(),
       ],
@@ -358,7 +336,7 @@ export function getProductData(context: {
     {
       name: "Tortilla Chipsz",
       category: Reference.create(context.categories["Nassolnivalók"]),
-      customizationsArray: [
+      customizations: [
         createSnackFlavourCustomization(),
         createSnackSizeCustomization(),
       ],
@@ -369,7 +347,7 @@ export function getProductData(context: {
     {
       name: "Tuc Keksz",
       category: Reference.create(context.categories["Nassolnivalók"]),
-      customizationsArray: [
+      customizations: [
         createSnackFlavourCustomization(),
         createSnackSizeCustomization(),
       ],
@@ -380,7 +358,7 @@ export function getProductData(context: {
     {
       name: "Pufi Kukoricasnack",
       category: Reference.create(context.categories["Nassolnivalók"]),
-      customizationsArray: [
+      customizations: [
         createSnackFlavourCustomization(),
         createSnackSizeCustomization(),
       ],
@@ -391,7 +369,7 @@ export function getProductData(context: {
     {
       name: "Nógrádi Ropogós",
       category: Reference.create(context.categories["Nassolnivalók"]),
-      customizationsArray: [createSnackSizeCustomization()],
+      customizations: [createSnackSizeCustomization()],
       image: defaultImg,
       imageType: "image/png",
     },
@@ -399,88 +377,95 @@ export function getProductData(context: {
 }
 
 function createSodaSizeCustomization() {
-  const c = new Customization("Méret", OptionCount.SingleChoice);
-  const options = [
-    new Option("0,33l", 0, c),
-    new Option("0,5l", 25, c),
-    new Option("1,25l", 75, c),
-    new Option("1,75l", 270, c),
-    new Option("2,25l", 415, c),
-  ];
-  c.options.add(options);
-  return c;
+  return {
+    description: "Méret",
+    optionCount: OptionCount.SingleChoice,
+    options: [
+      { name: "0,33l", extraCost: 0 },
+      { name: "0,5l", extraCost: 25 },
+      { name: "1,25l", extraCost: 75 },
+      { name: "1,75l", extraCost: 270 },
+      { name: "2,25l", extraCost: 415 },
+    ],
+  };
 }
 
 function createSauceCustomization() {
-  const c = new Customization("Szósz", OptionCount.MultipleChoice);
-  const options = [
-    new Option("Ketchup", 0, c),
-    new Option("Mustár", 0, c),
-    new Option("Majonéz", 0, c),
-    new Option("BBQ", 0, c),
-    new Option("Pesto", 100, c),
-    new Option("Csípős", 0, c),
-  ];
-  c.options.add(options);
-  return c;
+  return {
+    description: "Szósz",
+    optionCount: OptionCount.MultipleChoice,
+    options: [
+      { name: "Ketchup", extraCost: 0 },
+      { name: "Mustár", extraCost: 0 },
+      { name: "Majonéz", extraCost: 0 },
+      { name: "BBQ", extraCost: 0 },
+      { name: "Pesto", extraCost: 100 },
+      { name: "Csípős", extraCost: 0 },
+    ],
+  };
 }
 
 function createCheeseCustomization() {
-  const c = new Customization("Sajt", OptionCount.SingleChoice);
-  const options = [
-    new Option("Sajttal", 0, c),
-    new Option("Sajt nélkül", 0, c),
-  ];
-  c.options.add(options);
-  return c;
+  return {
+    description: "Sajt",
+    optionCount: OptionCount.SingleChoice,
+    options: [
+      { name: "Sajttal", extraCost: 0 },
+      { name: "Sajt nélkül", extraCost: 0 },
+    ],
+  };
 }
 
 function createCandyFlavourCustomization() {
-  const c = new Customization("Íz", OptionCount.SingleChoice);
-  const options = [
-    new Option("Cola", 0, c),
-    new Option("Narancs", 0, c),
-    new Option("Trópusi gyümölcs", 0, c),
-    new Option("Eper", 0, c),
-    new Option("Dinnye", 0, c),
-    new Option("Erdei gyümölcs", 0, c),
-  ];
-  c.options.add(options);
-  return c;
+  return {
+    description: "Íz",
+    optionCount: OptionCount.SingleChoice,
+    options: [
+      { name: "Cola", extraCost: 0 },
+      { name: "Narancs", extraCost: 0 },
+      { name: "Trópusi gyümölcs", extraCost: 0 },
+      { name: "Eper", extraCost: 0 },
+      { name: "Dinnye", extraCost: 0 },
+      { name: "Erdei gyümölcs", extraCost: 0 },
+    ],
+  };
 }
 
 function createSugarCustomization() {
-  const c = new Customization("Cukor", OptionCount.SingleChoice);
-  const options = [
-    new Option("Cukorral", 0, c),
-    new Option("Cukor nélkül", 0, c),
-    new Option("Extra cukorral", 20, c),
-    new Option("Édesítőszerrel", 40, c),
-  ];
-  c.options.add(options);
-  return c;
+  return {
+    description: "Cukor",
+    optionCount: OptionCount.SingleChoice,
+    options: [
+      { name: "Cukorral", extraCost: 0 },
+      { name: "Cukor nélkül", extraCost: 0 },
+      { name: "Extra cukorral", extraCost: 20 },
+      { name: "Édesítőszerrel", extraCost: 40 },
+    ],
+  };
 }
 
 function createSnackFlavourCustomization() {
-  const c = new Customization("Íz", OptionCount.SingleChoice);
-  const options = [
-    new Option("Sós", 0, c),
-    new Option("Sajtos", 0, c),
-    new Option("BBQ", 0, c),
-    new Option("Chilis", 0, c),
-    new Option("Ranch Szósz", 0, c),
-  ];
-  c.options.add(options);
-  return c;
+  return {
+    description: "Íz",
+    optionCount: OptionCount.SingleChoice,
+    options: [
+      { name: "Sós", extraCost: 0 },
+      { name: "Sajtos", extraCost: 0 },
+      { name: "BBQ", extraCost: 0 },
+      { name: "Chilis", extraCost: 0 },
+      { name: "Ranch Szósz", extraCost: 0 },
+    ],
+  };
 }
 
 function createSnackSizeCustomization() {
-  const c = new Customization("Méret", OptionCount.SingleChoice);
-  const options = [
-    new Option("60g", 0, c),
-    new Option("140g", 150, c),
-    new Option("250g", 350, c),
-  ];
-  c.options.add(options);
-  return c;
+  return {
+    description: "Méret",
+    optionCount: OptionCount.SingleChoice,
+    options: [
+      { name: "60g", extraCost: 0 },
+      { name: "140g", extraCost: 150 },
+      { name: "250g", extraCost: 350 },
+    ],
+  };
 }

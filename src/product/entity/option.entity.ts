@@ -27,20 +27,23 @@ export class Option {
   @ManyToOne()
   public customization: IdentifiedReference<Customization>;
 
-  constructor(data: EditOptionDto);
+  constructor(data: EditOptionDto, customization: Customization);
   constructor(name: string, extraCost: number, customization?: Customization);
   constructor(
     param1: string | EditOptionDto,
-    extraCost?: number,
+    param2: number | Customization,
     customization?: Customization,
   ) {
     if (typeof param1 === "string") {
       this.name = param1;
-      this.extraCost = extraCost!;
+      this.extraCost = param2 as number;
       if (customization) {
         this.customization = Reference.create(customization);
       }
     } else {
+      if (param2) {
+        this.customization = Reference.create(param2 as Customization);
+      }
       Object.assign(this, param1);
     }
   }
