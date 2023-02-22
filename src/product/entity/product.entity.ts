@@ -11,7 +11,7 @@ import {
   PrimaryKey,
   Property,
 } from "@mikro-orm/core";
-import { Expose, Transform } from "class-transformer";
+import { Exclude, Expose, Transform } from "class-transformer";
 import { EditCustomizationDto } from "../dto";
 import { Customization } from "./customization.entity";
 
@@ -55,7 +55,7 @@ export class Product {
     entity: () => Buffet,
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
   })
-  public buffet?: Buffet;
+  public buffet?: IdentifiedReference<Buffet>;
 
   @Expose({ name: "categoryId" })
   @Transform(params => {
@@ -77,14 +77,19 @@ export class Product {
   })
   public customizations = new Collection<Customization>(this);
 
-  constructor(data: RawProduct = {}, createRefrences = false) {
+  @Exclude()
+  public get buffetId() {
+    return this.buffet?.id;
+  }
+
+  constructor(data: RawProduct = {}, createReferences = false) {
     const { customizations, ...rest } = data;
     Object.assign(this, rest);
     if (customizations) {
       this.customizations = new Collection<Customization>(
         this,
         customizations.map(
-          c => new Customization(c, createRefrences ? this : undefined),
+          c => new Customization(c, createReferences ? this : undefined),
         ),
       );
     }

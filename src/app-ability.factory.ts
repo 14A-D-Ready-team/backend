@@ -11,8 +11,9 @@ import {
   Action,
   registeredAbilityFactories,
 } from "@/shared/policy";
+import { ProductSubjects } from "./product";
 
-type AppSubjects = "all" | UserSubjects;
+type AppSubjects = "all" | UserSubjects | ProductSubjects;
 
 export type AppAbility = MongoAbility<[Action, AppSubjects]>;
 

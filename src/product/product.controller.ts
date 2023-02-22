@@ -40,6 +40,8 @@ import {
 } from "@nestjs/platform-express";
 import { UploadCleanupInterceptor } from "@/shared/storage";
 import { Response } from "express";
+import { Action, CheckPolicies } from "@/shared/policy";
+import { Product } from "./entity";
 
 @ApiTags("product")
 @Controller("product")
@@ -76,6 +78,7 @@ export class ProductController {
   @BadRequestResponse(InvalidDataException)
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
+  @CheckPolicies(ability => ability.can(Action.Read, Product))
   public find(
     @Query() query: FilterProductsQuery,
     @InjectAuthState() authState: AuthState,

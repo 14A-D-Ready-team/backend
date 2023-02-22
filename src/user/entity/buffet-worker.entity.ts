@@ -19,5 +19,5 @@ export class BuffetWorker {
   @ManyToOne({
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
   })
-  public buffet: Buffet;
+  public buffet: IdentifiedReference<Buffet>;
 }
