@@ -37,6 +37,7 @@ export class ProductService {
         discountedPrice: payload.discountedPrice
           ? payload.discountedPrice
           : undefined,
+        // IF THE FILE IS TOO BIG, THE SQL COMMAND WILL BE TOO LONG, AND WILL FAIL
         image: (await readFile(image.path)).toString("base64"),
         imageType: image.mimetype,
       },
