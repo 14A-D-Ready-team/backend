@@ -1,6 +1,5 @@
 import { Category } from "@/category/entity";
-import { EditCustomizationDto } from "@/product/dto";
-import { Customization, Option, Product, RawProduct } from "@/product/entity";
+import { RawProduct } from "@/product/entity";
 import { OptionCount } from "@/product/option-count.enum";
 import { Reference } from "@mikro-orm/core";
 import { Dictionary } from "lodash";

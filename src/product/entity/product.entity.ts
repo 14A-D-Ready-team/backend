@@ -77,13 +77,15 @@ export class Product {
   })
   public customizations = new Collection<Customization>(this);
 
-  constructor(data: RawProduct = {}) {
+  constructor(data: RawProduct = {}, createRefrences = false) {
     const { customizations, ...rest } = data;
     Object.assign(this, rest);
     if (customizations) {
       this.customizations = new Collection<Customization>(
         this,
-        customizations.map(c => new Customization(c, this)),
+        customizations.map(
+          c => new Customization(c, createRefrences ? this : undefined),
+        ),
       );
     }
   }

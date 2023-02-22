@@ -30,15 +30,18 @@ export class ProductService {
       throw new CategoryNotFoundException();
     }
 
-    const product = new Product({
-      ...payload,
-      category: Reference.create(category),
-      discountedPrice: payload.discountedPrice
-        ? payload.discountedPrice
-        : undefined,
-      image: "" /* (await readFile(image.path)).toString("base64") */,
-      imageType: image.mimetype,
-    });
+    const product = new Product(
+      {
+        ...payload,
+        category: Reference.create(category),
+        discountedPrice: payload.discountedPrice
+          ? payload.discountedPrice
+          : undefined,
+        image: (await readFile(image.path)).toString("base64"),
+        imageType: image.mimetype,
+      },
+      true,
+    );
 
     await this.productRepository.persistAndFlush(product);
     return product;

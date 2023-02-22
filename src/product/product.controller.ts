@@ -17,7 +17,7 @@ import {
   Res,
 } from "@nestjs/common";
 import { ProductService } from "./product.service";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { InvalidIdException } from "@/shared/exceptions";
 import {
   BadRequestResponse,
