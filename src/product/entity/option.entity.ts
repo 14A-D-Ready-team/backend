@@ -7,6 +7,7 @@ import {
   Reference,
 } from "@mikro-orm/core";
 import { Expose } from "class-transformer";
+import { EditOptionDto } from "../dto";
 import { Customization } from "./customization.entity";
 
 @Entity()
@@ -26,11 +27,10 @@ export class Option {
   @ManyToOne()
   public customization: IdentifiedReference<Customization>;
 
-  constructor(name: string, extraCost: number, customization?: Customization) {
-    this.name = name;
-    this.extraCost = extraCost;
+  constructor(data: EditOptionDto, customization?: Customization) {
     if (customization) {
       this.customization = Reference.create(customization);
     }
+    Object.assign(this, data);
   }
 }

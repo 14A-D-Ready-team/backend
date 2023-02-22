@@ -7,9 +7,17 @@ import {
   Param,
   Delete,
   Query,
+  UploadedFiles,
+  UseInterceptors,
+  ParseFilePipeBuilder,
+  HttpStatus,
+  UploadedFile,
+  StreamableFile,
+  Header,
+  Res,
 } from "@nestjs/common";
 import { ProductService } from "./product.service";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { InvalidIdException } from "@/shared/exceptions";
 import {
   BadRequestResponse,
@@ -26,6 +34,12 @@ import { ProductNotFoundException } from "./exceptions";
 import { CategoryNotFoundException } from "@/category";
 import { FilterProductsQuery, SearchProductsQuery } from "./query";
 import { Auth, AuthState, InjectAuthState } from "@/auth";
+import {
+  FileFieldsInterceptor,
+  FileInterceptor,
+} from "@nestjs/platform-express";
+import { UploadCleanupInterceptor } from "@/shared/storage";
+import { Response } from "express";
 
 @ApiTags("product")
 @Controller("product")
@@ -37,8 +51,24 @@ export class ProductController {
   @BadRequestResponse(InvalidDataException)
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
-  public create(@Body() createProductDto: CreateProductDto) {
-    return this.productService.create(createProductDto);
+  @UseInterceptors(FileInterceptor("image"), UploadCleanupInterceptor)
+  public create(
+    @Body() createProductDto: CreateProductDto,
+    @UploadedFile(
+      new ParseFilePipeBuilder()
+        .addFileTypeValidator({
+          fileType: "image/*",
+        })
+        .addMaxSizeValidator({
+          maxSize: 10000000,
+        })
+        .build({
+          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+        }),
+    )
+    image: Express.Multer.File,
+  ) {
+    return this.productService.create(createProductDto, image);
   }
 
   @Get()
@@ -50,15 +80,8 @@ export class ProductController {
     @Query() query: FilterProductsQuery,
     @InjectAuthState() authState: AuthState,
   ) {
-    console.log(authState.user);
     return this.productService.find(query);
   }
-
-  @Get("search")
-  @BadRequestResponse(InvalidDataException, InvalidJsonException)
-  @ServiceUnavailableResponse()
-  @InternalServerErrorResponse()
-  public search(@Query() query: SearchProductsQuery) {}
 
   @Get(":id")
   @BadRequestResponse(InvalidIdException)
@@ -69,6 +92,28 @@ export class ProductController {
       throw new InvalidIdException();
     }
     return this.productService.findOne(+id);
+  }
+
+  @Get("/:id/image")
+  @Header("Cross-Origin-Resource-Policy", "cross-origin")
+  @BadRequestResponse(InvalidIdException)
+  @InternalServerErrorResponse()
+  @ServiceUnavailableResponse()
+  public async getImage(
+    @Param("id") id: string,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    if (!+id) {
+      throw new InvalidIdException();
+    }
+    const product = await this.productService.findOne(+id);
+    if (!product) {
+      return;
+    }
+
+    res.setHeader("Content-Type", product.imageType);
+
+    return new StreamableFile(Buffer.from(product.image, "base64"));
   }
 
   @Patch(":id")
