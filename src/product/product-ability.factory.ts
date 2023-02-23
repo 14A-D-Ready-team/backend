@@ -23,17 +23,13 @@ export type ProductAbility = MongoAbility<[Action, ProductSubjects]>;
 @Injectable()
 export class ProductAbilityFactory implements AbilityFactory {
   public async createForUser(user?: User) {
-    const { can, cannot, build } = new AbilityBuilder<ProductAbility>(
-      createMongoAbility,
-    );
-    
+    const builder = new AbilityBuilder<ProductAbility>(createMongoAbility);
+    const { can } = builder;
+
     can(Action.Read, Product);
 
     if (!user) {
-      return build({
-        detectSubjectType: item =>
-          item.constructor as ExtractSubjectType<ProductAbility>,
-      });
+      return this.build(builder);
     }
 
     const buffetOwner = user.buffetOwner?.unwrap();
@@ -52,7 +48,11 @@ export class ProductAbilityFactory implements AbilityFactory {
       });
     }
 
-    return build({
+    return this.build(builder);
+  }
+
+  private build(builder: AbilityBuilder<ProductAbility>) {
+    return builder.build({
       detectSubjectType: item =>
         item.constructor as ExtractSubjectType<ProductAbility>,
     });

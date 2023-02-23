@@ -7,6 +7,7 @@ import {
   Inject,
   Injectable,
   Type,
+  UnauthorizedException,
 } from "@nestjs/common";
 import { ModuleRef, Reflector } from "@nestjs/core";
 import { Response } from "express";
@@ -30,6 +31,7 @@ export class PolicyGuard implements CanActivate {
 
   public async canActivate(context: ExecutionContext): Promise<boolean> {
     const policies = this.getPolicies(context);
+
     if (policies.length === 0) {
       return true;
     }
@@ -37,18 +39,23 @@ export class PolicyGuard implements CanActivate {
     const res = context.switchToHttp().getResponse<Response>();
     const authState: AuthState = res.locals.authState;
 
-    let ability: AppAbility;
-
-    if (authState?.isLoggedIn) {
-      if (!authState.isUserLoaded) {
-        throw new Error("User is not loaded by AuthGuard");
-      }
-      ability = await Promise.resolve(
-        this.appAbilityFactory.createForUser(authState.user as User),
-      );
+    if (authState?.isLoggedIn && !authState.isUserLoaded) {
+      throw new Error("User is not loaded by AuthGuard");
     }
 
-    return policies.every(policy => this.checkPolicy(policy, ability), this);
+    const ability = await Promise.resolve(
+      this.appAbilityFactory.createForUser(authState?.user),
+    );
+
+    const hasAbility = policies.every(
+      policy => this.checkPolicy(policy, ability),
+      this,
+    );
+
+    if (!hasAbility && !authState?.isLoggedIn) {
+      throw new UnauthorizedException();
+    }
+    return hasAbility;
   }
 
   private getPolicies(context: ExecutionContext): PolicyHandler[] {
