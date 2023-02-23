@@ -45,8 +45,8 @@ export class PolicyGuard implements CanActivate {
       throw new Error("User is not loaded by AuthGuard");
     }
 
-    const ability = this.appAbilityFactory.createForUser(
-      authState.user as User,
+    const ability = await Promise.resolve(
+      this.appAbilityFactory.createForUser(authState.user as User),
     );
 
     return policies.every(policy => this.checkPolicy(policy, ability), this);
