@@ -2,6 +2,7 @@ import { Auth, AuthState, InjectAuthState } from "@/auth";
 import { BaseRepository } from "@/shared/database";
 import { InvalidIdException } from "@/shared/exceptions";
 import { CheckPolicies } from "@/shared/policy";
+import { UploadCleanupInterceptor } from "@/shared/storage";
 import {
   NotFoundResponse,
   BadRequestResponse,
@@ -20,11 +21,16 @@ import {
   Controller,
   Delete,
   Get,
+  HttpStatus,
   Param,
+  ParseFilePipeBuilder,
   Patch,
   Post,
   Query,
+  UploadedFile,
+  UseInterceptors,
 } from "@nestjs/common";
+import { FileInterceptor } from "@nestjs/platform-express";
 import { BuffetService } from "./buffet.service";
 import { CreateBuffetDto } from "./dto/create-buffet.dto";
 import { UpdateBuffetDto } from "./dto/update-buffet.dto";
@@ -44,11 +50,28 @@ export class BuffetController {
   @BadRequestResponse(InvalidDataException)
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
+  @UseInterceptors(FileInterceptor("image"), UploadCleanupInterceptor)
   @Auth()
   //TODO!!! megcsinálni jogokat
   @CheckPolicies(ability=>true)
-  public create(@Body() createBuffetDto: CreateBuffetDto, @InjectAuthState() authState: AuthState) {
-    return this.buffetService.create(createBuffetDto, authState.user!);
+  public create(
+    @Body() createBuffetDto: CreateBuffetDto, 
+    @InjectAuthState() authState: AuthState,
+    @UploadedFile(
+      new ParseFilePipeBuilder()
+        .addFileTypeValidator({
+          fileType: "image/*",
+        })
+        .addMaxSizeValidator({
+          maxSize: 10000000,
+        })
+        .build({
+          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+        }),
+    )
+    image: Express.Multer.File,
+    ) {
+    return this.buffetService.create(createBuffetDto, authState.user!, image);
   }
 
   //getall search és rendezés is
