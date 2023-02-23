@@ -3,6 +3,7 @@ import { PaginatedResponse } from "@/shared/pagination";
 import { User } from "@/user";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { Injectable } from "@nestjs/common";
+import { readFile } from "fs/promises";
 import { CreateBuffetDto } from "./dto/create-buffet.dto";
 import { UpdateBuffetDto } from "./dto/update-buffet.dto";
 import { Buffet } from "./entity/buffet.entity";
@@ -19,12 +20,14 @@ export class BuffetService {
     private userRepository: BaseRepository<User>,
   ) {}
 
-  public async create(payload: CreateBuffetDto, user: User) {
+  public async create(payload: CreateBuffetDto, user: User, image: Express.Multer.File) {
     //kell check hogy owner e majd (AUTHORIZÁCIÓBAN)
 
     const buffet = this.buffetRepository.create({
       ...payload,
       buffetOwner: user.buffetOwner!,
+      image: (await readFile(image.path)).toString("base64"),
+      imageType: image.mimetype,
     });
 
     await this.buffetRepository.persistAndFlush(buffet);
