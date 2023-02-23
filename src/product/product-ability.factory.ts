@@ -22,12 +22,19 @@ export type ProductAbility = MongoAbility<[Action, ProductSubjects]>;
 @RegisterAbilityFactory()
 @Injectable()
 export class ProductAbilityFactory implements AbilityFactory {
-  public async createForUser(user: User) {
+  public async createForUser(user?: User) {
     const { can, cannot, build } = new AbilityBuilder<ProductAbility>(
       createMongoAbility,
     );
-
+    
     can(Action.Read, Product);
+
+    if (!user) {
+      return build({
+        detectSubjectType: item =>
+          item.constructor as ExtractSubjectType<ProductAbility>,
+      });
+    }
 
     const buffetOwner = user.buffetOwner?.unwrap();
     if (buffetOwner) {

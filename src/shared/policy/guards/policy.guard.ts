@@ -37,17 +37,16 @@ export class PolicyGuard implements CanActivate {
     const res = context.switchToHttp().getResponse<Response>();
     const authState: AuthState = res.locals.authState;
 
-    if (!authState?.isLoggedIn) {
-      return false;
-    }
+    let ability: AppAbility;
 
-    if (!authState.isUserLoaded) {
-      throw new Error("User is not loaded by AuthGuard");
+    if (authState?.isLoggedIn) {
+      if (!authState.isUserLoaded) {
+        throw new Error("User is not loaded by AuthGuard");
+      }
+      ability = await Promise.resolve(
+        this.appAbilityFactory.createForUser(authState.user as User),
+      );
     }
-
-    const ability = await Promise.resolve(
-      this.appAbilityFactory.createForUser(authState.user as User),
-    );
 
     return policies.every(policy => this.checkPolicy(policy, ability), this);
   }

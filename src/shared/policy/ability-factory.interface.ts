@@ -4,6 +4,7 @@ import { Action } from "./action.enum";
 
 export interface AbilityFactory {
   createForUser(
-    user: User,
+    user?: User,
   ): MongoAbility<[Action, any]> | Promise<MongoAbility<[Action, any]>>;
+
 }

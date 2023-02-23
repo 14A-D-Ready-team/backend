@@ -11,7 +11,7 @@ import {
   Action,
   registeredAbilityFactories,
 } from "@/shared/policy";
-import { ProductSubjects } from "./product";
+import { ProductSubjects } from "@/product";
 import { map } from "p-iteration";
 
 type AppSubjects = "all" | UserSubjects | ProductSubjects;
@@ -22,14 +22,25 @@ export type AppAbility = MongoAbility<[Action, AppSubjects]>;
 export class AppAbilityFactory implements AbilityFactory {
   constructor(private moduleRef: ModuleRef) {}
 
-  public async createForUser(user: User) {
-    const { can, build, rules } = new AbilityBuilder<AppAbility>(
-      createMongoAbility,
-    );
+  public async createForUser(user?: User) {
+    const builder = new AbilityBuilder<AppAbility>(createMongoAbility);
+
+    if (!user) {
+      return this.buildAbility(builder, user);
+
+    }
+
+    const { can } = builder;
 
     if (user.admin?.unwrap()) {
       can(Action.Manage, "all");
     }
+
+    return this.buildAbility(builder, user);
+  }
+
+  private async buildAbility(builder: AbilityBuilder<AppAbility>, user?: User) {
+    const { build, rules } = builder;
 
     const extensionRules = await map(
       registeredAbilityFactories,
