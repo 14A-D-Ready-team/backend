@@ -16,6 +16,8 @@ import { Expose, Transform } from "class-transformer";
 import { BuffetInviteToken } from "./buffet-invite-token.entity";
 import { BuffetStatus } from "./buffet-status.entity";
 
+export type RawBuffet = Partial<Buffet>;
+
 @Entity()
 export class Buffet {
   @PrimaryKey({ autoincrement: true })
@@ -85,4 +87,8 @@ export class Buffet {
     orphanRemoval: true,
   })
   public reviews? = new Collection<BuffetReview>(this);
+
+  constructor(data: RawBuffet = {}) {
+    Object.assign(this, data);
+  }
 }

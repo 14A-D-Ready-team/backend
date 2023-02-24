@@ -1,10 +1,12 @@
+import { AppAbility } from "@/app-ability.factory";
 import { Category } from "@/category";
 import { CategoryNotFoundException } from "@/category";
 import { BaseRepository } from "@/shared/database";
 import { PaginatedResponse } from "@/shared/pagination";
+import { Action } from "@/shared/policy";
 import { Reference } from "@mikro-orm/core";
 import { InjectRepository } from "@mikro-orm/nestjs";
-import { Injectable } from "@nestjs/common";
+import { ForbiddenException, Injectable } from "@nestjs/common";
 import { readFile } from "fs/promises";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
@@ -66,10 +68,18 @@ export class ProductService {
     return this.productRepository.findOne(id);
   }
 
-  public async update(id: number, payload: UpdateProductDto) {
+  public async update(
+    id: number,
+    payload: UpdateProductDto,
+    ability: AppAbility,
+  ) {
     let productToUpdate = await this.findOne(id);
     if (!productToUpdate) {
       throw new ProductNotFoundException();
+    }
+
+    if (!ability.can(Action.Update, productToUpdate)) {
+      throw new ForbiddenException();
     }
 
     if (payload.categoryId) {
@@ -83,28 +93,21 @@ export class ProductService {
     }
 
     productToUpdate = this.productRepository.assign(productToUpdate, payload);
+
     await this.productRepository.persistAndFlush(productToUpdate);
     return productToUpdate;
   }
 
-  public async remove(id: number) {
+  public async remove(id: number, ability: AppAbility) {
     const entity = await this.findOne(id);
-    if (entity) {
-      await this.productRepository.removeAndFlush(entity);
-    }
-  }
-
-  private async getCategoryFromQuery(
-    query: FilterProductsQuery,
-  ): Promise<Category | undefined> {
-    if (!query.categoryId) {
+    if (!entity) {
       return;
     }
 
-    const category = await this.categoryRepository.findOne(query.categoryId);
-    if (!category) {
-      throw new CategoryNotFoundException();
+    if (!ability.can(Action.Delete, entity)) {
+      throw new ForbiddenException();
     }
-    return category;
+
+    await this.productRepository.removeAndFlush(entity);
   }
 }

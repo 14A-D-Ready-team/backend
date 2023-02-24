@@ -10,13 +10,14 @@ import {
   ExtractSubjectType,
   InferSubjects,
   MongoAbility,
-  MongoQuery,
 } from "@casl/ability";
 import { Injectable } from "@nestjs/common";
-import { CreateProductDto } from "./dto";
+import { CreateProductDto, UpdateProductDto } from "./dto";
 import { Product } from "./entity";
 
-export type ProductSubjects = InferSubjects<typeof Product>;
+export type ProductSubjects = InferSubjects<
+  typeof Product | typeof CreateProductDto | typeof UpdateProductDto
+>;
 
 export type ProductAbility = MongoAbility<[Action, ProductSubjects]>;
 
@@ -55,7 +56,7 @@ export class ProductAbilityFactory implements AbilityFactory {
       categoryId: { $in: ownCategoryIds },
     });
 
-    can(Action.Update, Product, {
+    can(Action.Update, [Product, UpdateProductDto], {
       categoryId: { $in: ownCategoryIds },
     });
 
