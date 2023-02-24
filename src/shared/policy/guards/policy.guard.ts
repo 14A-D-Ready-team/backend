@@ -12,7 +12,7 @@ import {
 import { ModuleRef, Reflector } from "@nestjs/core";
 import { Response } from "express";
 import { Observable } from "rxjs";
-import { policiesMetadataKey } from "../decorator";
+import { needsAbilityMetadataKey, policiesMetadataKey } from "../decorator";
 import { PolicyHandler } from "../policy.handler";
 
 @Injectable()
@@ -31,8 +31,10 @@ export class PolicyGuard implements CanActivate {
 
   public async canActivate(context: ExecutionContext): Promise<boolean> {
     const policies = this.getPolicies(context);
+    const hasPolicies = policies.length > 0;
+    const needsAbility = this.needsAbility(context) || hasPolicies;
 
-    if (policies.length === 0) {
+    if (!needsAbility) {
       return true;
     }
 
@@ -47,15 +49,32 @@ export class PolicyGuard implements CanActivate {
       this.appAbilityFactory.createForUser(authState?.user),
     );
 
-    const hasAbility = policies.every(
-      policy => this.checkPolicy(policy, ability),
-      this,
-    );
+    res.locals.ability = ability;
+
+    const hasAbility =
+      !hasPolicies ||
+      policies.every(policy => this.checkPolicy(policy, ability), this);
 
     if (!hasAbility && !authState?.isLoggedIn) {
       throw new UnauthorizedException();
     }
     return hasAbility;
+  }
+
+  private needsAbility(context: ExecutionContext) {
+    const controllerNeedsAbility = this.reflector.get<boolean>(
+      needsAbilityMetadataKey,
+      context.getClass(),
+    );
+    const handlerNeedsAbility = this.reflector.get<boolean>(
+      needsAbilityMetadataKey,
+      context.getHandler(),
+    );
+    if (handlerNeedsAbility === undefined) {
+      return controllerNeedsAbility;
+    }
+
+    return handlerNeedsAbility;
   }
 
   private getPolicies(context: ExecutionContext): PolicyHandler[] {

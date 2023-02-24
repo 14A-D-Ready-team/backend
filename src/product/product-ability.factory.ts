@@ -34,9 +34,14 @@ export class ProductAbilityFactory implements AbilityFactory {
 
     const buffetOwner = user.buffetOwner?.unwrap();
     if (buffetOwner) {
-      const buffets = await buffetOwner.buffet?.loadItems();
+      const buffets = await buffetOwner.buffet?.loadItems({
+        populate: ["categories"],
+      });
+      const categories = buffets.flatMap(
+        buffet => buffet.categories?.getIdentifiers() ?? [],
+      );
       can(Action.Create, Product, {
-        buffetId: { $in: buffets.map(buffet => buffet.id) },
+       catg
       });
     }
 

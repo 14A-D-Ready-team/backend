@@ -51,12 +51,6 @@ export class Product {
   @Property({ length: 35 })
   public imageType: string;
 
-  @ManyToOne({
-    entity: () => Buffet,
-    cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
-  })
-  public buffet?: IdentifiedReference<Buffet>;
-
   @Expose({ name: "categoryId" })
   @Transform(params => {
     const value = params.value as Category;
@@ -76,11 +70,6 @@ export class Product {
     cascade: [Cascade.ALL],
   })
   public customizations = new Collection<Customization>(this);
-
-  @Exclude()
-  public get buffetId() {
-    return this.buffet?.id;
-  }
 
   constructor(data: RawProduct = {}, createReferences = false) {
     const { customizations, ...rest } = data;

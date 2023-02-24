@@ -35,7 +35,6 @@ export class AuthGuard implements CanActivate {
     return true;
   }
 
-  // rework
   private needsAuthentication(context: ExecutionContext): boolean {
     const authenticateController = this.reflector.get<boolean>(
       authMetadataKey,

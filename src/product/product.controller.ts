@@ -40,8 +40,9 @@ import {
 } from "@nestjs/platform-express";
 import { UploadCleanupInterceptor } from "@/shared/storage";
 import { Response } from "express";
-import { Action, CheckPolicies } from "@/shared/policy";
+import { Action, CheckPolicies, InjectAbility } from "@/shared/policy";
 import { Product } from "./entity";
+import { AppAbility } from "@/app-ability.factory";
 
 @ApiTags("product")
 @Controller("product")
@@ -55,7 +56,9 @@ export class ProductController {
   @InternalServerErrorResponse()
   @UseInterceptors(FileInterceptor("image"), UploadCleanupInterceptor)
   public create(
-    @Body() createProductDto: CreateProductDto,
+    @Body() 
+    createProductDto: CreateProductDto,
+
     @UploadedFile(
       new ParseFilePipeBuilder()
         .addFileTypeValidator({
@@ -69,12 +72,16 @@ export class ProductController {
         }),
     )
     image: Express.Multer.File,
+
+    @InjectAbility()
+    ability: AppAbility,
+
   ) {
-    return this.productService.create(createProductDto, image);
+ 
+    //return this.productService.create(createProductDto, image);
   }
 
   @Get()
-  @Auth()
   @BadRequestResponse(InvalidDataException)
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()

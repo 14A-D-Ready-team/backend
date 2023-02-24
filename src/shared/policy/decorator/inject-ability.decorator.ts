@@ -3,13 +3,22 @@ import {
   applyDecorators,
   createParamDecorator,
   ExecutionContext,
+  SetMetadata,
 } from "@nestjs/common";
 import { Response } from "express";
 
 export const needsAbilityMetadataKey = "needsAbility";
 
 const enchancer = (target: object, propertyKey: string | symbol) => {
-  applyDecorators(Auth())(target, propertyKey);
+  const descriptor = Reflect.getOwnPropertyDescriptor(
+    target,
+    propertyKey,
+  ) as PropertyDescriptor;
+  applyDecorators(Auth(), SetMetadata(needsAbilityMetadataKey, true))(
+    target,
+    propertyKey,
+    descriptor,
+  );
 };
 
 export const InjectAbility = createParamDecorator(
