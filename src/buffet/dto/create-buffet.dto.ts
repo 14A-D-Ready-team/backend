@@ -27,7 +27,7 @@ export class CreateBuffetDto {
   @Expose()
   @ApiProperty()
   @IsString()
-  @MaxLength(200)
+  @MaxLength(300)
   public hours: string;
 
   @Expose()

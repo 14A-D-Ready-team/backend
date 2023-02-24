@@ -37,13 +37,19 @@ export class Buffet {
   @Expose()
   public address!: string;
 
-  @Property({ length: 200 })
+  @Property({ length: 300 })
   @Expose()
   public hours?: string;
 
   @Property({ length: 800 })
   @Expose()
   public description?: string;
+
+  @Property({ length: 10000000 })
+  public image: string;
+
+  @Property({ length: 35 })
+  public imageType: string;
 
   @OneToMany(() => BuffetStatus, buffetStatus => buffetStatus.buffet, {
     orphanRemoval: true,
