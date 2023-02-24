@@ -48,18 +48,17 @@ export class Buffet {
   })
   public status = new Collection<BuffetStatus>(this);
 
-  @OneToMany(() => Product, product => product.buffet, {
-    orphanRemoval: true,
-  })
-  public products? = new Collection<Product>(this);
-
   @OneToMany(() => Category, category => category.buffet, {
     orphanRemoval: true,
   })
-  public categories? = new Collection<Category>(this);
+  public categories = new Collection<Category>(this);
 
-  @Expose({name : "ownerId"})
-  @Transform(params=> {
+  public get categoryIds() {
+    return this.categories.getIdentifiers();
+  }
+
+  @Expose({ name: "ownerId" })
+  @Transform(params => {
     const owner = params.value as BuffetOwner;
     return owner.user.id;
   })

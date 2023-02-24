@@ -13,6 +13,7 @@ import {
   MongoQuery,
 } from "@casl/ability";
 import { Injectable } from "@nestjs/common";
+import { CreateProductDto } from "./dto";
 import { Product } from "./entity";
 
 export type ProductSubjects = InferSubjects<typeof Product>;
@@ -32,26 +33,35 @@ export class ProductAbilityFactory implements AbilityFactory {
       return this.build(builder);
     }
 
+    let ownCategoryIds: number[] = [];
+
     const buffetOwner = user.buffetOwner?.unwrap();
     if (buffetOwner) {
       const buffets = await buffetOwner.buffet?.loadItems({
         populate: ["categories"],
       });
-      const categories = buffets.flatMap(
-        buffet => buffet.categories?.getIdentifiers() ?? [],
-      );
-      can(Action.Create, Product, {
-       catg
-      });
+      ownCategoryIds = buffets.flatMap(buffet => buffet.categoryIds);
     }
 
     const buffetWorker = user.buffetWorker?.unwrap();
     if (buffetWorker) {
-      const buffetId = buffetWorker.buffet.id;
-      can(Action.Create, Product, {
-        buffetId,
+      const buffet = await buffetWorker.buffet.load({
+        populate: ["categories"],
       });
+      ownCategoryIds = buffet.categoryIds;
     }
+
+    can([Action.Create], [Product, CreateProductDto], {
+      categoryId: { $in: ownCategoryIds },
+    });
+
+    can(Action.Update, Product, {
+      categoryId: { $in: ownCategoryIds },
+    });
+
+    can(Action.Delete, Product, {
+      categoryId: { $in: ownCategoryIds },
+    });
 
     return this.build(builder);
   }

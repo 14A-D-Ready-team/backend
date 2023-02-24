@@ -15,6 +15,7 @@ import {
   StreamableFile,
   Header,
   Res,
+  ForbiddenException,
 } from "@nestjs/common";
 import { ProductService } from "./product.service";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
@@ -56,7 +57,7 @@ export class ProductController {
   @InternalServerErrorResponse()
   @UseInterceptors(FileInterceptor("image"), UploadCleanupInterceptor)
   public create(
-    @Body() 
+    @Body()
     createProductDto: CreateProductDto,
 
     @UploadedFile(
@@ -75,9 +76,10 @@ export class ProductController {
 
     @InjectAbility()
     ability: AppAbility,
-
   ) {
- 
+    if (!ability.can(Action.Create, createProductDto as unknown as Product)) {
+      throw new ForbiddenException();
+    }
     //return this.productService.create(createProductDto, image);
   }
 

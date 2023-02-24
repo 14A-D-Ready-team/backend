@@ -62,6 +62,10 @@ export class Product {
   })
   public category: IdentifiedReference<Category>;
 
+  public get categoryId() {
+    return this.category?.id;
+  }
+
   @Expose()
   @Transform(serializeCollection)
   @OneToMany(() => Customization, customization => customization.product, {
