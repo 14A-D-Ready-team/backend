@@ -31,14 +31,14 @@ export class ProductAbilityFactory implements AbilityFactory {
     can(Action.Read, Product);
 
     if (!user) {
-      return this.build(builder);
+      return builder.build();
     }
 
     let ownCategoryIds: number[] = [];
 
     const buffetOwner = user.buffetOwner?.unwrap();
     if (buffetOwner) {
-      const buffets = await buffetOwner.buffet?.loadItems({
+      const buffets = await buffetOwner.buffets?.loadItems({
         populate: ["categories"],
       });
       ownCategoryIds = buffets.flatMap(buffet => buffet.categoryIds);
@@ -52,7 +52,7 @@ export class ProductAbilityFactory implements AbilityFactory {
       ownCategoryIds = buffet.categoryIds;
     }
 
-    can([Action.Create], [Product, CreateProductDto], {
+    can(Action.Create, [Product, CreateProductDto], {
       categoryId: { $in: ownCategoryIds },
     });
 
@@ -64,13 +64,6 @@ export class ProductAbilityFactory implements AbilityFactory {
       categoryId: { $in: ownCategoryIds },
     });
 
-    return this.build(builder);
-  }
-
-  private build(builder: AbilityBuilder<ProductAbility>) {
-    return builder.build({
-      detectSubjectType: item =>
-        item.constructor as ExtractSubjectType<ProductAbility>,
-    });
+    return builder.build();
   }
 }

@@ -120,9 +120,27 @@ export class ProductController {
   @BadRequestResponse(InvalidIdException, InvalidDataException)
   @InternalServerErrorResponse()
   @ServiceUnavailableResponse()
+  @UseInterceptors(FileInterceptor("image"), UploadCleanupInterceptor)
   public update(
     @Param("id") id: string,
+
     @Body() updateProductDto: UpdateProductDto,
+
+    @UploadedFile(
+      new ParseFilePipeBuilder()
+        .addFileTypeValidator({
+          fileType: "image/*",
+        })
+        .addMaxSizeValidator({
+          maxSize: 10000000,
+        })
+        .build({
+          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+          fileIsRequired: false,
+        }),
+    )
+    image: Express.Multer.File,
+
     @InjectAbility() ability: AppAbility,
   ) {
     if (!+id) {

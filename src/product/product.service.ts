@@ -8,6 +8,7 @@ import { Reference } from "@mikro-orm/core";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { ForbiddenException, Injectable } from "@nestjs/common";
 import { readFile } from "fs/promises";
+import { omit } from "lodash";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { Product } from "./entity";
@@ -34,7 +35,7 @@ export class ProductService {
 
     const product = new Product(
       {
-        ...payload,
+        ...omit(payload, "categoryId"),
         category: Reference.create(category),
         discountedPrice: payload.discountedPrice
           ? payload.discountedPrice
@@ -92,7 +93,10 @@ export class ProductService {
       productToUpdate.category = Reference.create(category);
     }
 
-    productToUpdate = this.productRepository.assign(productToUpdate, payload);
+    productToUpdate = this.productRepository.assign(
+      productToUpdate,
+      omit(payload, "categoryId"),
+    );
 
     await this.productRepository.persistAndFlush(productToUpdate);
     return productToUpdate;

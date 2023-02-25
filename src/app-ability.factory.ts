@@ -2,6 +2,7 @@ import { User, UserSubjects } from "@/user";
 import {
   AbilityBuilder,
   createMongoAbility,
+  ExtractSubjectType,
   MongoAbility,
 } from "@casl/ability";
 import { Injectable } from "@nestjs/common";
@@ -27,7 +28,6 @@ export class AppAbilityFactory implements AbilityFactory {
 
     if (!user) {
       return this.buildAbility(builder, user);
-
     }
 
     const { can } = builder;
@@ -53,6 +53,10 @@ export class AppAbilityFactory implements AbilityFactory {
 
     rules.push(...extensionRules.flat());
 
-    return build();
+    return build({
+      detectSubjectType: item => {
+        return item.constructor as ExtractSubjectType<AppAbility>;
+      },
+    });
   }
 }

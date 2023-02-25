@@ -15,7 +15,10 @@ import { Exclude, Expose, Transform } from "class-transformer";
 import { EditCustomizationDto } from "../dto";
 import { Customization } from "./customization.entity";
 
-export type RawProduct = Omit<Partial<Product>, "customizations"> & {
+export type RawProduct = Omit<
+  Partial<Product>,
+  "customizations" | "categoryId"
+> & {
   customizations?: EditCustomizationDto[];
 };
 

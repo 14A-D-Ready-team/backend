@@ -19,5 +19,5 @@ export class BuffetOwner {
   @OneToMany(() => Buffet, buffet => buffet.buffetOwner, {
     orphanRemoval: true,
   })
-  public buffet = new Collection<Buffet>(this);
+  public buffets = new Collection<Buffet>(this);
 }
