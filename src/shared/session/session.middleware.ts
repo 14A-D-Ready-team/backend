@@ -27,7 +27,9 @@ export class SessionMiddleware implements NestMiddleware {
       rolling: false,
       resave: false,
       saveUninitialized: true,
-      store: config.isRender ? this.initializeSessionStore() : undefined,
+      store: config.useDbSessionStore
+        ? this.initializeSessionStore()
+        : undefined,
       proxy: true,
     });
   }

@@ -7,11 +7,12 @@ import {
   Inject,
   Injectable,
   Type,
+  UnauthorizedException,
 } from "@nestjs/common";
 import { ModuleRef, Reflector } from "@nestjs/core";
 import { Response } from "express";
 import { Observable } from "rxjs";
-import { policiesMetadataKey } from "../decorator";
+import { needsAbilityMetadataKey, policiesMetadataKey } from "../decorator";
 import { PolicyHandler } from "../policy.handler";
 
 @Injectable()
@@ -30,26 +31,50 @@ export class PolicyGuard implements CanActivate {
 
   public async canActivate(context: ExecutionContext): Promise<boolean> {
     const policies = this.getPolicies(context);
-    if (policies.length === 0) {
+    const hasPolicies = policies.length > 0;
+    const needsAbility = this.needsAbility(context) || hasPolicies;
+
+    if (!needsAbility) {
       return true;
     }
 
     const res = context.switchToHttp().getResponse<Response>();
     const authState: AuthState = res.locals.authState;
 
-    if (!authState?.isLoggedIn) {
-      return false;
-    }
-
-    if (!authState.isUserLoaded) {
+    if (authState?.isLoggedIn && !authState.isUserLoaded) {
       throw new Error("User is not loaded by AuthGuard");
     }
 
-    const ability = this.appAbilityFactory.createForUser(
-      authState.user as User,
+    const ability = await Promise.resolve(
+      this.appAbilityFactory.createForUser(authState?.user),
     );
 
-    return policies.every(policy => this.checkPolicy(policy, ability), this);
+    res.locals.ability = ability;
+
+    const hasAbility =
+      !hasPolicies ||
+      policies.every(policy => this.checkPolicy(policy, ability), this);
+
+    if (!hasAbility && !authState?.isLoggedIn) {
+      throw new UnauthorizedException();
+    }
+    return hasAbility;
+  }
+
+  private needsAbility(context: ExecutionContext) {
+    const controllerNeedsAbility = this.reflector.get<boolean>(
+      needsAbilityMetadataKey,
+      context.getClass(),
+    );
+    const handlerNeedsAbility = this.reflector.get<boolean>(
+      needsAbilityMetadataKey,
+      context.getHandler(),
+    );
+    if (handlerNeedsAbility === undefined) {
+      return controllerNeedsAbility;
+    }
+
+    return handlerNeedsAbility;
   }
 
   private getPolicies(context: ExecutionContext): PolicyHandler[] {

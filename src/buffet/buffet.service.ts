@@ -23,7 +23,7 @@ export class BuffetService {
   public async create(payload: CreateBuffetDto, user: User, image: Express.Multer.File) {
     //kell check hogy owner e majd (AUTHORIZÁCIÓBAN)
 
-    const buffet = this.buffetRepository.create({
+    const buffet = new Buffet({
       ...payload,
       buffetOwner: user.buffetOwner!,
       image: (await readFile(image.path)).toString("base64"),
@@ -49,7 +49,7 @@ export class BuffetService {
         offset: query.skip,
         orderBy:
           query.orderByField === undefined
-            ? undefined 
+            ? undefined
             : { [query.orderByField]: query.order || "ASC" },
       },
     );

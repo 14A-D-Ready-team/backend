@@ -6,6 +6,7 @@ import { Product } from "./entity";
 import { Category } from "@/category";
 import { MulterModule } from "@nestjs/platform-express";
 import { StorageModule, MulterConfigService } from "@/shared/storage";
+import { ProductAbilityFactory } from "./product-ability.factory";
 @Module({
   imports: [
     MikroOrmModule.forFeature([Product, Category]),
@@ -15,6 +16,7 @@ import { StorageModule, MulterConfigService } from "@/shared/storage";
     }),
   ],
   controllers: [ProductController],
-  providers: [ProductService],
+  providers: [ProductService, ProductAbilityFactory],
+  exports: [ProductAbilityFactory],
 })
 export class ProductModule {}

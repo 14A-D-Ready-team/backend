@@ -11,11 +11,14 @@ import {
   PrimaryKey,
   Property,
 } from "@mikro-orm/core";
-import { Expose, Transform } from "class-transformer";
+import { Exclude, Expose, Transform } from "class-transformer";
 import { EditCustomizationDto } from "../dto";
 import { Customization } from "./customization.entity";
 
-export type RawProduct = Omit<Partial<Product>, "customizations"> & {
+export type RawProduct = Omit<
+  Partial<Product>,
+  "customizations" | "categoryId"
+> & {
   customizations?: EditCustomizationDto[];
 };
 
@@ -51,12 +54,6 @@ export class Product {
   @Property({ length: 35 })
   public imageType: string;
 
-  @ManyToOne({
-    entity: () => Buffet,
-    cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
-  })
-  public buffet?: Buffet;
-
   @Expose({ name: "categoryId" })
   @Transform(params => {
     const value = params.value as Category;
@@ -68,6 +65,10 @@ export class Product {
   })
   public category: IdentifiedReference<Category>;
 
+  public get categoryId() {
+    return this.category?.id;
+  }
+
   @Expose()
   @Transform(serializeCollection)
   @OneToMany(() => Customization, customization => customization.product, {
@@ -77,14 +78,14 @@ export class Product {
   })
   public customizations = new Collection<Customization>(this);
 
-  constructor(data: RawProduct = {}, createRefrences = false) {
+  constructor(data: RawProduct = {}, createReferences = false) {
     const { customizations, ...rest } = data;
     Object.assign(this, rest);
     if (customizations) {
       this.customizations = new Collection<Customization>(
         this,
         customizations.map(
-          c => new Customization(c, createRefrences ? this : undefined),
+          c => new Customization(c, createReferences ? this : undefined),
         ),
       );
     }

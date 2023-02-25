@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   Query,
-  UploadedFiles,
   UseInterceptors,
   ParseFilePipeBuilder,
   HttpStatus,
@@ -15,9 +14,10 @@ import {
   StreamableFile,
   Header,
   Res,
+  ForbiddenException,
 } from "@nestjs/common";
 import { ProductService } from "./product.service";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiTags } from "@nestjs/swagger";
 import { InvalidIdException } from "@/shared/exceptions";
 import {
   BadRequestResponse,
@@ -25,21 +25,17 @@ import {
   NotFoundResponse,
   ServiceUnavailableResponse,
 } from "@/shared/swagger";
-import {
-  InvalidDataException,
-  InvalidJsonException,
-} from "@/shared/validation";
+import { InvalidDataException } from "@/shared/validation";
 import { CreateProductDto, UpdateProductDto } from "./dto";
 import { ProductNotFoundException } from "./exceptions";
 import { CategoryNotFoundException } from "@/category";
-import { FilterProductsQuery, SearchProductsQuery } from "./query";
-import { Auth, AuthState, InjectAuthState } from "@/auth";
-import {
-  FileFieldsInterceptor,
-  FileInterceptor,
-} from "@nestjs/platform-express";
+import { FilterProductsQuery } from "./query";
+import { FileInterceptor } from "@nestjs/platform-express";
 import { UploadCleanupInterceptor } from "@/shared/storage";
 import { Response } from "express";
+import { Action, CheckPolicies, InjectAbility } from "@/shared/policy";
+import { Product } from "./entity";
+import { AppAbility } from "@/app-ability.factory";
 
 @ApiTags("product")
 @Controller("product")
@@ -54,6 +50,7 @@ export class ProductController {
   @UseInterceptors(FileInterceptor("image"), UploadCleanupInterceptor)
   public create(
     @Body() createProductDto: CreateProductDto,
+
     @UploadedFile(
       new ParseFilePipeBuilder()
         .addFileTypeValidator({
@@ -67,19 +64,21 @@ export class ProductController {
         }),
     )
     image: Express.Multer.File,
+
+    @InjectAbility() ability: AppAbility,
   ) {
+    if (!ability.can(Action.Create, createProductDto)) {
+      throw new ForbiddenException();
+    }
     return this.productService.create(createProductDto, image);
   }
 
   @Get()
-  @Auth()
   @BadRequestResponse(InvalidDataException)
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
-  public find(
-    @Query() query: FilterProductsQuery,
-    @InjectAuthState() authState: AuthState,
-  ) {
+  @CheckPolicies(ability => ability.can(Action.Read, Product))
+  public find(@Query() query: FilterProductsQuery) {
     return this.productService.find(query);
   }
 
@@ -121,24 +120,48 @@ export class ProductController {
   @BadRequestResponse(InvalidIdException, InvalidDataException)
   @InternalServerErrorResponse()
   @ServiceUnavailableResponse()
+  @UseInterceptors(FileInterceptor("image"), UploadCleanupInterceptor)
   public update(
     @Param("id") id: string,
+
     @Body() updateProductDto: UpdateProductDto,
+
+    @UploadedFile(
+      new ParseFilePipeBuilder()
+        .addFileTypeValidator({
+          fileType: "image/*",
+        })
+        .addMaxSizeValidator({
+          maxSize: 10000000,
+        })
+        .build({
+          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+          fileIsRequired: false,
+        }),
+    )
+    image: Express.Multer.File,
+
+    @InjectAbility() ability: AppAbility,
   ) {
     if (!+id) {
       throw new InvalidIdException();
     }
-    return this.productService.update(+id, updateProductDto);
+
+    if (!ability.can(Action.Update, updateProductDto)) {
+      throw new ForbiddenException();
+    }
+
+    return this.productService.update(+id, updateProductDto, ability);
   }
 
   @Delete(":id")
   @BadRequestResponse(InvalidIdException)
   @InternalServerErrorResponse()
   @ServiceUnavailableResponse()
-  public remove(@Param("id") id: string) {
+  public remove(@Param("id") id: string, @InjectAbility() ability: AppAbility) {
     if (!+id) {
       throw new InvalidIdException();
     }
-    return this.productService.remove(+id);
+    return this.productService.remove(+id, ability);
   }
 }

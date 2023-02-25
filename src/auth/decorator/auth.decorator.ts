@@ -1,4 +1,4 @@
-import { CustomDecorator, SetMetadata } from "@nestjs/common";
+import { CustomDecorator, SetMetadata, UseGuards } from "@nestjs/common";
 
 export const authMetadataKey = "auth";
 

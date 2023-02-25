@@ -11,6 +11,6 @@ export const sessionConfig = registerAs("session", () => {
       domain: process.env.SESSION_COOKIE_DOMAIN,
     },
     connectionString: process.env.MIKRO_ORM_CLIENT_URL,
-    isRender: process.env.RENDER === "true",
+    useDbSessionStore: process.env.SESSION_USE_DB_STORE === "true",
   };
 });
