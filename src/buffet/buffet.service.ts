@@ -20,7 +20,11 @@ export class BuffetService {
     private userRepository: BaseRepository<User>,
   ) {}
 
-  public async create(payload: CreateBuffetDto, user: User, image: Express.Multer.File) {
+  public async create(
+    payload: CreateBuffetDto,
+    user: User,
+    image: Express.Multer.File,
+  ) {
     //kell check hogy owner e majd (AUTHORIZÁCIÓBAN)
 
     const buffet = new Buffet({
@@ -56,12 +60,24 @@ export class BuffetService {
     return new PaginatedResponse(buffets, count);
   }
 
-  public async update(id: number, payload: UpdateBuffetDto) {
+  public async update(
+    id: number,
+    payload: UpdateBuffetDto,
+    image: Express.Multer.File,
+  ) {
     let buffetToUpdate = await this.findOne(id);
     if (!buffetToUpdate) {
       throw new BuffetNotFoundException();
     }
-    buffetToUpdate = this.buffetRepository.assign(buffetToUpdate, payload);
+
+    console.log(image);
+    const data = {
+      ...payload,
+      image: (await readFile(image.path)).toString("base64"),
+      imageType: image.mimetype,
+    };
+
+    buffetToUpdate = this.buffetRepository.assign(buffetToUpdate, data);
     await this.buffetRepository.persistAndFlush(buffetToUpdate);
     return buffetToUpdate;
   }

@@ -126,14 +126,28 @@ export class BuffetController {
   @BadRequestResponse(InvalidIdException, InvalidDataException)
   @InternalServerErrorResponse()
   @ServiceUnavailableResponse()
+  @UseInterceptors(FileInterceptor("image"), UploadCleanupInterceptor)
   public update(
     @Param("id") id: string,
     @Body() updateBuffetDto: UpdateBuffetDto,
+    @UploadedFile(
+      new ParseFilePipeBuilder()
+        .addFileTypeValidator({
+          fileType: "image/*",
+        })
+        .addMaxSizeValidator({
+          maxSize: 10000000,
+        })
+        .build({
+          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+        }),
+    )
+    image: Express.Multer.File,
   ) {
     if (!+id) {
       throw new InvalidIdException();
     }
-    return this.buffetService.update(+id, updateBuffetDto);
+    return this.buffetService.update(+id, updateBuffetDto, image);
   }
 
   @Delete(":id")
