@@ -14,8 +14,9 @@ import {
 } from "@/shared/policy";
 import { ProductSubjects } from "@/product";
 import { map } from "p-iteration";
+import { BuffetSubjects } from "./buffet";
 
-type AppSubjects = "all" | UserSubjects | ProductSubjects;
+type AppSubjects = "all" | UserSubjects | ProductSubjects | BuffetSubjects;
 
 export type AppAbility = MongoAbility<[Action, AppSubjects]>;
 

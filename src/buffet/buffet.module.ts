@@ -6,9 +6,10 @@ import { Buffet } from "./entity/buffet.entity";
 import { User } from "@/user";
 import { MulterModule } from "@nestjs/platform-express";
 import { MulterConfigService, StorageModule } from "@/shared/storage";
+import { BuffetAbilityFactory } from "./buffet-ability.factory";
 
 @Module({
-  providers: [BuffetService],
+  providers: [BuffetService, BuffetAbilityFactory],
   controllers: [BuffetController],
   imports: [MikroOrmModule.forFeature([Buffet, User]),
     MulterModule.registerAsync({
@@ -16,5 +17,6 @@ import { MulterConfigService, StorageModule } from "@/shared/storage";
       useClass: MulterConfigService
     })
   ],
+  exports: [BuffetAbilityFactory]
 })
 export class BuffetModule {}
