@@ -21,12 +21,15 @@ import {
   Controller,
   Delete,
   Get,
+  Header,
   HttpStatus,
   Param,
   ParseFilePipeBuilder,
   Patch,
   Post,
   Query,
+  Res,
+  StreamableFile,
   UploadedFile,
   UseInterceptors,
 } from "@nestjs/common";
@@ -36,6 +39,7 @@ import { CreateBuffetDto } from "./dto/create-buffet.dto";
 import { UpdateBuffetDto } from "./dto/update-buffet.dto";
 import { BuffetNotFoundException } from "./exception/buffet-not-found.exception";
 import { SearchBuffetsQuery } from "./query";
+import { Response } from "express";
 
 @Controller("buffet")
 export class BuffetController {
@@ -93,6 +97,28 @@ export class BuffetController {
       throw new InvalidIdException();
     }
     return this.buffetService.findOne(+id);
+  }
+
+  @Get("/:id/image")
+  @Header("Cross-Origin-Resource-Policy", "cross-origin")
+  @BadRequestResponse(InvalidIdException)
+  @InternalServerErrorResponse()
+  @ServiceUnavailableResponse()
+  public async getImage(
+    @Param("id") id: string,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    if (!+id) {
+      throw new InvalidIdException();
+    }
+    const buffet = await this.buffetService.findOne(+id);
+    if (!buffet) {
+      return;
+    }
+
+    res.setHeader("Content-Type", buffet.imageType);
+
+    return new StreamableFile(Buffer.from(buffet.image, "base64"));
   }
 
   @Patch(":id")
