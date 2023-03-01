@@ -1,8 +1,10 @@
+import { AppAbility } from "@/app-ability.factory";
 import { BaseRepository } from "@/shared/database";
 import { PaginatedResponse } from "@/shared/pagination";
+import { Action } from "@/shared/policy";
 import { User } from "@/user";
 import { InjectRepository } from "@mikro-orm/nestjs";
-import { Injectable } from "@nestjs/common";
+import { ForbiddenException, Injectable } from "@nestjs/common";
 import { readFile } from "fs/promises";
 import { CreateBuffetDto } from "./dto/create-buffet.dto";
 import { UpdateBuffetDto } from "./dto/update-buffet.dto";
@@ -64,10 +66,15 @@ export class BuffetService {
     id: number,
     payload: UpdateBuffetDto,
     image: Express.Multer.File,
+    ability: AppAbility,
   ) {
     let buffetToUpdate = await this.findOne(id);
     if (!buffetToUpdate) {
       throw new BuffetNotFoundException();
+    }
+
+    if (!ability.can(Action.Update, buffetToUpdate)) {
+      throw new ForbiddenException();
     }
 
     console.log(image);
@@ -82,10 +89,16 @@ export class BuffetService {
     return buffetToUpdate;
   }
 
-  public async remove(id: number) {
+  public async remove(id: number, ability: AppAbility) {
     const entity = await this.findOne(id);
-    if (entity) {
-      await this.buffetRepository.removeAndFlush(entity);
+    if (!entity) {
+      return;
     }
+
+    if (!ability.can(Action.Delete, entity)) {
+      throw new ForbiddenException();
+    }
+
+    await this.buffetRepository.removeAndFlush(entity);
   }
 }

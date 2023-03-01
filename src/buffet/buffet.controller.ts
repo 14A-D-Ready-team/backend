@@ -1,7 +1,7 @@
 import { Auth, AuthState, InjectAuthState } from "@/auth";
 import { BaseRepository } from "@/shared/database";
 import { InvalidIdException } from "@/shared/exceptions";
-import { CheckPolicies } from "@/shared/policy";
+import { Action, CheckPolicies, InjectAbility } from "@/shared/policy";
 import { UploadCleanupInterceptor } from "@/shared/storage";
 import {
   NotFoundResponse,
@@ -20,6 +20,7 @@ import {
   Body,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
   Header,
   HttpStatus,
@@ -40,6 +41,8 @@ import { UpdateBuffetDto } from "./dto/update-buffet.dto";
 import { BuffetNotFoundException } from "./exception/buffet-not-found.exception";
 import { SearchBuffetsQuery } from "./query";
 import { Response } from "express";
+import { AppAbility } from "@/app-ability.factory";
+import { Buffet } from "./entity";
 
 @Controller("buffet")
 export class BuffetController {
@@ -56,8 +59,6 @@ export class BuffetController {
   @InternalServerErrorResponse()
   @UseInterceptors(FileInterceptor("image"), UploadCleanupInterceptor)
   @Auth()
-  //TODO!!! megcsinálni jogokat
-  @CheckPolicies(ability=>true)
   public create(
     @Body() createBuffetDto: CreateBuffetDto, 
     @InjectAuthState() authState: AuthState,
@@ -74,7 +75,12 @@ export class BuffetController {
         }),
     )
     image: Express.Multer.File,
+    
+    @InjectAbility() ability: AppAbility,
     ) {
+      if (!ability.can(Action.Create, CreateBuffetDto)) {
+        throw new ForbiddenException();
+      }
     return this.buffetService.create(createBuffetDto, authState.user!, image);
   }
 
@@ -83,6 +89,7 @@ export class BuffetController {
   @BadRequestResponse(InvalidDataException)
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
+  @CheckPolicies(ability => ability.can(Action.Read, Buffet))
   public find(@Query() query: SearchBuffetsQuery) {
     console.log(query);
     return this.buffetService.find(query);
@@ -92,6 +99,7 @@ export class BuffetController {
   @BadRequestResponse(InvalidIdException)
   @InternalServerErrorResponse()
   @ServiceUnavailableResponse()
+  @CheckPolicies(ability => ability.can(Action.Read, Buffet))
   public findOne(@Param("id") id: string) {
     if (!+id) {
       throw new InvalidIdException();
@@ -143,21 +151,28 @@ export class BuffetController {
         }),
     )
     image: Express.Multer.File,
+
+    @InjectAbility() ability: AppAbility,
   ) {
     if (!+id) {
       throw new InvalidIdException();
     }
-    return this.buffetService.update(+id, updateBuffetDto, image);
+
+    if (!ability.can(Action.Update, updateBuffetDto)) {
+      throw new ForbiddenException();
+    }
+
+    return this.buffetService.update(+id, updateBuffetDto, image, ability);
   }
 
   @Delete(":id")
   @BadRequestResponse(InvalidIdException)
   @InternalServerErrorResponse()
   @ServiceUnavailableResponse()
-  public remove(@Param("id") id: string) {
+  public remove(@Param("id") id: string, @InjectAbility() ability: AppAbility) {
     if (!+id) {
       throw new InvalidIdException();
     }
-    return this.buffetService.remove(+id);
+    return this.buffetService.remove(+id, ability);
   }
 }
