@@ -10,7 +10,12 @@ import {
   Property,
 } from "@mikro-orm/core";
 import { ApiProperty } from "@nestjs/swagger";
-import { Expose } from "class-transformer";
+import {
+  Expose,
+  instanceToPlain,
+  Transform,
+  TransformFnParams,
+} from "class-transformer";
 import { Admin, BuffetOwner, BuffetWorker, Customer } from ".";
 import { UserType, UserStatus } from "../enum";
 
@@ -42,6 +47,8 @@ export class User {
   @Expose()
   public status!: UserStatus;
 
+  @Expose()
+  @Transform(serializeReference)
   @OneToOne({
     mappedBy: (admin: Admin) => admin.user,
     orphanRemoval: true,
@@ -49,6 +56,8 @@ export class User {
   })
   public admin?: IdentifiedReference<Admin>;
 
+  @Expose()
+  @Transform(serializeReference)
   @OneToOne({
     mappedBy: (customer: Customer) => customer.user,
     orphanRemoval: true,
@@ -56,6 +65,8 @@ export class User {
   })
   public customer?: IdentifiedReference<Customer>;
 
+  @Expose()
+  @Transform(serializeReference)
   @OneToOne({
     mappedBy: (buffetWorker: BuffetWorker) => buffetWorker.user,
     orphanRemoval: true,
@@ -63,6 +74,8 @@ export class User {
   })
   public buffetWorker?: IdentifiedReference<BuffetWorker>;
 
+  @Expose()
+  @Transform(serializeReference)
   @OneToOne({
     mappedBy: (buffetOwner: BuffetOwner) => buffetOwner.user,
     orphanRemoval: true,
@@ -75,4 +88,16 @@ export class User {
     orphanRemoval: true,
   })
   public tokens = new Collection<Token>(this);
+}
+
+function serializeReference({ value }: TransformFnParams) {
+  const entity = value?.unwrap();
+  if (!entity) {
+    return undefined;
+  }
+
+  return instanceToPlain(entity, {
+    excludeExtraneousValues: true,
+    exposeDefaultValues: false,
+  });
 }
