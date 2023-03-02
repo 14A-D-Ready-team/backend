@@ -10,7 +10,7 @@ export class DatabaseSeeder extends Seeder {
   public async run(em: EntityManager): Promise<void> {
     await this.call(
       em,
-      [CategorySeeder, ProductSeeder, UserSeeder, BuffetSeeder],
+      [UserSeeder, BuffetSeeder, CategorySeeder, ProductSeeder],
       {} as SeederContext,
     );
   }

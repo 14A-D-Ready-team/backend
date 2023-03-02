@@ -1,4 +1,4 @@
-import type { EntityManager } from "@mikro-orm/core";
+import { EntityManager, Reference } from "@mikro-orm/core";
 import { Seeder } from "@mikro-orm/seeder";
 import { CategoryFactory } from "../factories";
 import { SeederContext } from "../utils";
@@ -16,7 +16,7 @@ export class CategorySeeder extends Seeder {
       "Nassolnivalók",
     ];
     const categories = categoryNames.map(n => {
-      const category = new CategoryFactory(em).makeOne({ name: n });
+      const category = new CategoryFactory(em).makeOne({ name: n, buffet: 1 });
       context.categories = { ...(context.categories || {}), [n]: category };
       return category;
     });
