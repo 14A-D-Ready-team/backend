@@ -14,7 +14,6 @@ export class BuffetSeeder extends Seeder {
         });
         return buffet;
       });
-  
       await em.persistAndFlush(buffets);
     }
   }
