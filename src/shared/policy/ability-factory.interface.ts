@@ -6,5 +6,4 @@ export interface AbilityFactory {
   createForUser(
     user?: User,
   ): MongoAbility<[Action, any]> | Promise<MongoAbility<[Action, any]>>;
-
 }

@@ -60,7 +60,7 @@ export class BuffetController {
   @UseInterceptors(FileInterceptor("image"), UploadCleanupInterceptor)
   @Auth()
   public create(
-    @Body() createBuffetDto: CreateBuffetDto, 
+    @Body() createBuffetDto: CreateBuffetDto,
     @InjectAuthState() authState: AuthState,
     @UploadedFile(
       new ParseFilePipeBuilder()
@@ -75,12 +75,12 @@ export class BuffetController {
         }),
     )
     image: Express.Multer.File,
-    
+
     @InjectAbility() ability: AppAbility,
-    ) {
-      if (!ability.can(Action.Create, CreateBuffetDto)) {
-        throw new ForbiddenException();
-      }
+  ) {
+    if (!ability.can(Action.Create, CreateBuffetDto)) {
+      throw new ForbiddenException();
+    }
     return this.buffetService.create(createBuffetDto, authState.user!, image);
   }
 
@@ -94,7 +94,7 @@ export class BuffetController {
     console.log(query);
     return this.buffetService.find(query);
   }
-  
+
   @Get(":id")
   @BadRequestResponse(InvalidIdException)
   @InternalServerErrorResponse()

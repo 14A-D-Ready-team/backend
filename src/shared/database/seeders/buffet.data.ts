@@ -36,7 +36,8 @@ export function getBuffetData(): BuffetData[] {
         Szombat:   Zárva
         Vasárnap:	 Zárva
       `,
-      description: "Büfé a Győri Szakképzési Centrum Jedlik Ányos Gépipari és Informatikai iskolában. Széles választék, gyors kiszolgálás.",
+      description:
+        "Büfé a Győri Szakképzési Centrum Jedlik Ányos Gépipari és Informatikai iskolában. Széles választék, gyors kiszolgálás.",
       image: defaultImg,
       imageType: "image/png",
     },

@@ -33,7 +33,7 @@ import { BuffetModule } from "./buffet/buffet.module";
     AuthModule,
     ProductModule,
     CategoryModule,
-    BuffetModule
+    BuffetModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppAbilityFactory],

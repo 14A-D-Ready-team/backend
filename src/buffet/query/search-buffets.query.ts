@@ -15,13 +15,13 @@ export class SearchBuffetsQuery extends PaginationQuery {
   @IsOptional()
   @IsIn(["name"])
   @ApiProperty()
-  public orderByField?: string; 
+  public orderByField?: string;
 
   @Expose()
   @IsOptional()
   @IsIn(["ASC", "DESC"])
   @ApiProperty()
-  public order?: string; 
+  public order?: string;
 
   public toDbQuery() {
     const query = {

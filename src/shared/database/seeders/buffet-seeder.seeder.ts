@@ -6,14 +6,14 @@ import { SeederContext } from "../utils";
 import { getBuffetData } from "./buffet.data";
 
 export class BuffetSeeder extends Seeder {
-    public async run(em: EntityManager, context: SeederContext): Promise<void> {
-      const buffets = getBuffetData().map(b => {
-        const buffet = new BuffetFactory(em).makeOne({
-          ...b, 
-          buffetOwner: context.buffetOwners.buffetOwner,
-        });
-        return buffet;
+  public async run(em: EntityManager, context: SeederContext): Promise<void> {
+    const buffets = getBuffetData().map(b => {
+      const buffet = new BuffetFactory(em).makeOne({
+        ...b,
+        buffetOwner: context.buffetOwners.buffetOwner,
       });
-      await em.persistAndFlush(buffets);
-    }
+      return buffet;
+    });
+    await em.persistAndFlush(buffets);
   }
+}

@@ -11,12 +11,13 @@ import { BuffetAbilityFactory } from "./buffet-ability.factory";
 @Module({
   providers: [BuffetService, BuffetAbilityFactory],
   controllers: [BuffetController],
-  imports: [MikroOrmModule.forFeature([Buffet, User]),
+  imports: [
+    MikroOrmModule.forFeature([Buffet, User]),
     MulterModule.registerAsync({
       imports: [StorageModule],
-      useClass: MulterConfigService
-    })
+      useClass: MulterConfigService,
+    }),
   ],
-  exports: [BuffetAbilityFactory]
+  exports: [BuffetAbilityFactory],
 })
 export class BuffetModule {}

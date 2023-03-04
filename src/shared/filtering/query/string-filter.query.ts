@@ -12,7 +12,7 @@ export class StringFilterQuery {
     if (this.searchString != undefined) {
       return { $like: "%" + this.searchString + "%" };
     }
-    
+
     return undefined;
   }
 }

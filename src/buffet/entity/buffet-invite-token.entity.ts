@@ -1,4 +1,10 @@
-import { Cascade, Entity, IdentifiedReference, ManyToOne, PrimaryKey } from "@mikro-orm/core";
+import {
+  Cascade,
+  Entity,
+  IdentifiedReference,
+  ManyToOne,
+  PrimaryKey,
+} from "@mikro-orm/core";
 import { Buffet } from "./buffet.entity";
 
 @Entity()

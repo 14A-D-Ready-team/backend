@@ -17,7 +17,6 @@ export class BuffetFactory extends Factory<Buffet> {
       address: faker.address.streetAddress(),
       hours: hourFrom + "-" + hourTo,
       description: faker.lorem.paragraph(),
-      
     };
   }
 }

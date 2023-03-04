@@ -71,14 +71,13 @@ export class UserSeeder extends Seeder {
       },
     ];
 
-    
     const users: User[] = [];
-    
+
     for (const u of userData) {
       const user = factory.makeOne(u);
       users.push(user);
     }
-    
+
     const passwordHash = await hash("Jelszo123$!");
     for (let i = 0; i < 50; i++) {
       users.push(
@@ -86,11 +85,13 @@ export class UserSeeder extends Seeder {
           customer: Reference.create(new Customer()),
           password: passwordHash,
         }),
-        );
-      }
-      
-      await em.persistAndFlush(users);
+      );
+    }
 
-      context.buffetOwners = users.find(user=>user.email === "bela123@gmail.com")!;
+    await em.persistAndFlush(users);
+
+    context.buffetOwners = users.find(
+      user => user.email === "bela123@gmail.com",
+    )!;
   }
 }

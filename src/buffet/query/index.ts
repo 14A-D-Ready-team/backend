@@ -1,1 +1,1 @@
-export * from "./search-buffets.query"
+export * from "./search-buffets.query";
