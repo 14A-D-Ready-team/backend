@@ -16,8 +16,9 @@ jobs:
     parallelism: 5
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
+      - run:
+          name: Install dependencies
+          command: npm i
       - run:
           name: Build
           command: npm run build

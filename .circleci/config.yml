@@ -12,10 +12,11 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - 'b3:42:58:59:a3:a0:f2:43:a6:ff:4d:27:23:e5:0d:48'
+            - "b3:42:58:59:a3:a0:f2:43:a6:ff:4d:27:23:e5:0d:48"
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
+      - run:
+          name: Install dependencies
+          command: npm i
       - run:
           name: Format code
           command: npm run format || echo ""
@@ -40,7 +41,7 @@ workflows:
       - continuation/continue:
           requires:
             - format-code
-          configuration_path: '.circleci/main.yml'
+          configuration_path: ".circleci/main.yml"
           parameters: /home/circleci/params.json
           pre-steps:
             - run:
