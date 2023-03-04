@@ -51,5 +51,5 @@ workflows:
           deploy: true
           image: ghcr.io/14A-D-Ready-team/backend:0.0.1
           registry: ghcr.io
-          docker-username: $GHCR_USERNAME
-          docker-password: $GHCR_TOKEN
+          docker-username: GHCR_USERNAME
+          docker-password: GHCR_TOKEN
