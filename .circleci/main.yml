@@ -41,7 +41,7 @@ jobs:
           token: CODECOV_TOKEN
 
 workflows:
-  version: 2
+  version: 2.1
 
   on-pull-request-open:
     when: << pipeline.parameters.run_build >>
@@ -51,5 +51,3 @@ workflows:
           deploy: true
           image: ghcr.io/14A-D-Ready-team/backend:0.0.1
           registry: ghcr.io
-          docker-username: GHCR_USERNAME
-          docker-password: GHCR_TOKEN
