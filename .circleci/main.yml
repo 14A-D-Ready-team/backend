@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   node: circleci/node@4.7
   codecov: codecov/codecov@3.0.0
+  docker: circleci/docker@2.2.0
 
 parameters:
   run_build:
@@ -38,6 +39,12 @@ jobs:
           command: npm run test:e2e
       - codecov/upload:
           token: CODECOV_TOKEN
+      - docker/publish:
+          deploy: true
+          image: ghcr.io/14A-D-Ready-team/backend:0.0.1
+          registry: ghcr.io
+          docker-username: $GHCR_USERNAME
+          docker-password: $GHCR_TOKEN
 
 workflows:
   version: 2
