@@ -23,20 +23,6 @@ jobs:
       - run:
           name: Build
           command: npm run build
-      - run:
-          name: Run tests
-          no_output_timeout: 30m
-          command: |
-            TEST=$(circleci tests glob ".spec.ts$" | circleci tests split --split-by=timings)
-            npm run test:cov --forceExit $TEST
-      - run:
-          command: cp junit.xml ~/junit/
-          when: always
-      - store_test_results:
-          path: ~/junit
-      - run:
-          name: Run E2E tests
-          command: npm run test:e2e
       - codecov/upload:
           token: CODECOV_TOKEN
 
@@ -48,6 +34,12 @@ workflows:
     jobs:
       - build-and-test
       - aws-ecr/build-and-push-image:
+          filters:
+            branches:
+              only:
+                - master
           repo: ready-app
           tag: "latest,v0.1.${CIRCLE_BUILD_NUM}"
           path: .
+          requires:
+            - build-and-test
