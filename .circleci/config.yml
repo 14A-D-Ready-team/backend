@@ -3,7 +3,8 @@ version: 2.1
 
 orbs:
   node: circleci/node@4.7
-  continuation: circleci/continuation@0.2.0
+  codecov: codecov/codecov@3.0.0
+  aws-ecr: circleci/aws-ecr@8.2.1
 
 jobs:
   format-code:
@@ -34,23 +35,37 @@ jobs:
           name: Push changes
           command: git push origin $CIRCLE_BRANCH
 
+  build-and-test:
+    docker:
+      - image: cimg/node:16.10
+    parallelism: 5
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm i
+      - run:
+          name: Build
+          command: npm run build
+      - codecov/upload:
+          token: CODECOV_TOKEN
+
 workflows:
   setup:
     jobs:
       - format-code
-      - continuation/continue:
+      - build-and-test:
           requires:
             - format-code
-          configuration_path: ".circleci/main.yml"
-          parameters: /home/circleci/params.json
-          pre-steps:
-            - run:
-                command: |
-                  if [ -z "${CIRCLE_PULL_REQUEST##*/}" ]
-                  then
-                    RUN_BUILD=false
-                  else
-                    RUN_BUILD=true
-                  fi
-                  echo $RUN_BUILD
-                  echo '{ "run_build": '$RUN_BUILD' }' >> /home/circleci/params.json
+      - aws-ecr/build-and-push-image:
+          requires:
+            - build-and-test
+          filters:
+            branches:
+              only:
+                - master
+          repo: ready-app
+          tag: "backend,latest,v0.1.${CIRCLE_BUILD_NUM}"
+          path: .
+          requires:
+            - build-and-test

@@ -42,7 +42,7 @@ export class SessionMiddleware implements NestMiddleware {
     const SequelizeStore = connectSession(session.Store);
 
     const sequelize = new Sequelize(this.config.connectionString!, {
-      dialect: "postgres",
+      dialect: "mysql",
     });
 
     const store = new SequelizeStore({
