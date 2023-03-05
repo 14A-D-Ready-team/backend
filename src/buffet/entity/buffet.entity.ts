@@ -45,8 +45,8 @@ export class Buffet {
   @Expose()
   public description?: string;
 
-  @Property({ length: 10000000 })
-  public image: string;
+  @Property({ columnType: "mediumblob" })
+  public image: Buffer;
 
   @Property({ length: 35 })
   public imageType: string;

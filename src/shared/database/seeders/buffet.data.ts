@@ -20,7 +20,7 @@ export function getBuffetData(): BuffetData[] {
       `,
       description:
         "Büfé a Xantus János Állatkert közelében. Baráti környezet, olcsó árak.",
-      image: defaultImg,
+      image: Buffer.from(defaultImg, "base64"),
       imageType: "image/png",
     },
     {
@@ -38,7 +38,7 @@ export function getBuffetData(): BuffetData[] {
       `,
       description:
         "Büfé a Győri Szakképzési Centrum Jedlik Ányos Gépipari és Informatikai iskolában. Széles választék, gyors kiszolgálás.",
-      image: defaultImg,
+      image: Buffer.from(defaultImg, "base64"),
       imageType: "image/png",
     },
   ];

@@ -32,7 +32,7 @@ export class BuffetService {
     const buffet = new Buffet({
       ...payload,
       buffetOwner: user.buffetOwner!,
-      image: (await readFile(image.path)).toString("base64"),
+      image: await readFile(image.path),
       imageType: image.mimetype,
     });
 
@@ -80,7 +80,7 @@ export class BuffetService {
     console.log(image);
     const data = {
       ...payload,
-      image: (await readFile(image.path)).toString("base64"),
+      image: await readFile(image.path),
       imageType: image.mimetype,
     };
 

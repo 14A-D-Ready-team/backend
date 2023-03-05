@@ -126,7 +126,7 @@ export class BuffetController {
 
     res.setHeader("Content-Type", buffet.imageType);
 
-    return new StreamableFile(Buffer.from(buffet.image, "base64"));
+    return new StreamableFile(buffet.image);
   }
 
   @Patch(":id")

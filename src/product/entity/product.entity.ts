@@ -48,8 +48,8 @@ export class Product {
   @Property({ type: "integer" })
   public stock: number;
 
-  @Property({ length: 10000000 })
-  public image: string;
+  @Property({ columnType: "mediumblob" })
+  public image: Buffer;
 
   @Property({ length: 35 })
   public imageType: string;

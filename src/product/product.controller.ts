@@ -112,7 +112,7 @@ export class ProductController {
 
     res.setHeader("Content-Type", product.imageType);
 
-    return new StreamableFile(Buffer.from(product.image, "base64"));
+    return new StreamableFile(product.image);
   }
 
   @Patch(":id")
