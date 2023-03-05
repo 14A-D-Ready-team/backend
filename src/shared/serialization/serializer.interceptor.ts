@@ -5,7 +5,7 @@ import {
   StreamableFile,
 } from "@nestjs/common";
 import { CallHandler, ExecutionContext, Injectable } from "@nestjs/common";
-import { delay, map, Observable } from "rxjs";
+import { map, Observable } from "rxjs";
 import { Response } from "./response.model";
 import { Reflector } from "@nestjs/core";
 
@@ -26,7 +26,6 @@ export class SerializerInterceptor extends ClassSerializerInterceptor {
         }
         return { data: x } as Response;
       }),
-      delay(350),
     );
   }
 }
