@@ -1,3 +1,4 @@
+import { Buffet, BuffetNotFoundException } from "@/buffet";
 import { BaseRepository } from "@/shared/database";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { Injectable } from "@nestjs/common";
@@ -10,10 +11,23 @@ export class CategoryService {
   constructor(
     @InjectRepository(Category)
     private categoryRepository: BaseRepository<Category>,
+
+    @InjectRepository(Buffet)
+    private buffetRepository: BaseRepository<Buffet>,
   ) {}
 
   public async create(payload: CreateCategoryDto) {
-    const category = this.categoryRepository.create(payload);
+    const { buffetId, ...rest } = payload;
+
+    const buffet = await this.buffetRepository.findOne(buffetId);
+    if (!buffet) {
+      throw new BuffetNotFoundException();
+    }
+
+    const category = this.categoryRepository.create({
+      ...rest,
+      buffet: buffetId,
+    });
     await this.categoryRepository.persistAndFlush(category);
     return category;
   }
@@ -31,10 +45,21 @@ export class CategoryService {
     if (!categoryToUpdate) {
       throw new CategoryNotFoundException();
     }
-    categoryToUpdate = this.categoryRepository.assign(
-      categoryToUpdate,
-      payload,
-    );
+
+    const { buffetId, ...rest } = payload;
+
+    let newBuffet: Buffet | null = null;
+    if (buffetId !== undefined) {
+      newBuffet = await this.buffetRepository.findOne(buffetId);
+      if (!newBuffet) {
+        throw new BuffetNotFoundException();
+      }
+    }
+
+    categoryToUpdate = this.categoryRepository.assign(categoryToUpdate, {
+      ...rest,
+      buffet: newBuffet ? buffetId : categoryToUpdate.buffet?.id,
+    });
     await this.categoryRepository.persistAndFlush(categoryToUpdate);
     return categoryToUpdate;
   }

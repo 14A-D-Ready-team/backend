@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Expose } from "class-transformer";
-import { IsString, MaxLength, MinLength } from "class-validator";
+import { IsNumber, IsString, MaxLength, MinLength } from "class-validator";
 
 export class CreateCategoryDto {
   @Expose()
@@ -9,4 +9,9 @@ export class CreateCategoryDto {
   @MinLength(1)
   @MaxLength(80)
   public name: string;
+
+  @Expose()
+  @ApiProperty()
+  @IsNumber({ allowInfinity: false, allowNaN: false, maxDecimalPlaces: 0 })
+  public buffetId: number;
 }

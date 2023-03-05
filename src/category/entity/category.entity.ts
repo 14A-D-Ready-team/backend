@@ -31,5 +31,5 @@ export class Category {
   @ManyToOne({
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
   })
-  public buffet?: IdentifiedReference<Buffet>;
+  public buffet: IdentifiedReference<Buffet>;
 }
