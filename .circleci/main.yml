@@ -3,7 +3,7 @@ version: 2.1
 orbs:
   node: circleci/node@4.7
   codecov: codecov/codecov@3.0.0
-  aws-ecr: circleci/aws-ecr@6.15.0
+  aws-ecr: circleci/aws-ecr@8.2.1
 
 parameters:
   run_build:
