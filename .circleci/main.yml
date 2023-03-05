@@ -50,6 +50,6 @@ workflows:
     jobs:
       - build-and-test
       - aws-ecr/build-and-push-image:
-        repo: ready-app
-        tag: "latest,v0.1.${CIRCLE_BUILD_NUM}"
-        path: .
+          repo: ready-app
+          tag: "latest,v0.1.${CIRCLE_BUILD_NUM}"
+          path: .
