@@ -39,7 +39,7 @@ workflows:
               only:
                 - master
           repo: ready-app
-          tag: "latest,v0.1.${CIRCLE_BUILD_NUM}"
+          tag: "backend,latest,v0.1.${CIRCLE_BUILD_NUM}"
           path: .
           requires:
             - build-and-test
