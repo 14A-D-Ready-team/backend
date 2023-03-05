@@ -23,8 +23,6 @@ jobs:
       - run:
           name: Build
           command: npm run build
-      - docker/check:
-          registry: ghcr.io
       - run:
           name: Run tests
           no_output_timeout: 30m
