@@ -1,10 +1,12 @@
 import { Buffet, BuffetNotFoundException } from "@/buffet";
 import { BaseRepository } from "@/shared/database";
+import { Reference } from "@mikro-orm/core";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { Injectable } from "@nestjs/common";
 import { CreateCategoryDto, UpdateCategoryDto } from "./dto";
 import { Category } from "./entity";
 import { CategoryNotFoundException } from "./exceptions";
+import { FilterCategoriesQuery } from "./query";
 
 @Injectable()
 export class CategoryService {
@@ -24,16 +26,16 @@ export class CategoryService {
       throw new BuffetNotFoundException();
     }
 
-    const category = this.categoryRepository.create({
+    const category = new Category({
       ...rest,
-      buffet: buffetId,
+      buffet: Reference.create(buffet),
     });
     await this.categoryRepository.persistAndFlush(category);
     return category;
   }
 
-  public async findAll() {
-    return this.categoryRepository.findAll();
+  public async findAll(query: FilterCategoriesQuery) {
+    return this.categoryRepository.find(query.toDbQuery());
   }
 
   public async findOne(id: number) {

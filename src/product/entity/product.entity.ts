@@ -54,17 +54,13 @@ export class Product {
   @Property({ length: 35 })
   public imageType: string;
 
-  @Expose({ name: "categoryId" })
-  @Transform(params => {
-    const value = params.value as Category;
-    return value?.id;
-  })
   @ManyToOne({
     entity: () => Category,
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
   })
   public category: IdentifiedReference<Category>;
 
+  @Expose()
   public get categoryId() {
     return this.category?.id;
   }

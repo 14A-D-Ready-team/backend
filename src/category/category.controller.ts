@@ -14,12 +14,14 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { omitBy } from "lodash";
 import { CategoryService } from "./category.service";
 import { CreateCategoryDto, UpdateCategoryDto } from "./dto";
 import { CategoryNotFoundException } from "./exceptions";
+import { FilterCategoriesQuery } from "./query";
 
 @ApiTags("category")
 @Controller("category")
@@ -37,8 +39,8 @@ export class CategoryController {
   @Get()
   @InternalServerErrorResponse()
   @ServiceUnavailableResponse()
-  public async findAll() {
-    return this.categoryService.findAll();
+  public async findAll(@Query() query: FilterCategoriesQuery) {
+    return this.categoryService.findAll(query);
   }
 
   @Get(":id")

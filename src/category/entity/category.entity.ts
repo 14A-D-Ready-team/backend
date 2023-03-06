@@ -12,6 +12,8 @@ import {
 } from "@mikro-orm/core";
 import { Exclude, Expose } from "class-transformer";
 
+type RawCategory = Omit<Partial<Category>, "buffetId" | "products">;
+
 @Entity()
 export class Category {
   @PrimaryKey({ autoincrement: true })
@@ -32,4 +34,13 @@ export class Category {
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
   })
   public buffet: IdentifiedReference<Buffet>;
+
+  @Expose({ name: "buffetId" })
+  public get buffetId() {
+    return this.buffet.id;
+  }
+
+  constructor(data: Partial<Category> = {}) {
+    Object.assign(this, data);
+  }
 }

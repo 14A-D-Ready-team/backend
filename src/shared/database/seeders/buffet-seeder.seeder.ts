@@ -11,6 +11,7 @@ export class BuffetSeeder extends Seeder {
         ...b,
         buffetOwner: context.buffetOwners.buffetOwner,
       });
+      context.buffets = { ...(context.buffets || {}), [b.name!]: buffet };
       await em.persistAndFlush(buffet);
     }
   }
