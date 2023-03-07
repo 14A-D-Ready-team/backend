@@ -115,7 +115,7 @@ export class BuffetService {
 
     const token = this.inviteTokenRepository.create({
       id: uuidv4(),
-      buffet
+      buffet,
     });
 
     await this.inviteTokenRepository.persistAndFlush(token);
