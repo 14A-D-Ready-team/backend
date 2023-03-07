@@ -5,11 +5,13 @@ import {
   ManyToOne,
   PrimaryKey,
 } from "@mikro-orm/core";
+import { Expose } from "class-transformer";
 import { Buffet } from "./buffet.entity";
 
 @Entity()
 export class BuffetInviteToken {
   @PrimaryKey({ type: "uuid" })
+  @Expose()
   public id!: string;
 
   @ManyToOne({
