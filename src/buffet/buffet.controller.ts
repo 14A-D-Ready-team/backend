@@ -183,9 +183,7 @@ export class BuffetController {
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
   @CheckPolicies(ability => ability.can(Action.Read, Buffet))
-  public async createInviteToken(
-    @Body() dto: CreateInviteTokenDto,
-  ) {
+  public async createInviteToken(@Body() dto: CreateInviteTokenDto) {
     return this.buffetService.createInviteToken(dto);
   }
 }

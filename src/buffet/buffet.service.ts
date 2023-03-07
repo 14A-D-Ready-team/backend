@@ -106,11 +106,10 @@ export class BuffetService {
   }
 
   public async createInviteToken(dto: CreateInviteTokenDto) {
-
     const buffet = await this.findOne(dto.buffetId);
 
     if (buffet === null) {
-      throw new BuffetNotFoundException;
+      throw new BuffetNotFoundException();
     }
 
     const token = this.inviteTokenRepository.create({
