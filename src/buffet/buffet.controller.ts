@@ -17,6 +17,7 @@ import { BuffetOwner, User } from "@/user";
 import { Reference } from "@mikro-orm/core";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -42,14 +43,14 @@ import { BuffetNotFoundException } from "./exception/buffet-not-found.exception"
 import { SearchBuffetsQuery } from "./query";
 import { Response } from "express";
 import { AppAbility } from "@/app-ability.factory";
-import { Buffet } from "./entity";
-
+import { Buffet, BuffetInviteToken } from "./entity";
 @Controller("buffet")
 export class BuffetController {
   constructor(
     private readonly buffetService: BuffetService,
-    @InjectRepository(User)
-    private userRepository: BaseRepository<User>,
+    
+    @InjectRepository(BuffetInviteToken)
+    private inviteTokenRepository: BaseRepository<BuffetInviteToken>,
   ) {}
 
   @Post()
@@ -174,5 +175,13 @@ export class BuffetController {
       throw new InvalidIdException();
     }
     return this.buffetService.remove(+id, ability);
+  }
+
+  @Post("/invite")
+  @NotFoundResponse(BadRequestException)
+  @ServiceUnavailableResponse()
+  @InternalServerErrorResponse()
+  public async createInviteToken(buffet: Buffet) {
+    return this.buffetService.createInviteToken(buffet);
   }
 }
