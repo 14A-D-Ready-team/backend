@@ -44,11 +44,12 @@ import { SearchBuffetsQuery } from "./query";
 import { Response } from "express";
 import { AppAbility } from "@/app-ability.factory";
 import { Buffet, BuffetInviteToken } from "./entity";
+import { CreateInviteTokenDto } from "./dto/create-invite-token.dto";
 @Controller("buffet")
 export class BuffetController {
   constructor(
     private readonly buffetService: BuffetService,
-    
+
     @InjectRepository(BuffetInviteToken)
     private inviteTokenRepository: BaseRepository<BuffetInviteToken>,
   ) {}
@@ -181,7 +182,10 @@ export class BuffetController {
   @NotFoundResponse(BadRequestException)
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
-  public async createInviteToken(buffet: Buffet) {
-    return this.buffetService.createInviteToken(buffet);
+  @CheckPolicies(ability => ability.can(Action.Read, Buffet))
+  public async createInviteToken(
+    @Body() dto: CreateInviteTokenDto,
+  ) {
+    return this.buffetService.createInviteToken(dto);
   }
 }
