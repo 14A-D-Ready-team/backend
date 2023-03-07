@@ -48,7 +48,7 @@ import { Buffet, BuffetInviteToken } from "./entity";
 export class BuffetController {
   constructor(
     private readonly buffetService: BuffetService,
-    
+
     @InjectRepository(BuffetInviteToken)
     private inviteTokenRepository: BaseRepository<BuffetInviteToken>,
   ) {}
