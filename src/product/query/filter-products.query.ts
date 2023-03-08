@@ -19,6 +19,12 @@ export class FilterProductsQuery extends PaginationQuery {
 
   @Expose()
   @IsOptional()
+  @IsNumber({ allowInfinity: false, allowNaN: false, maxDecimalPlaces: 0 })
+  @Min(1)
+  public buffetId?: number;
+
+  @Expose()
+  @IsOptional()
   @IsInstance(NumberFilterQuery)
   @ValidateNested()
   public fullPrice?: NumberFilterQuery;
@@ -36,8 +42,20 @@ export class FilterProductsQuery extends PaginationQuery {
   public stock?: NumberFilterQuery;
 
   public toDbQuery() {
+    const category = {
+      $and: [] as any[],
+    };
+
+    if (this.categoryId) {
+      category.$and.push({ id: this.categoryId });
+    }
+
+    if (this.buffetId) {
+      category.$and.push({ buffet: this.buffetId });
+    }
+
     const query = {
-      ...(this.categoryId && { category: this.categoryId }),
+      category,
       ...(this.fullPrice && { fullPrice: this.fullPrice.toDbQuery() }),
       ...(this.discountedPrice && {
         discountedPrice: this.discountedPrice.toDbQuery(),
