@@ -1,4 +1,5 @@
 import { Auth, AuthState, InjectAuthState } from "@/auth";
+console.log(Auth);
 import { BaseRepository } from "@/shared/database";
 import { InvalidIdException } from "@/shared/exceptions";
 import { Action, CheckPolicies, InjectAbility } from "@/shared/policy";

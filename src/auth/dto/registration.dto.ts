@@ -4,6 +4,7 @@ import {
   IsEmail,
   IsEnum,
   IsString,
+  IsUUID,
   Matches,
   MaxLength,
   MinLength,
@@ -54,4 +55,10 @@ export class RegistrationDto {
   @ApiProperty()
   @IsEnum(UserType)
   public type!: UserType;
+
+  @Expose()
+  @ApiProperty()
+  @IsString()
+  @IsUUID()
+  public inviteToken?: string;
 }

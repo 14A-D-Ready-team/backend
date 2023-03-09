@@ -6,6 +6,9 @@ import { UserStatus, UserType } from "./enum";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { BaseRepository } from "@shared/database";
 import { EmailDuplicateException } from "./duplicate-email.exeption";
+import { RegistrationDto } from "@/auth/dto";
+import { Buffet, BuffetInviteToken } from "@/buffet";
+import { Reference } from "@mikro-orm/core";
 @Injectable()
 export class UserService {
   constructor(
@@ -23,6 +26,10 @@ export class UserService {
 
     @InjectRepository(BuffetOwner)
     private buffetOwnerRepository: BaseRepository<BuffetOwner>,
+
+    @InjectRepository(BuffetInviteToken)
+    private buffetInviteRepository: BaseRepository<BuffetInviteToken>,
+
   ) {}
 
   public async create(userData: UserData): Promise<User> {
@@ -51,6 +58,32 @@ export class UserService {
       }
     }
 
+    return user;
+  }
+
+  public async createBuffetWorker(userData: UserData, token: string) {
+
+    const user = await this.create(userData);
+
+    const inviteToken = await this.buffetInviteRepository.findOne(token);
+
+    if (inviteToken === null) {
+      throw Error("Ilyen token nem létezik!");
+    }
+
+    if (user.type === UserType.BuffetWorker) {
+      const bufferWorker = this.buffetWorkerRepository.create({
+        user,
+        buffet: Reference.create(inviteToken.buffet),
+      });
+      this.buffetWorkerRepository.persistAndFlush(bufferWorker);
+    }
+  }
+
+  public async createRest(userData: UserData) {
+
+    const user = await this.create(userData);
+
     if (user.type === UserType.Admin) {
       const admin = this.adminRepository.create({
         user,
@@ -71,14 +104,5 @@ export class UserService {
       });
       this.buffetOwnerRepository.persistAndFlush(buffetOwner);
     }
-
-    // if (user.type === UserType.BuffetWorker) {
-    //   const bufferWorker = this.buffetWorkerRepository.create({
-    //     user,
-    //   });
-    //   this.buffetWorkerRepository.persistAndFlush(bufferWorker);
-    // }
-
-    return user;
   }
 }
