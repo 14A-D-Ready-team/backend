@@ -92,12 +92,15 @@ export class GoogleAuthService {
   }
 
   private async registerNewUser(userData: GoogleUserData, userType: UserType) {
-    const newUser = await this.userService.create({
-      email: userData.email,
-      name: userData.givenName + " " + userData.familyName,
-      type: userType,
-      status: UserStatus.Active,
-    }, "");
+    const newUser = await this.userService.create(
+      {
+        email: userData.email,
+        name: userData.givenName + " " + userData.familyName,
+        type: userType,
+        status: UserStatus.Active,
+      },
+      "",
+    );
 
     return newUser;
   }

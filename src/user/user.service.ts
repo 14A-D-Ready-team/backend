@@ -32,13 +32,11 @@ export class UserService {
   ) {}
 
   public async create(userData: UserData, token: string): Promise<User> {
-    
     const user = await this.createUser(userData);
 
     if (user.type === UserType.BuffetWorker) {
       await this.createBuffetWorker(userData, token);
-    }
-    else {
+    } else {
       await this.createRest(userData);
     }
 
@@ -73,7 +71,6 @@ export class UserService {
 
     return user;
   }
-
 
   private async createBuffetWorker(userData: UserData, token: string) {
     const user = await this.create(userData, token);
@@ -114,7 +111,7 @@ export class UserService {
       const buffetOwner = this.buffetOwnerRepository.create({
         user,
       });
-       this.buffetOwnerRepository.persistAndFlush(buffetOwner);
+      this.buffetOwnerRepository.persistAndFlush(buffetOwner);
     }
   }
 }
