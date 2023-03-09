@@ -1,4 +1,3 @@
-setup: true
 version: 2.1
 
 orbs:
@@ -51,7 +50,7 @@ jobs:
           token: CODECOV_TOKEN
 
 workflows:
-  setup:
+  workflow:
     jobs:
       - format-code
       - build-and-test:

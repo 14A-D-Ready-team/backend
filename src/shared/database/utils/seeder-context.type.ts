@@ -6,4 +6,5 @@ import { Dictionary } from "lodash";
 export type SeederContext = {
   categories: Dictionary<Category>;
   buffetOwners: User;
+  buffets: Dictionary<Buffet>;
 };
