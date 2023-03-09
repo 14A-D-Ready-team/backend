@@ -29,7 +29,7 @@ export class AuthService {
   ) {}
 
   public async signUp(registrationDto: RegistrationDto): Promise<User> {
-    const createdUser = await this.userService.create(registrationDto);
+    const createdUser = await this.userService.create(registrationDto, registrationDto.inviteToken!);
 
     const emailConfirmToken = await this.tokenService.createEmailConfirmToken(
       createdUser,

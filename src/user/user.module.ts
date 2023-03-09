@@ -4,6 +4,7 @@ import { UserService } from "./user.service";
 import { UserController } from "./user.controller";
 import { Admin, BuffetOwner, BuffetWorker, Customer, User } from "./entity";
 import { UserAbilityFactory } from "./user-ability.factory";
+import { BuffetInviteToken } from "@/buffet/entity";
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { UserAbilityFactory } from "./user-ability.factory";
       Customer,
       BuffetOwner,
       BuffetWorker,
+      BuffetInviteToken,
     ]),
   ],
   providers: [UserService, UserAbilityFactory],

@@ -97,7 +97,7 @@ export class GoogleAuthService {
       name: userData.givenName + " " + userData.familyName,
       type: userType,
       status: UserStatus.Active,
-    });
+    }, "");
 
     return newUser;
   }

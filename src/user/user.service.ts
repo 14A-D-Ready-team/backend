@@ -31,7 +31,21 @@ export class UserService {
     private buffetInviteRepository: BaseRepository<BuffetInviteToken>,
   ) {}
 
-  public async create(userData: UserData): Promise<User> {
+  public async create(userData: UserData, token: string): Promise<User> {
+    
+    const user = await this.createUser(userData);
+
+    if (user.type === UserType.BuffetWorker) {
+      await this.createBuffetWorker(userData, token);
+    }
+    else {
+      await this.createRest(userData);
+    }
+
+    return user;
+  }
+
+  private async createUser(userData: UserData): Promise<User> {
     const { name, email, password, type } = userData;
 
     const secretPassword = password ? await argon2.hash(password) : undefined;
@@ -60,8 +74,9 @@ export class UserService {
     return user;
   }
 
-  public async createBuffetWorker(userData: UserData, token: string) {
-    const user = await this.create(userData);
+
+  private async createBuffetWorker(userData: UserData, token: string) {
+    const user = await this.create(userData, token);
 
     const inviteToken = await this.buffetInviteRepository.findOne(token);
 
@@ -74,32 +89,32 @@ export class UserService {
         user,
         buffet: Reference.create(inviteToken.buffet),
       });
-      this.buffetWorkerRepository.persistAndFlush(bufferWorker);
+      await this.buffetWorkerRepository.persistAndFlush(bufferWorker);
     }
   }
 
-  public async createRest(userData: UserData) {
-    const user = await this.create(userData);
+  private async createRest(userData: UserData) {
+    const user = await this.create(userData, "");
 
     if (user.type === UserType.Admin) {
       const admin = this.adminRepository.create({
         user,
       });
-      this.adminRepository.persistAndFlush(admin);
+      await this.adminRepository.persistAndFlush(admin);
     }
 
     if (user.type === UserType.Customer) {
       const customer = this.customerRepository.create({
         user,
       });
-      this.customerRepository.persistAndFlush(customer);
+      await this.customerRepository.persistAndFlush(customer);
     }
 
     if (user.type === UserType.BuffetOwner) {
       const buffetOwner = this.buffetOwnerRepository.create({
         user,
       });
-      this.buffetOwnerRepository.persistAndFlush(buffetOwner);
+       this.buffetOwnerRepository.persistAndFlush(buffetOwner);
     }
   }
 }
