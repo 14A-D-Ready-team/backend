@@ -29,7 +29,6 @@ export class UserService {
 
     @InjectRepository(BuffetInviteToken)
     private buffetInviteRepository: BaseRepository<BuffetInviteToken>,
-
   ) {}
 
   public async create(userData: UserData): Promise<User> {
@@ -62,7 +61,6 @@ export class UserService {
   }
 
   public async createBuffetWorker(userData: UserData, token: string) {
-
     const user = await this.create(userData);
 
     const inviteToken = await this.buffetInviteRepository.findOne(token);
@@ -81,7 +79,6 @@ export class UserService {
   }
 
   public async createRest(userData: UserData) {
-
     const user = await this.create(userData);
 
     if (user.type === UserType.Admin) {
