@@ -62,7 +62,7 @@ export class UserSeeder extends Seeder {
         status: UserStatus.Active,
       }, */
       {
-        name: "Végh Béla",
+        name: "Nagy Béla",
         email: "bela123@gmail.com",
         password: await hash("Jelszo123$!"),
         buffetOwner: Reference.create(new BuffetOwner()),
