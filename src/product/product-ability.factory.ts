@@ -34,8 +34,25 @@ export class ProductAbilityFactory implements AbilityFactory {
       return builder.build();
     }
 
-    let ownCategoryIds: number[] = [];
+    const ownCategoryIds = await this.getOwnCategoryIds(user);
 
+    can(Action.Create, [Product, CreateProductDto], {
+      categoryId: { $in: ownCategoryIds },
+    });
+
+    can(Action.Update, [Product, UpdateProductDto], {
+      categoryId: { $in: ownCategoryIds },
+    });
+
+    can(Action.Delete, Product, {
+      categoryId: { $in: ownCategoryIds },
+    });
+
+    return builder.build();
+  }
+
+  private async getOwnCategoryIds(user: User) {
+    let ownCategoryIds: number[] = [];
     const buffetOwner = user.buffetOwner?.unwrap();
     if (buffetOwner) {
       const buffets = await buffetOwner.buffets?.loadItems({
@@ -52,18 +69,6 @@ export class ProductAbilityFactory implements AbilityFactory {
       ownCategoryIds = buffet.categoryIds;
     }
 
-    can(Action.Create, [Product, CreateProductDto], {
-      categoryId: { $in: ownCategoryIds },
-    });
-
-    can(Action.Update, [Product, UpdateProductDto], {
-      categoryId: { $in: ownCategoryIds },
-    });
-
-    can(Action.Delete, Product, {
-      categoryId: { $in: ownCategoryIds },
-    });
-
-    return builder.build();
+    return ownCategoryIds;
   }
 }
