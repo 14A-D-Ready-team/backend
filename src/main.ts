@@ -13,9 +13,22 @@ import { SerializerInterceptor } from "@shared/serialization";
 import { PolicyGuard } from "./shared/policy";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import cookieParser from "cookie-parser";
+import { Logger } from "nestjs-pino";
+import { loggingConfig } from "./shared/logging";
+import { ConfigType } from "@nestjs/config";
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    bufferLogs: true,
+  });
+
+  const { usedLogger: useLogger } = app.get<ConfigType<typeof loggingConfig>>(
+    loggingConfig.KEY,
+  );
+
+  if (useLogger === "pino") {
+    app.useLogger(app.get(Logger));
+  }
 
   const config = new DocumentBuilder()
     .setTitle("Ready App API")
