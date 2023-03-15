@@ -15,6 +15,9 @@ import { AppAbilityFactory } from "./app-ability.factory";
 import { ProductModule } from "./product/product.module";
 import { CategoryModule } from "./category/category.module";
 import { BuffetModule } from "./buffet/buffet.module";
+import { LoggerModule } from "nestjs-pino";
+import pino from "pino";
+import { loggingConfig, LoggingModule } from "./shared/logging";
 
 @Module({
   imports: [
@@ -22,8 +25,9 @@ import { BuffetModule } from "./buffet/buffet.module";
     ConfigModule.forRoot({
       cache: true,
       envFilePath: [".env"],
-      load: [authConfig, sessionConfig, emailConfig],
+      load: [authConfig, sessionConfig, emailConfig, loggingConfig],
     }),
+    LoggingModule,
     SerializationModule,
     ValidationModule,
     PolicyModule,
