@@ -4,4 +4,4 @@ COPY . .
 RUN npm i
 RUN npm run build
 EXPOSE 3000
-CMD npm run start:prod
+CMD npx mikro-orm schema:fresh --seed -r && npm run start:prod
