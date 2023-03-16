@@ -1,6 +1,6 @@
 import { LoginDto } from "./dto/login.dto";
 import { AuthService } from "./auth.service";
-import { Body, Controller, Get, Param, Post, Session } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Redirect, Session } from "@nestjs/common";
 import { RegistrationDto } from "./dto/registration.dto";
 import { Auth, InjectAuthState } from "./decorator";
 import { AuthState } from "./auth.state";
@@ -102,6 +102,7 @@ export class AuthController {
   @BadRequestResponse(InvalidTokenException)
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
+  @Redirect('https://www.ready-app.hu/')
   public async verifyUser(@Param("tokenId") tokenId: string) {
     return this.authService.verifyUser(tokenId);
   }
