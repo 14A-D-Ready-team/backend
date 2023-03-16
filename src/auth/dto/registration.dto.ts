@@ -3,7 +3,9 @@ import { Expose } from "class-transformer";
 import {
   IsEmail,
   IsEnum,
+  IsOptional,
   IsString,
+  IsUUID,
   Matches,
   MaxLength,
   MinLength,
@@ -54,4 +56,10 @@ export class RegistrationDto {
   @ApiProperty()
   @IsEnum(UserType)
   public type!: UserType;
+
+  @Expose()
+  @IsOptional()
+  @ApiProperty()
+  @IsString()
+  public inviteToken?: string;
 }

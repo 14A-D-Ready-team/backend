@@ -8,9 +8,12 @@ import { ForbiddenException, Injectable } from "@nestjs/common";
 import { readFile } from "fs/promises";
 import { CreateBuffetDto } from "./dto/create-buffet.dto";
 import { UpdateBuffetDto } from "./dto/update-buffet.dto";
+import { BuffetInviteToken } from "./entity";
 import { Buffet } from "./entity/buffet.entity";
 import { BuffetNotFoundException } from "./exception/buffet-not-found.exception";
 import { SearchBuffetsQuery } from "./query";
+import { v4 as uuidv4 } from "uuid";
+import { CreateInviteTokenDto } from "./dto/create-invite-token.dto";
 
 @Injectable()
 export class BuffetService {
@@ -18,8 +21,8 @@ export class BuffetService {
     @InjectRepository(Buffet)
     private buffetRepository: BaseRepository<Buffet>,
 
-    @InjectRepository(User)
-    private userRepository: BaseRepository<User>,
+    @InjectRepository(BuffetInviteToken)
+    private inviteTokenRepository: BaseRepository<BuffetInviteToken>,
   ) {}
 
   public async create(
@@ -100,5 +103,22 @@ export class BuffetService {
     }
 
     await this.buffetRepository.removeAndFlush(entity);
+  }
+
+  public async createInviteToken(dto: CreateInviteTokenDto) {
+    const buffet = await this.findOne(dto.buffetId);
+
+    if (buffet === null) {
+      throw new BuffetNotFoundException();
+    }
+
+    const token = this.inviteTokenRepository.create({
+      id: uuidv4(),
+      buffet,
+    });
+
+    await this.inviteTokenRepository.persistAndFlush(token);
+
+    return token;
   }
 }

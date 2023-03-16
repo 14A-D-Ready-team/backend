@@ -6,6 +6,9 @@ import { UserStatus, UserType } from "./enum";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { BaseRepository } from "@shared/database";
 import { EmailDuplicateException } from "./duplicate-email.exeption";
+import { RegistrationDto } from "@/auth/dto";
+import { Buffet, BuffetInviteToken } from "@/buffet/entity";
+import { Reference } from "@mikro-orm/core";
 @Injectable()
 export class UserService {
   constructor(
@@ -23,9 +26,24 @@ export class UserService {
 
     @InjectRepository(BuffetOwner)
     private buffetOwnerRepository: BaseRepository<BuffetOwner>,
+
+    @InjectRepository(BuffetInviteToken)
+    private buffetInviteRepository: BaseRepository<BuffetInviteToken>,
   ) {}
 
-  public async create(userData: UserData): Promise<User> {
+  public async create(userData: UserData, token: string): Promise<User> {
+    const user = await this.createUser(userData);
+
+    if (user.type === UserType.BuffetWorker) {
+      await this.createBuffetWorker(user, token);
+    } else {
+      await this.createRest(user);
+    }
+
+    return user;
+  }
+
+  private async createUser(userData: UserData): Promise<User> {
     const { name, email, password, type } = userData;
 
     const secretPassword = password ? await argon2.hash(password) : undefined;
@@ -51,18 +69,38 @@ export class UserService {
       }
     }
 
+    return user;
+  }
+
+  private async createBuffetWorker(user: User, token: string) {
+    const inviteToken = await this.buffetInviteRepository.findOne(token);
+
+    if (inviteToken === null) {
+      throw Error("Ilyen token nem létezik!");
+    }
+
+    if (user.type === UserType.BuffetWorker) {
+      const bufferWorker = this.buffetWorkerRepository.create({
+        user,
+        buffet: Reference.create(inviteToken.buffet),
+      });
+      await this.buffetWorkerRepository.persistAndFlush(bufferWorker);
+    }
+  }
+
+  private async createRest(user: User) {
     if (user.type === UserType.Admin) {
       const admin = this.adminRepository.create({
         user,
       });
-      this.adminRepository.persistAndFlush(admin);
+      await this.adminRepository.persistAndFlush(admin);
     }
 
     if (user.type === UserType.Customer) {
       const customer = this.customerRepository.create({
         user,
       });
-      this.customerRepository.persistAndFlush(customer);
+      await this.customerRepository.persistAndFlush(customer);
     }
 
     if (user.type === UserType.BuffetOwner) {
@@ -71,14 +109,5 @@ export class UserService {
       });
       this.buffetOwnerRepository.persistAndFlush(buffetOwner);
     }
-
-    // if (user.type === UserType.BuffetWorker) {
-    //   const bufferWorker = this.buffetWorkerRepository.create({
-    //     user,
-    //   });
-    //   this.buffetWorkerRepository.persistAndFlush(bufferWorker);
-    // }
-
-    return user;
   }
 }
