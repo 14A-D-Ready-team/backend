@@ -73,7 +73,6 @@ export class UserService {
   }
 
   private async createBuffetWorker(user: User, token: string) {
-
     const inviteToken = await this.buffetInviteRepository.findOne(token);
 
     if (inviteToken === null) {
