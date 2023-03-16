@@ -6,6 +6,7 @@ import { sessionConfig } from "./session.config";
 import { Sequelize } from "sequelize";
 import connectSession from "connect-session-sequelize";
 import express from "express";
+import { InjectPinoLogger, PinoLogger } from "nestjs-pino";
 
 @Injectable()
 export class SessionMiddleware implements NestMiddleware {
@@ -14,6 +15,9 @@ export class SessionMiddleware implements NestMiddleware {
   constructor(
     @Inject(sessionConfig.KEY)
     private config: ConfigType<typeof sessionConfig>,
+
+    @InjectPinoLogger(SessionMiddleware.name)
+    private pinoLogger: PinoLogger,
   ) {
     this.expressSession = session({
       secret: config.secret,
@@ -43,7 +47,9 @@ export class SessionMiddleware implements NestMiddleware {
 
     const sequelize = new Sequelize(this.config.connectionString!, {
       dialect: "mysql",
-      logging: false,
+      logging: sql => {
+        this.pinoLogger.debug(sql);
+      },
     });
 
     const store = new SequelizeStore({
