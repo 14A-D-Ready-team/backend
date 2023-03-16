@@ -116,8 +116,7 @@ export class BuffetController {
     @Param("id") id: string,
     @Res({ passthrough: true }) res: Response,
   ) {
-    return null;
-    /*   if (!+id) {
+    if (!+id) {
       throw new InvalidIdException();
     }
     const buffet = await this.buffetService.findOne(+id);
@@ -127,7 +126,7 @@ export class BuffetController {
 
     res.setHeader("Content-Type", buffet.imageType);
 
-    return new StreamableFile(buffet.image); */
+    return new StreamableFile(buffet.image);
   }
 
   @Patch(":id")

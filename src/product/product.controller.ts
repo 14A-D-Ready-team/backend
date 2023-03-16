@@ -102,8 +102,7 @@ export class ProductController {
     @Param("id") id: string,
     @Res({ passthrough: true }) res: Response,
   ) {
-    return null;
-    /*  if (!+id) {
+    if (!+id) {
       throw new InvalidIdException();
     }
     const product = await this.productService.findOne(+id);
@@ -113,7 +112,7 @@ export class ProductController {
 
     res.setHeader("Content-Type", product.imageType);
 
-    return new StreamableFile(product.image); */
+    return new StreamableFile(product.image);
   }
 
   @Patch(":id")
