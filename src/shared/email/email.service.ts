@@ -8,7 +8,7 @@ export class EmailService {
 
   public async sendWelcomeEmail(user: User, tokenId: string) {
     try {
-      const sentEmail = await this.mailerService.sendMail({
+      await this.mailerService.sendMail({
         to: user.email,
         from: "noreply.ready.team@gmail.com",
         subject: "Ready! üdvözlés",
@@ -16,6 +16,8 @@ export class EmailService {
         context: {
           name: user.name,
           token: tokenId,
+          url: "https://www.ready-app.hu/api/auth/verify-user/" + tokenId,
+          //url: "http://localhost:3000/auth/verify-user/" + tokenId,
         },
       });
     } catch (error) {
@@ -25,7 +27,7 @@ export class EmailService {
 
   public async sendConfirmEmail(user: User, tokenId: string) {
     try {
-      const sentEmail = await this.mailerService.sendMail({
+      await this.mailerService.sendMail({
         to: user.email,
         from: "noreply.ready.team@gmail.com",
         subject: "Ready! email megerősítés",
@@ -33,6 +35,8 @@ export class EmailService {
         context: {
           name: user.name,
           token: tokenId,
+          url: "https://www.ready-app.hu/api/auth/verify-user/" + tokenId,
+          //url: "http://localhost:3000/auth/verify-user/" + tokenId,
         },
       });
     } catch (error) {
@@ -42,7 +46,7 @@ export class EmailService {
 
   public async sendPwdResetEmail(user: User, tokenId: string) {
     try {
-      const sentEmail = await this.mailerService.sendMail({
+      await this.mailerService.sendMail({
         to: user.email,
         from: "noreply.ready.team@gmail.com",
         subject: "Ready! jelszó csere",
@@ -59,7 +63,7 @@ export class EmailService {
 
   public async sendTestEmail(receiverEmail: string) {
     try {
-      const sentEmail = await this.mailerService.sendMail({
+      await this.mailerService.sendMail({
         to: receiverEmail,
         from: "noreply.ready.team@gmail.com",
         subject: "Ready! üdvözlés",

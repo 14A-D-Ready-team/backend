@@ -35,9 +35,9 @@ export class UserService {
     const user = await this.createUser(userData);
 
     if (user.type === UserType.BuffetWorker) {
-      await this.createBuffetWorker(userData, token);
+      await this.createBuffetWorker(user, token);
     } else {
-      await this.createRest(userData);
+      await this.createRest(user);
     }
 
     return user;
@@ -72,8 +72,7 @@ export class UserService {
     return user;
   }
 
-  private async createBuffetWorker(userData: UserData, token: string) {
-    const user = await this.create(userData, token);
+  private async createBuffetWorker(user: User, token: string) {
 
     const inviteToken = await this.buffetInviteRepository.findOne(token);
 
@@ -90,9 +89,7 @@ export class UserService {
     }
   }
 
-  private async createRest(userData: UserData) {
-    const user = await this.create(userData, "");
-
+  private async createRest(user: User) {
     if (user.type === UserType.Admin) {
       const admin = this.adminRepository.create({
         user,
