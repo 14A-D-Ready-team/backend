@@ -45,6 +45,9 @@ import { Response } from "express";
 import { AppAbility } from "@/app-ability.factory";
 import { Buffet, BuffetInviteToken } from "./entity";
 import { CreateInviteTokenDto } from "./dto/create-invite-token.dto";
+import { ApiTags } from "@nestjs/swagger";
+
+@ApiTags("buffet")
 @Controller("buffet")
 export class BuffetController {
   constructor(
