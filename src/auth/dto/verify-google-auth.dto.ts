@@ -7,8 +7,4 @@ export class VerifyGoogleAuthDto {
   @IsString()
   @IsJWT()
   public token: string;
-
-  @Expose()
-  @IsEnum(UserType)
-  public userType: UserType;
 }

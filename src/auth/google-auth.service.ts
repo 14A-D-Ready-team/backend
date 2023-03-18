@@ -30,7 +30,7 @@ export class GoogleAuthService {
     private userService: UserService,
   ) {}
 
-  public async verify(token: string, userType: UserType) {
+  public async verify(token: string) {
     const client = new OAuth2Client({
       clientId: this.config.googleClientId,
       clientSecret: this.config.googleClientSecret,
@@ -49,10 +49,10 @@ export class GoogleAuthService {
     });
 
     if (user) {
-      return this.authenticateUser(user, userType);
+      return this.authenticateUser(user);
     }
 
-    return this.registerNewUser(googleUserData, userType);
+    return this.registerNewUser(googleUserData);
   }
 
   private processTicketPayload(
@@ -83,20 +83,20 @@ export class GoogleAuthService {
     };
   }
 
-  private async authenticateUser(user: User, userType: UserType) {
-    if (user.type !== userType) {
+  private async authenticateUser(user: User) {
+    if (user.type !== UserType.Customer) {
       throw new InvalidUserTypeException();
     }
 
     return user;
   }
 
-  private async registerNewUser(userData: GoogleUserData, userType: UserType) {
+  private async registerNewUser(userData: GoogleUserData) {
     const newUser = await this.userService.create(
       {
         email: userData.email,
         name: userData.givenName + " " + userData.familyName,
-        type: userType,
+        type: UserType.Customer,
         status: UserStatus.Active,
       },
       "",

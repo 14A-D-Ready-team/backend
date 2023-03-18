@@ -13,10 +13,7 @@ export class GoogleAuthController {
     @Body() payload: VerifyGoogleAuthDto,
     @Session() session: Record<string, any>,
   ) {
-    const user = await this.googleAuthService.verify(
-      payload.token,
-      payload.userType,
-    );
+    const user = await this.googleAuthService.verify(payload.token);
     session.userId = user.id;
     return user;
   }
