@@ -50,10 +50,10 @@ export class FilterProductsQuery extends PaginationQuery {
       category.$and.push({ id: this.categoryId });
     }
 
-    if (this.buffetId) {
+    /*  if (this.buffetId) {
       category.$and.push({ buffet: this.buffetId });
     }
-
+ */
     const query = {
       category,
       ...(this.fullPrice && { fullPrice: this.fullPrice.toDbQuery() }),
