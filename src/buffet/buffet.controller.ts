@@ -96,7 +96,6 @@ export class BuffetController {
   @InternalServerErrorResponse()
   @CheckPolicies(ability => ability.can(Action.Read, Buffet))
   public find(@Query() query: SearchBuffetsQuery) {
-    console.log(query);
     return this.buffetService.find(query);
   }
 
