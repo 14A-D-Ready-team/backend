@@ -2,7 +2,7 @@ import { StringFilterQuery } from "@/shared/filtering";
 import { PaginationQuery } from "@/shared/pagination";
 import { ApiProperty } from "@nestjs/swagger";
 import { Expose } from "class-transformer";
-import { IsIn, IsNotEmpty, IsOptional } from "class-validator";
+import { IsBoolean, IsIn, IsNotEmpty, IsOptional } from "class-validator";
 import { omitBy } from "lodash";
 
 export class SearchBuffetsQuery extends PaginationQuery {
@@ -22,6 +22,12 @@ export class SearchBuffetsQuery extends PaginationQuery {
   @IsIn(["ASC", "DESC"])
   @ApiProperty()
   public order?: string;
+
+  @Expose()
+  @IsOptional()
+  @IsBoolean()
+  @ApiProperty()
+  public own?: boolean;
 
   public toDbQuery() {
     const query = {

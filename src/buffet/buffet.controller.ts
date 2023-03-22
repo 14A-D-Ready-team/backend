@@ -46,6 +46,7 @@ import { AppAbility } from "@/app-ability.factory";
 import { Buffet, BuffetInviteToken } from "./entity";
 import { CreateInviteTokenDto } from "./dto/create-invite-token.dto";
 import { ApiTags } from "@nestjs/swagger";
+import { PaginatedResponse } from "@/shared/pagination";
 
 @ApiTags("buffet")
 @Controller("buffet")
@@ -95,8 +96,14 @@ export class BuffetController {
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
   @CheckPolicies(ability => ability.can(Action.Read, Buffet))
-  public find(@Query() query: SearchBuffetsQuery) {
-    return this.buffetService.find(query);
+  @Auth()
+  public async find(
+    @Query() query: SearchBuffetsQuery,
+    @InjectAuthState() authState: AuthState,
+  ) {
+    const user = authState.user;
+
+    return this.buffetService.find(query, user);
   }
 
   @Get(":id")
