@@ -52,25 +52,26 @@ export class BuffetService {
     query: SearchBuffetsQuery,
     user: User | undefined,
   ): Promise<PaginatedResponse<Buffet>> {
-    if (query.own && (!user || user.customer)) {
-      return new PaginatedResponse([] as Buffet[], 0);
-    }
-
     let buffetIds: number[] | undefined = undefined;
     if (query.own) {
       if (!user || user.customer) {
         return new PaginatedResponse([] as Buffet[], 0);
       }
       if (user.buffetOwner) {
-        buffetIds = user.buffetOwner.unwrap().buffets.getIdentifiers();
+        const owner = user.buffetOwner.unwrap();
+        buffetIds = owner.buffets.getIdentifiers();
       }
       if (user.buffetWorker) {
-        buffetIds = [user.buffetWorker.unwrap().buffet.id];
+        const worker = user.buffetWorker.unwrap();
+        buffetIds = [worker.buffet.id];
       }
     }
 
     const [buffets, count] = await this.buffetRepository.findAndCount(
-      { ...query.toDbQuery() },
+      {
+        ...query.toDbQuery(),
+        ...(buffetIds ? { id: { $in: buffetIds } } : {}),
+      },
       {
         limit: query.take === undefined ? (null as any) : query.take,
         offset: query.skip,

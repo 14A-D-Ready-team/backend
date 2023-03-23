@@ -6,10 +6,9 @@ import { getBuffetData } from "./buffet.data";
 
 export class BuffetSeeder extends Seeder {
   public async run(em: EntityManager, context: SeederContext): Promise<void> {
-    for (const b of getBuffetData()) {
+    for (const b of getBuffetData(context)) {
       const buffet = new BuffetFactory(em).makeOne({
         ...b,
-        buffetOwner: context.buffetOwners.buffetOwner,
       });
       context.buffets = { ...(context.buffets || {}), [b.name!]: buffet };
       await em.persistAndFlush(buffet);
