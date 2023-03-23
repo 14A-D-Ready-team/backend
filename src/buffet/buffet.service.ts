@@ -50,9 +50,28 @@ export class BuffetService {
   //getall search és rendezés is
   public async find(
     query: SearchBuffetsQuery,
+    user: User | undefined,
   ): Promise<PaginatedResponse<Buffet>> {
+    let buffetIds: number[] | undefined = undefined;
+    if (query.own) {
+      if (!user || user.customer) {
+        return new PaginatedResponse([] as Buffet[], 0);
+      }
+      if (user.buffetOwner) {
+        const owner = user.buffetOwner.unwrap();
+        buffetIds = owner.buffets.getIdentifiers();
+      }
+      if (user.buffetWorker) {
+        const worker = user.buffetWorker.unwrap();
+        buffetIds = [worker.buffet.id];
+      }
+    }
+
     const [buffets, count] = await this.buffetRepository.findAndCount(
-      query.toDbQuery(),
+      {
+        ...query.toDbQuery(),
+        ...(buffetIds ? { id: { $in: buffetIds } } : {}),
+      },
       {
         limit: query.take === undefined ? (null as any) : query.take,
         offset: query.skip,

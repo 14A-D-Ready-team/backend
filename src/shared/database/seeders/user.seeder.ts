@@ -53,17 +53,17 @@ export class UserSeeder extends Seeder {
         type: UserType.Admin,
         status: UserStatus.Active,
       },
-      /* {
-        name: "Cserepes Virág",
-        email: "flower123@gmail.com",
-        password: await hash("Jelszo123$!"),
-        buffetWorker: Reference.create(new BuffetWorker()),
-        type: UserType.BuffetWorker,
-        status: UserStatus.Active,
-      }, */
       {
         name: "Nagy Béla",
         email: "bela123@gmail.com",
+        password: await hash("Jelszo123$!"),
+        buffetOwner: Reference.create(new BuffetOwner()),
+        type: UserType.BuffetOwner,
+        status: UserStatus.Active,
+      },
+      {
+        name: "Kis Johnny",
+        email: "johnny123@gmail.com",
         password: await hash("Jelszo123$!"),
         buffetOwner: Reference.create(new BuffetOwner()),
         type: UserType.BuffetOwner,
@@ -78,8 +78,8 @@ export class UserSeeder extends Seeder {
       users.push(user);
     }
 
-    const passwordHash = await hash("Jelszo123$!");
     for (let i = 0; i < 50; i++) {
+      const passwordHash = await hash("Jelszo123$!");
       users.push(
         factory.makeOne({
           customer: Reference.create(new Customer()),
@@ -90,8 +90,13 @@ export class UserSeeder extends Seeder {
 
     await em.persistAndFlush(users);
 
-    context.buffetOwners = users.find(
-      user => user.email === "bela123@gmail.com",
-    )!;
+    for (const u of users) {
+      if (u.type === UserType.BuffetOwner) {
+        context.buffetOwners = {
+          ...context.buffetOwners,
+          [u.name]: u,
+        };
+      }
+    }
   }
 }

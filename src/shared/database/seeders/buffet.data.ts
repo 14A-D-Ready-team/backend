@@ -1,9 +1,10 @@
 import { Buffet } from "@/buffet/entity/buffet.entity";
+import { SeederContext } from "../utils";
 import defaultImg from "./buffet-images/default";
 
 type BuffetData = Partial<Buffet>;
 
-export function getBuffetData(): BuffetData[] {
+export function getBuffetData(context: SeederContext): BuffetData[] {
   return [
     {
       name: "Sörkert",
@@ -22,6 +23,7 @@ export function getBuffetData(): BuffetData[] {
         "Büfé a Xantus János Állatkert közelében. Baráti környezet, olcsó árak.",
       image: Buffer.from(defaultImg, "base64"),
       imageType: "image/png",
+      buffetOwner: context.buffetOwners["Nagy Béla"].buffetOwner,
     },
     {
       name: "Jedlik büfé",
@@ -40,6 +42,26 @@ export function getBuffetData(): BuffetData[] {
         "Büfé a Győri Szakképzési Centrum Jedlik Ányos Gépipari és Informatikai iskolában. Széles választék, gyors kiszolgálás.",
       image: Buffer.from(defaultImg, "base64"),
       imageType: "image/png",
+      buffetOwner: context.buffetOwners["Nagy Béla"].buffetOwner,
+    },
+    {
+      name: "Tóni Falatozó Gyros & Grill",
+      coords: "47.669871735059964, 17.646717571164352",
+      address: "Győr, Szent Imre út 43, 9024",
+      hours: `
+        Hétfő:     08:00 – 21:30
+        Kedd: 	   08:00 – 21:30
+        Szerda:	   08:00 – 21:30
+        Csütörtök: 08:00 – 21:30
+        Péntek:	   08:00 – 21:30
+        Szombat:   08:00 – 21:30
+        Vasárnap:	 Zárva
+      `,
+      description:
+        "Győr közkedvelt falatozója bőséges adagokkal, barátságos személyzettel várja Vendégeit. Sokak kedvence, a Gyros mellett hamburger, hot-dog, melegszendvics, frissensültek, saláták és ital is szerepel a kínálatban. Szabadtéri terasz várja a betérőket.",
+      image: Buffer.from(defaultImg, "base64"),
+      imageType: "image/png",
+      buffetOwner: context.buffetOwners["Kis Johnny"].buffetOwner,
     },
   ];
 }
