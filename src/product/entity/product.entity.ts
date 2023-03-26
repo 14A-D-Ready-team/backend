@@ -57,12 +57,21 @@ export class Product {
   @ManyToOne({
     entity: () => Category,
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
+    eager: true,
   })
   public category: IdentifiedReference<Category>;
 
   @Expose()
   public get categoryId() {
     return this.category?.id;
+  }
+
+  @Expose()
+  public get buffetId() {
+    if (this.category?.isInitialized()) {
+      return this.category?.getEntity()?.buffetId;
+    }
+    return undefined;
   }
 
   @Expose()
