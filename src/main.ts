@@ -43,7 +43,14 @@ async function bootstrap() {
   });
 
   app.enableShutdownHooks();
-  app.enableCors();
+  app.enableCors({
+    credentials: true,
+    origin: [
+      "http://localhost:4200",
+      "https://mobile.ready-app.hu",
+      "https://www.ready-app.hu",
+    ],
+  });
 
   app.use(cookieParser());
   app.use(helmet());
