@@ -33,19 +33,18 @@ export class ProductService {
       throw new CategoryNotFoundException();
     }
 
-    const product = new Product(
-      {
-        ...omit(payload, "categoryId"),
-        category: Reference.create(category),
-        discountedPrice: payload.discountedPrice
-          ? payload.discountedPrice
-          : undefined,
-        // IF THE FILE IS TOO BIG, THE SQL COMMAND WILL BE TOO LONG, AND WILL FAIL
-        image: await readFile(image.path),
-        imageType: image.mimetype,
-      },
-      true,
-    );
+    const data = {
+      ...omit(payload, "categoryId"),
+      category: Reference.create(category),
+      discountedPrice: payload.discountedPrice
+        ? payload.discountedPrice.toString()
+        : undefined,
+      fullPrice: payload.fullPrice.toString(),
+      image: await readFile(image.path),
+      imageType: image.mimetype,
+    };
+
+    const product = new Product(data, true);
 
     await this.productRepository.persistAndFlush(product);
     return product;
@@ -66,7 +65,9 @@ export class ProductService {
   }
 
   public findOne(id: number) {
-    return this.productRepository.findOne(id);
+    return this.productRepository.findOneOrFail(id, {
+      failHandler: () => new ProductNotFoundException(),
+    });
   }
 
   public async update(
@@ -93,10 +94,17 @@ export class ProductService {
       productToUpdate.category = Reference.create(category);
     }
 
-    productToUpdate = this.productRepository.assign(
-      productToUpdate,
-      omit(payload, "categoryId"),
-    );
+    const data = {
+      ...omit(payload, "categoryId", "discountedPrice", "fullPrice"),
+      ...(payload.discountedPrice !== undefined
+        ? { discountedPrice: payload.discountedPrice?.toString() }
+        : {}),
+      ...(payload.fullPrice !== undefined
+        ? { fullPrice: payload.fullPrice.toString() }
+        : {}),
+    };
+
+    productToUpdate = this.productRepository.assign(productToUpdate, data);
 
     await this.productRepository.persistAndFlush(productToUpdate);
     return productToUpdate;

@@ -9,6 +9,10 @@ export const sessionConfig = registerAs("session", () => {
       maxAge:
         parseInt(process.env.SESSION_COOKIE_MAX_AGE_HR || "0") * 60 * 60 * 1000,
       domain: process.env.SESSION_COOKIE_DOMAIN,
+      sameSite: (process.env.SESSION_COOKIE_SAME_SITE || "none") as
+        | "none"
+        | "lax"
+        | "strict",
     },
     connectionString: process.env.MIKRO_ORM_CLIENT_URL,
     useDbSessionStore: process.env.SESSION_USE_DB_STORE === "true",

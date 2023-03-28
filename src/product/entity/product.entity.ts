@@ -37,12 +37,16 @@ export class Product {
   public description: string;
 
   @Expose()
-  @Property({ type: "decimal" })
-  public fullPrice: number;
+  @Transform(({ value }) => +value)
+  @Property({
+    type: "decimal",
+  })
+  public fullPrice: string;
 
   @Expose()
+  @Transform(({ value }) => (value ? +value : undefined))
   @Property({ type: "decimal" })
-  public discountedPrice?: number;
+  public discountedPrice?: string;
 
   @Expose()
   @Property({ type: "integer" })

@@ -1,3 +1,4 @@
+import { classTransformerOptions } from "@/shared/validation";
 import { ApiProperty } from "@nestjs/swagger";
 import { Expose, plainToInstance, Transform, Type } from "class-transformer";
 import {
@@ -11,6 +12,7 @@ import {
   MaxLength,
   Min,
   MinLength,
+  ValidateNested,
 } from "class-validator";
 import { EditCustomizationDto } from "./edit-customization.dto";
 
@@ -75,12 +77,12 @@ export class CreateProductDto {
     }
 
     const obj = JSON.parse(value);
-    return plainToInstance(EditCustomizationDto, obj);
+    return plainToInstance(EditCustomizationDto, obj, classTransformerOptions);
   })
   @ApiProperty()
   @IsDefined()
   @IsArray()
   @IsInstance(EditCustomizationDto, { each: true })
-  @ApiProperty()
+  @ValidateNested()
   public customizations: EditCustomizationDto[];
 }
