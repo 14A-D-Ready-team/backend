@@ -94,14 +94,32 @@ export class ProductService {
       productToUpdate.category = Reference.create(category);
     }
 
+    const customizations = payload.customizations?.map(c => ({
+      ...c,
+      options: c.options.map(o => ({
+        ...o,
+        extraCost: o.extraCost.toString(),
+      })),
+    }));
+
     const data = {
-      ...omit(payload, "categoryId", "discountedPrice", "fullPrice"),
+      ...omit(
+        payload,
+        "categoryId",
+        "discountedPrice",
+        "fullPrice",
+        "customizations",
+      ),
+
       ...(payload.discountedPrice !== undefined
         ? { discountedPrice: payload.discountedPrice?.toString() }
         : {}),
+
       ...(payload.fullPrice !== undefined
         ? { fullPrice: payload.fullPrice.toString() }
         : {}),
+
+      ...(customizations ? { customizations } : {}),
     };
 
     productToUpdate = this.productRepository.assign(productToUpdate, data);
