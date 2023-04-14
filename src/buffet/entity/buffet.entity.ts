@@ -65,6 +65,10 @@ export class Buffet {
     return this.categories.getIdentifiers();
   }
 
+  public get ownerId() {
+    return this.buffetOwner.getEntity().user.id;
+  }
+
   @Expose({ name: "ownerId" })
   @Transform(params => {
     const owner = params.value as BuffetOwner;
@@ -72,6 +76,7 @@ export class Buffet {
   })
   @ManyToOne({
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
+    eager: true,
   })
   public buffetOwner!: IdentifiedReference<BuffetOwner>;
 
