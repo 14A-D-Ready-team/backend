@@ -37,20 +37,13 @@ export class BuffetAbilityFactory implements AbilityFactory {
     const buffetOwner = user.buffetOwner?.unwrap();
     if (buffetOwner) {
       can(Action.Create, [Buffet, CreateBuffetDto]);
-      can(Action.Update, [Buffet, UpdateBuffetDto]);
-      can(Action.Delete, Buffet);
+      can(Action.Update, Buffet, { ownerId: user.id });
+      can(Action.Delete, Buffet, { ownerId: user.id });
     }
 
     const buffetWorker = user.buffetWorker?.unwrap();
     if (buffetWorker) {
-      can(Action.Update, [Buffet, UpdateBuffetDto]);
-    }
-
-    const admin = user.admin?.unwrap();
-    if (admin) {
-      can(Action.Create, [Buffet, CreateBuffetDto]);
-      can(Action.Update, [Buffet, UpdateBuffetDto]);
-      can(Action.Delete, Buffet);
+      can(Action.Update, Buffet, { id: buffetWorker.buffet.id });
     }
 
     return builder.build();

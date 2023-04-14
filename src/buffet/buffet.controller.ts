@@ -65,6 +65,7 @@ export class BuffetController {
   @InternalServerErrorResponse()
   @UseInterceptors(FileInterceptor("image"), UploadCleanupInterceptor)
   @Auth()
+  @CheckPolicies(ability => ability.can(Action.Create, CreateBuffetDto))
   public create(
     @Body() createBuffetDto: CreateBuffetDto,
     @InjectAuthState() authState: AuthState,
@@ -84,9 +85,6 @@ export class BuffetController {
 
     @InjectAbility() ability: AppAbility,
   ) {
-    if (!ability.can(Action.Create, CreateBuffetDto)) {
-      throw new ForbiddenException();
-    }
     return this.buffetService.create(createBuffetDto, authState.user!, image);
   }
 
@@ -159,6 +157,7 @@ export class BuffetController {
         })
         .build({
           errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+          fileIsRequired: false,
         }),
     )
     image: Express.Multer.File,
@@ -167,10 +166,6 @@ export class BuffetController {
   ) {
     if (!+id) {
       throw new InvalidIdException();
-    }
-
-    if (!ability.can(Action.Update, updateBuffetDto)) {
-      throw new ForbiddenException();
     }
 
     return this.buffetService.update(+id, updateBuffetDto, image, ability);
@@ -191,7 +186,7 @@ export class BuffetController {
   @NotFoundResponse(BadRequestException)
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()
-  @CheckPolicies(ability => ability.can(Action.Read, Buffet))
+  @CheckPolicies((ability, user) => !!(user?.buffetOwner || user?.admin))
   public async createInviteToken(@Body() dto: CreateInviteTokenDto) {
     return this.buffetService.createInviteToken(dto);
   }

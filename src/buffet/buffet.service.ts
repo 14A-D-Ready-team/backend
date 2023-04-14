@@ -99,12 +99,18 @@ export class BuffetService {
       throw new ForbiddenException();
     }
 
-    console.log(image);
-    const data = {
-      ...payload,
-      image: await readFile(image.path),
-      imageType: image.mimetype,
-    };
+    let data: Partial<Buffet>;
+    if (image) {
+      data = {
+        ...payload,
+        image: image ? await readFile(image.path) : undefined,
+        imageType: image ? image.mimetype : undefined,
+      };
+    } else {
+      data = {
+        ...payload,
+      };
+    }
 
     buffetToUpdate = this.buffetRepository.assign(buffetToUpdate, data);
     await this.buffetRepository.persistAndFlush(buffetToUpdate);

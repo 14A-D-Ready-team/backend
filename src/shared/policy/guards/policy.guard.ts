@@ -53,7 +53,10 @@ export class PolicyGuard implements CanActivate {
 
     const hasAbility =
       !hasPolicies ||
-      policies.every(policy => this.checkPolicy(policy, ability), this);
+      policies.every(
+        policy => this.checkPolicy(policy, ability, authState?.user),
+        this,
+      );
 
     if (!hasAbility && !authState?.isLoggedIn) {
       throw new UnauthorizedException();
@@ -90,17 +93,17 @@ export class PolicyGuard implements CanActivate {
     return [...(policiesHandler || []), ...(policiesController || [])];
   }
 
-  private checkPolicy(policy: PolicyHandler, ability: AppAbility) {
+  private checkPolicy(policy: PolicyHandler, ability: AppAbility, user?: User) {
     if (this.isPolicyHandlerType(policy)) {
       const policyHandler = this.moduleRef.get(policy, { strict: false });
-      return policyHandler.handle(ability);
+      return policyHandler.handle(ability, user);
     }
 
     if (typeof policy === "function") {
-      return policy(ability);
+      return policy(ability, user);
     }
 
-    return policy.handle(ability);
+    return policy.handle(ability, user);
   }
 
   private isPolicyHandlerType(
