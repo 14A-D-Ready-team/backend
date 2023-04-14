@@ -37,12 +37,16 @@ export class Product {
   public description: string;
 
   @Expose()
-  @Property({ type: "decimal" })
-  public fullPrice: number;
+  @Transform(({ value }) => +value)
+  @Property({
+    type: "decimal",
+  })
+  public fullPrice: string;
 
   @Expose()
+  @Transform(({ value }) => (value ? +value : undefined))
   @Property({ type: "decimal" })
-  public discountedPrice?: number;
+  public discountedPrice?: string;
 
   @Expose()
   @Property({ type: "integer" })
@@ -57,12 +61,21 @@ export class Product {
   @ManyToOne({
     entity: () => Category,
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
+    eager: true,
   })
   public category: IdentifiedReference<Category>;
 
   @Expose()
   public get categoryId() {
     return this.category?.id;
+  }
+
+  @Expose()
+  public get buffetId() {
+    if (this.category?.isInitialized()) {
+      return this.category?.getEntity()?.buffetId;
+    }
+    return undefined;
   }
 
   @Expose()

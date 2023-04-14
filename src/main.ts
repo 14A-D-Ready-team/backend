@@ -47,6 +47,7 @@ async function bootstrap() {
     credentials: true,
     origin: [
       "http://localhost:4200",
+      "http://localhost:8100",
       "https://mobile.ready-app.hu",
       "https://www.ready-app.hu",
     ],

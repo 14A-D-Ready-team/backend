@@ -8,8 +8,8 @@ export class ProductFactory extends Factory<Product> {
     return {
       name: faker.commerce.product(),
       description: faker.lorem.paragraph(),
-      fullPrice: +faker.finance.amount(2, 5000, 0),
-      discountedPrice: +faker.finance.amount(2, 5000, 0),
+      fullPrice: faker.finance.amount(2, 5000, 0),
+      discountedPrice: faker.finance.amount(2, 5000, 0),
       stock: +faker.finance.amount(0, 100, 0),
     };
   }

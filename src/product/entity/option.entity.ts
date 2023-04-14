@@ -6,7 +6,7 @@ import {
   Property,
   Reference,
 } from "@mikro-orm/core";
-import { Expose } from "class-transformer";
+import { Expose, Transform } from "class-transformer";
 import { EditOptionDto } from "../dto";
 import { Customization } from "./customization.entity";
 
@@ -21,8 +21,9 @@ export class Option {
   public name: string;
 
   @Expose()
+  @Transform(({ value }) => +value)
   @Property({ type: "decimal" })
-  public extraCost: number;
+  public extraCost: string;
 
   @ManyToOne()
   public customization: IdentifiedReference<Customization>;

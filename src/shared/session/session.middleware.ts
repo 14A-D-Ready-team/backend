@@ -23,7 +23,7 @@ export class SessionMiddleware implements NestMiddleware {
       secret: config.secret,
       cookie: {
         secure: config.cookie.secure,
-        sameSite: "none",
+        sameSite: config.cookie.sameSite,
         httpOnly: true,
         maxAge: config.cookie.maxAge,
       },
