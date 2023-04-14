@@ -46,7 +46,6 @@ import { AppAbility } from "@/app-ability.factory";
 import { Buffet, BuffetInviteToken } from "./entity";
 import { CreateInviteTokenDto } from "./dto/create-invite-token.dto";
 import { ApiTags } from "@nestjs/swagger";
-import { PaginatedResponse } from "@/shared/pagination";
 
 @ApiTags("buffet")
 @Controller("buffet")
