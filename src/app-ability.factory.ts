@@ -15,8 +15,14 @@ import {
 import { ProductSubjects } from "@/product";
 import { map } from "p-iteration";
 import { BuffetSubjects } from "./buffet";
+import { CategorySubjects } from "./category";
 
-type AppSubjects = "all" | UserSubjects | ProductSubjects | BuffetSubjects;
+type AppSubjects =
+  | "all"
+  | UserSubjects
+  | ProductSubjects
+  | BuffetSubjects
+  | CategorySubjects;
 
 export type AppAbility = MongoAbility<[Action, AppSubjects]>;
 
