@@ -7,6 +7,7 @@ import {
   OneToOne,
 } from "@mikro-orm/core";
 import { User } from "./user.entity";
+import { Expose } from "class-transformer";
 
 @Entity()
 export class BuffetOwner {
@@ -18,6 +19,12 @@ export class BuffetOwner {
 
   @OneToMany(() => Buffet, buffet => buffet.buffetOwner, {
     orphanRemoval: true,
+    eager: true,
   })
   public buffets = new Collection<Buffet>(this);
+
+  @Expose()
+  private get buffetIds() {
+    return this.buffets.getIdentifiers();
+  }
 }
