@@ -39,10 +39,9 @@ export class CategoryAbilityFactory implements AbilityFactory {
     if (owner || worker) {
       let buffetIds: number[] = [];
       if (owner) {
-        console.log(owner);
+        await owner.buffets.loadItems();
         buffetIds = owner.buffets.getIdentifiers();
       }
-      console.log(worker);
       if (worker) {
         buffetIds = [worker.buffet.id];
       }
@@ -50,8 +49,11 @@ export class CategoryAbilityFactory implements AbilityFactory {
       can(Action.Create, CreateCategoryDto, {
         buffetId: { $in: buffetIds },
       });
-      can(Action.Update, [Category, UpdateCategoryDto], {
+      can(Action.Update, Category, {
         buffetId: { $in: buffetIds },
+      });
+      can(Action.Update, UpdateCategoryDto, {
+        buffetId: { $in: [...buffetIds, undefined] },
       });
       can(Action.Delete, Category, { buffetId: { $in: buffetIds } });
     }
