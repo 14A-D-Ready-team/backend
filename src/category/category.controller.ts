@@ -15,6 +15,7 @@ import {
   Param,
   Delete,
   Query,
+  ForbiddenException,
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { omitBy } from "lodash";
@@ -22,6 +23,8 @@ import { CategoryService } from "./category.service";
 import { CreateCategoryDto, UpdateCategoryDto } from "./dto";
 import { CategoryNotFoundException } from "./exceptions";
 import { FilterCategoriesQuery } from "./query";
+import { Action, InjectAbility } from "@/shared/policy";
+import { AppAbility } from "@/app-ability.factory";
 
 @ApiTags("category")
 @Controller("category")
@@ -32,7 +35,14 @@ export class CategoryController {
   @BadRequestResponse(InvalidDataException)
   @InternalServerErrorResponse()
   @ServiceUnavailableResponse()
-  public async create(@Body() createCategoryDto: CreateCategoryDto) {
+  public async create(
+    @Body() createCategoryDto: CreateCategoryDto,
+    @InjectAbility() ability: AppAbility,
+  ) {
+    if (!ability.can(Action.Create, createCategoryDto)) {
+      throw new ForbiddenException();
+    }
+
     return this.categoryService.create(createCategoryDto);
   }
 
@@ -62,22 +72,31 @@ export class CategoryController {
   public async update(
     @Param("id") id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
+    @InjectAbility() ability: AppAbility,
   ) {
     if (!+id) {
       throw new InvalidIdException();
     }
+
+    if (!ability.can(Action.Update, updateCategoryDto)) {
+      throw new ForbiddenException();
+    }
+
     updateCategoryDto = omitBy(updateCategoryDto, value => value === null);
-    return this.categoryService.update(+id, updateCategoryDto);
+    return this.categoryService.update(+id, updateCategoryDto, ability);
   }
 
   @Delete(":id")
   @BadRequestResponse(InvalidIdException)
   @InternalServerErrorResponse()
   @ServiceUnavailableResponse()
-  public async remove(@Param("id") id: string) {
+  public async remove(
+    @Param("id") id: string,
+    @InjectAbility() ability: AppAbility,
+  ) {
     if (!+id) {
       throw new InvalidIdException();
     }
-    return this.categoryService.remove(+id);
+    return this.categoryService.remove(+id, ability);
   }
 }

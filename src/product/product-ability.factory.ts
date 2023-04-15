@@ -40,8 +40,11 @@ export class ProductAbilityFactory implements AbilityFactory {
       categoryId: { $in: ownCategoryIds },
     });
 
-    can(Action.Update, [Product, UpdateProductDto], {
+    can(Action.Update, Product, {
       categoryId: { $in: ownCategoryIds },
+    });
+    can(Action.Update, UpdateProductDto, {
+      categoryId: { $in: [...ownCategoryIds, undefined] },
     });
 
     can(Action.Delete, Product, {
