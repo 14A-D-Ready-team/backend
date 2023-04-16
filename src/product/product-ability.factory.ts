@@ -14,6 +14,10 @@ import {
 import { Injectable } from "@nestjs/common";
 import { CreateProductDto, UpdateProductDto } from "./dto";
 import { Product } from "./entity";
+import { map } from "p-iteration";
+import { BaseRepository } from "@/shared/database";
+import { Category } from "@/category";
+import { InjectRepository } from "@mikro-orm/nestjs";
 
 export type ProductSubjects = InferSubjects<
   typeof Product | typeof CreateProductDto | typeof UpdateProductDto
@@ -24,6 +28,11 @@ export type ProductAbility = MongoAbility<[Action, ProductSubjects]>;
 @RegisterAbilityFactory()
 @Injectable()
 export class ProductAbilityFactory implements AbilityFactory {
+  constructor(
+    @InjectRepository(Category)
+    private categoryRepository: BaseRepository<Category>,
+  ) {}
+
   public async createForUser(user?: User) {
     const builder = new AbilityBuilder<ProductAbility>(createMongoAbility);
     const { can } = builder;
@@ -58,10 +67,18 @@ export class ProductAbilityFactory implements AbilityFactory {
     let ownCategoryIds: number[] = [];
     const buffetOwner = user.buffetOwner?.unwrap();
     if (buffetOwner) {
-      const buffets = await buffetOwner.buffets?.loadItems({
-        populate: ["categories"],
-      });
-      ownCategoryIds = buffets.flatMap(buffet => buffet.categoryIds);
+      const categories = await this.categoryRepository.find(
+        {
+          buffet: {
+            id: {
+              $in: buffetOwner.buffets.getIdentifiers() as number[],
+            },
+          },
+        },
+        { fields: ["id"] },
+      );
+
+      ownCategoryIds = categories.map(c => c.id);
     }
 
     const buffetWorker = user.buffetWorker?.unwrap();
