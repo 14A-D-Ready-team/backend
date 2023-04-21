@@ -370,7 +370,7 @@ export function getProductData(context: {
       category: Reference.create(context.categories["Nassolnivalók"]),
       customizations: [createSnackSizeCustomization()],
       image: Buffer.from(defaultImg, "base64"),
-     imageType: "image/jpeg",
+      imageType: "image/jpeg",
     },
   ];
 }
