@@ -5,11 +5,7 @@ export function getCategoryData(context: SeederContext) {
   return [
     //JEDLIK
     {
-      name: "Italok",
-      buffet: Reference.create(context.buffets["Jedlik büfé"]),
-    },
-    {
-      name: "Melegszendvicsek",
+      name: "Üdítők",
       buffet: Reference.create(context.buffets["Jedlik büfé"]),
     },
     {
@@ -21,15 +17,11 @@ export function getCategoryData(context: SeederContext) {
       buffet: Reference.create(context.buffets["Jedlik büfé"]),
     },
     {
-      name: "Gyorsételek",
-      buffet: Reference.create(context.buffets["Jedlik büfé"]),
-    },
-    {
       name: "Fincsi ®",
       buffet: Reference.create(context.buffets["Jedlik büfé"]),
     },
     {
-      name: "Forró italok",
+      name: "Kávék & Teák",
       buffet: Reference.create(context.buffets["Jedlik büfé"]),
     },
     {
@@ -46,24 +38,16 @@ export function getCategoryData(context: SeederContext) {
       buffet: Reference.create(context.buffets["Sörkert"]),
     },
     {
-      name: "Nassolnivalók",
-      buffet: Reference.create(context.buffets["Sörkert"]),
-    },
-    {
-      name: "Forró italok",
+      name: "Nasik",
       buffet: Reference.create(context.buffets["Sörkert"]),
     },
     //TÓNI
     {
-      name: "Italok",
+      name: "Frissítők",
       buffet: Reference.create(context.buffets["Tóni Falatozó Gyros & Grill"]),
     },
     {
-      name: "Melegszendvicsek",
-      buffet: Reference.create(context.buffets["Tóni Falatozó Gyros & Grill"]),
-    },
-    {
-      name: "Nassolnivalók",
+      name: "Sós nassolnivalók",
       buffet: Reference.create(context.buffets["Tóni Falatozó Gyros & Grill"]),
     },
     {
