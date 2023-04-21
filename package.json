@@ -5,6 +5,9 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "engines": {
+    "node": ">=18.12"
+  },
   "scripts": {
     "prebuild": "rimraf dist && rimraf temp",
     "postbuild": "copyfiles -u 1 src/**/*.hbs dist/",
