@@ -20,7 +20,8 @@
     "test:watch": "jest --config jest.json --watch",
     "test:cov": "jest --config jest.json --coverage",
     "test:debug": "node --config jest.json --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json --passWithNoTests"
+    "test:e2e": "jest --config ./test/jest-e2e.json --passWithNoTests",
+    "seed": "npm run build && mikro-orm schema:fresh --seed -r"
   },
   "dependencies": {
     "@casl/ability": "^6.3.2",
