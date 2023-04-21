@@ -30,6 +30,6 @@ To start the server, please use the following command:
 npm run start:prod
 ```
 
-Please make sure to configure the environment variables before running the server. Available environment variables can be found here: [src/.env.template](src/.env.template)
+Please make sure to configure the environment variables before running the server. Available environment variables can be found here: [.env.template](.env.template)
 
 For any questions or issues, please contact the project maintainers.
