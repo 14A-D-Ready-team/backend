@@ -3,6 +3,7 @@ import { SeederContext } from "../utils";
 
 export function getCategoryData(context: SeederContext) {
   return [
+    //JEDLIK
     {
       name: "Italok",
       buffet: Reference.create(context.buffets["Jedlik büfé"]),
@@ -34,6 +35,44 @@ export function getCategoryData(context: SeederContext) {
     {
       name: "Nassolnivalók",
       buffet: Reference.create(context.buffets["Jedlik büfé"]),
+    },
+    //SÖRKERT
+    {
+      name: "Italok",
+      buffet: Reference.create(context.buffets["Sörkert"]),
+    },
+    {
+      name: "Melegszendvicsek",
+      buffet: Reference.create(context.buffets["Sörkert"]),
+    },
+    {
+      name: "Nassolnivalók",
+      buffet: Reference.create(context.buffets["Sörkert"]),
+    },
+    {
+      name: "Forró italok",
+      buffet: Reference.create(context.buffets["Sörkert"]),
+    },
+    //TÓNI
+    {
+      name: "Italok",
+      buffet: Reference.create(context.buffets["Tóni Falatozó Gyros & Grill"]),
+    },
+    {
+      name: "Melegszendvicsek",
+      buffet: Reference.create(context.buffets["Tóni Falatozó Gyros & Grill"]),
+    },
+    {
+      name: "Nassolnivalók",
+      buffet: Reference.create(context.buffets["Tóni Falatozó Gyros & Grill"]),
+    },
+    {
+      name: "Gyorsételek",
+      buffet: Reference.create(context.buffets["Tóni Falatozó Gyros & Grill"]),
+    },
+    {
+      name: "Forró italok",
+      buffet: Reference.create(context.buffets["Tóni Falatozó Gyros & Grill"]),
     },
   ];
 }
