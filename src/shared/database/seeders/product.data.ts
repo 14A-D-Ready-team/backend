@@ -620,7 +620,6 @@ export function getProductData(context: SeederContext): RawProduct[] {
       image: Buffer.from(snackImg, "base64"),
       imageType: "image/png",
     },
-    
   ];
 }
 
