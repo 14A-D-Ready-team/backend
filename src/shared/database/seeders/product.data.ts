@@ -3,17 +3,336 @@ import { RawProduct } from "@/product/entity";
 import { OptionCount } from "@/product/option-count.enum";
 import { Reference } from "@mikro-orm/core";
 import { Dictionary } from "lodash";
+import candyImg from "./product-images/candy";
 import defaultImg from "./product-images/default";
+import fastfoodImg from "./product-images/fastfood";
+import fincsiImg from "./product-images/fincsi";
+import hotdrinkImg from "./product-images/hotdrink";
+import pastryImg from "./product-images/pastry";
+import snackImg from "./product-images/snack";
+import sodaImg from "./product-images/soda";
+import { SeederContext } from "../utils";
 
-export function getProductData(context: {
-  categories: Dictionary<Category>;
-}): RawProduct[] {
+export function getProductData(context: SeederContext): RawProduct[] {
   return [
+    //Jedlik
+    {
+      name: "Coca Cola",
+      category: Reference.create(context.categories["Üdítők"]),
+      customizations: [createSodaSizeCustomization()],
+      image: Buffer.from(sodaImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Pepsi",
+      category: Reference.create(context.categories["Üdítők"]),
+      customizations: [createSodaSizeCustomization()],
+      image: Buffer.from(sodaImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Fanta",
+      category: Reference.create(context.categories["Üdítők"]),
+      customizations: [createSodaSizeCustomization()],
+      image: Buffer.from(sodaImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Mountain Dew",
+      category: Reference.create(context.categories["Üdítők"]),
+      customizations: [createSodaSizeCustomization()],
+      image: Buffer.from(sodaImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Kinley",
+      category: Reference.create(context.categories["Üdítők"]),
+      customizations: [createSodaSizeCustomization()],
+      image: Buffer.from(sodaImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Mars",
+      category: Reference.create(context.categories["Édességek"]),
+      customizations: [],
+      image: Buffer.from(candyImg, "base64"),
+      imageType: "image/png",
+    },
+    {
+      name: "Bounty",
+      category: Reference.create(context.categories["Édességek"]),
+      customizations: [],
+      image: Buffer.from(candyImg, "base64"),
+      imageType: "image/png",
+    },
+    {
+      name: "Pogácsa",
+      category: Reference.create(context.categories["Péksütik"]),
+      image: Buffer.from(pastryImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Pizzás háromszög",
+      category: Reference.create(context.categories["Péksütik"]),
+      image: Buffer.from(pastryImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Kakaóscsiga",
+      category: Reference.create(context.categories["Péksütik"]),
+      image: Buffer.from(pastryImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Lekváros bukta",
+      category: Reference.create(context.categories["Péksütik"]),
+      image: Buffer.from(pastryImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Perec",
+      category: Reference.create(context.categories["Péksütik"]),
+      image: Buffer.from(pastryImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Nyalóka",
+      category: Reference.create(context.categories["Édességek"]),
+      customizations: [createCandyFlavourCustomization()],
+      image: Buffer.from(candyImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Gumicukor",
+      category: Reference.create(context.categories["Édességek"]),
+      customizations: [createCandyFlavourCustomization()],
+      image: Buffer.from(candyImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Toffix",
+      category: Reference.create(context.categories["Édességek"]),
+      customizations: [createCandyFlavourCustomization()],
+      image: Buffer.from(candyImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Snickers",
+      category: Reference.create(context.categories["Édességek"]),
+      image: Buffer.from(candyImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Milky Way",
+      category: Reference.create(context.categories["Édességek"]),
+      image: Buffer.from(candyImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Twix",
+      category: Reference.create(context.categories["Édességek"]),
+      customizations: [],
+      image: Buffer.from(candyImg, "base64"),
+      imageType: "image/png",
+    },
+    {
+      name: "Kinder Bueno",
+      category: Reference.create(context.categories["Édességek"]),
+      customizations: [],
+      image: Buffer.from(candyImg, "base64"),
+      imageType: "image/png",
+    },
+    {
+      name: "Sonkás-sajtos szendvics",
+      category: Reference.create(context.categories["Fincsi ®"]),
+      customizations: [],
+      image: Buffer.from(fincsiImg, "base64"),
+      imageType: "image/png",
+    },
+    {
+      name: "Rántott húsos szendvics",
+      category: Reference.create(context.categories["Fincsi ®"]),
+      customizations: [],
+      image: Buffer.from(fincsiImg, "base64"),
+      imageType: "image/png",
+    },
+    {
+      name: "Tzazikis gyros",
+      category: Reference.create(context.categories["Fincsi ®"]),
+      customizations: [],
+      image: Buffer.from(fincsiImg, "base64"),
+      imageType: "image/png",
+    },
+    {
+      name: "Chillis gyros",
+      category: Reference.create(context.categories["Fincsi ®"]),
+      customizations: [],
+      image: Buffer.from(fincsiImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Csibefalatos-csípős szendvics",
+      category: Reference.create(context.categories["Fincsi ®"]),
+      image: Buffer.from(fincsiImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Csibefalatos-mézes-mustáros szendvics",
+      category: Reference.create(context.categories["Fincsi ®"]),
+      image: Buffer.from(fincsiImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Tarjás szendvics",
+      category: Reference.create(context.categories["Fincsi ®"]),
+      image: Buffer.from(fincsiImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Rántott-csirkemelles szendvics",
+      category: Reference.create(context.categories["Fincsi ®"]),
+      image: Buffer.from(fincsiImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Szalámis-tojásos szendvics",
+      category: Reference.create(context.categories["Fincsi ®"]),
+      image: Buffer.from(fincsiImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Kávé",
+      category: Reference.create(context.categories["Kávék & Teák"]),
+      customizations: [createSugarCustomization()],
+      image: Buffer.from(hotdrinkImg, "base64"),
+      imageType: "image/png",
+    },
+    {
+      name: "Forrócsoki",
+      category: Reference.create(context.categories["Kávék & Teák"]),
+      customizations: [createSugarCustomization()],
+      image: Buffer.from(hotdrinkImg, "base64"),
+      imageType: "image/png",
+    },
+    {
+      name: "Cappuccino",
+      category: Reference.create(context.categories["Kávék & Teák"]),
+      customizations: [createSugarCustomization()],
+      image: Buffer.from(hotdrinkImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Esspresso",
+      category: Reference.create(context.categories["Kávék & Teák"]),
+      customizations: [createSugarCustomization()],
+      image: Buffer.from(hotdrinkImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Zöld tea",
+      category: Reference.create(context.categories["Kávék & Teák"]),
+      customizations: [createSugarCustomization()],
+      image: Buffer.from(hotdrinkImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Yorkshire Gold tea",
+      category: Reference.create(context.categories["Kávék & Teák"]),
+      customizations: [createSugarCustomization()],
+      image: Buffer.from(hotdrinkImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Americano",
+      category: Reference.create(context.categories["Kávék & Teák"]),
+      customizations: [createSugarCustomization()],
+      image: Buffer.from(hotdrinkImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Chio Chipsz",
+      category: Reference.create(context.categories["Nassolnivalók"]),
+      customizations: [
+        createSnackFlavourCustomization(),
+        createSnackSizeCustomization(),
+      ],
+      image: Buffer.from(snackImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Tortilla Chipsz",
+      category: Reference.create(context.categories["Nassolnivalók"]),
+      customizations: [
+        createSnackFlavourCustomization(),
+        createSnackSizeCustomization(),
+      ],
+      image: Buffer.from(snackImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Tuc Keksz",
+      category: Reference.create(context.categories["Nassolnivalók"]),
+      customizations: [
+        createSnackFlavourCustomization(),
+        createSnackSizeCustomization(),
+      ],
+      image: Buffer.from(snackImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Pufi Kukoricasnack",
+      category: Reference.create(context.categories["Nassolnivalók"]),
+      customizations: [
+        createSnackFlavourCustomization(),
+        createSnackSizeCustomization(),
+      ],
+      image: Buffer.from(snackImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Nógrádi Ropogós",
+      category: Reference.create(context.categories["Nassolnivalók"]),
+      customizations: [createSnackSizeCustomization()],
+      image: Buffer.from(snackImg, "base64"),
+      imageType: "image/png",
+    },
+
+    //Sörkert
     {
       name: "Coca Cola",
       category: Reference.create(context.categories["Italok"]),
       customizations: [createSodaSizeCustomization()],
-      image: Buffer.from(defaultImg, "base64"),
+      image: Buffer.from(sodaImg, "base64"),
       imageType: "image/png",
     },
 
@@ -21,7 +340,7 @@ export function getProductData(context: {
       name: "Pepsi",
       category: Reference.create(context.categories["Italok"]),
       customizations: [createSodaSizeCustomization()],
-      image: Buffer.from(defaultImg, "base64"),
+      image: Buffer.from(sodaImg, "base64"),
       imageType: "image/png",
     },
 
@@ -29,7 +348,7 @@ export function getProductData(context: {
       name: "Fanta",
       category: Reference.create(context.categories["Italok"]),
       customizations: [createSodaSizeCustomization()],
-      image: Buffer.from(defaultImg, "base64"),
+      image: Buffer.from(sodaImg, "base64"),
       imageType: "image/png",
     },
 
@@ -37,7 +356,7 @@ export function getProductData(context: {
       name: "Mountain Dew",
       category: Reference.create(context.categories["Italok"]),
       customizations: [createSodaSizeCustomization()],
-      image: Buffer.from(defaultImg, "base64"),
+      image: Buffer.from(sodaImg, "base64"),
       imageType: "image/png",
     },
 
@@ -45,7 +364,7 @@ export function getProductData(context: {
       name: "Kinley",
       category: Reference.create(context.categories["Italok"]),
       customizations: [createSodaSizeCustomization()],
-      image: Buffer.from(defaultImg, "base64"),
+      image: Buffer.from(sodaImg, "base64"),
       imageType: "image/png",
     },
 
@@ -78,214 +397,119 @@ export function getProductData(context: {
       image: Buffer.from(defaultImg, "base64"),
       imageType: "image/png",
     },
+
     {
-      name: "Mars",
-      category: Reference.create(context.categories["Édességek"]),
-      customizations: [],
-      image: Buffer.from(defaultImg, "base64"),
-      imageType: "image/png",
-    },
-    {
-      name: "Bounty",
-      category: Reference.create(context.categories["Édességek"]),
-      customizations: [],
-      image: Buffer.from(defaultImg, "base64"),
-      imageType: "image/png",
-    },
-    {
-      name: "Pogácsa",
-      category: Reference.create(context.categories["Péksütik"]),
-      image: Buffer.from(defaultImg, "base64"),
+      name: "Chio Chipsz",
+      category: Reference.create(context.categories["Nasik"]),
+      customizations: [
+        createSnackFlavourCustomization(),
+        createSnackSizeCustomization(),
+      ],
+      image: Buffer.from(snackImg, "base64"),
       imageType: "image/png",
     },
 
     {
-      name: "Pizzás háromszög",
-      category: Reference.create(context.categories["Péksütik"]),
-      image: Buffer.from(defaultImg, "base64"),
+      name: "Tortilla Chipsz",
+      category: Reference.create(context.categories["Nasik"]),
+      customizations: [
+        createSnackFlavourCustomization(),
+        createSnackSizeCustomization(),
+      ],
+      image: Buffer.from(snackImg, "base64"),
       imageType: "image/png",
     },
 
     {
-      name: "Kakaóscsiga",
-      category: Reference.create(context.categories["Péksütik"]),
-      image: Buffer.from(defaultImg, "base64"),
+      name: "Tuc Keksz",
+      category: Reference.create(context.categories["Nasik"]),
+      customizations: [
+        createSnackFlavourCustomization(),
+        createSnackSizeCustomization(),
+      ],
+      image: Buffer.from(snackImg, "base64"),
       imageType: "image/png",
     },
 
     {
-      name: "Lekváros bukta",
-      category: Reference.create(context.categories["Péksütik"]),
-      image: Buffer.from(defaultImg, "base64"),
+      name: "Pufi Kukoricasnack",
+      category: Reference.create(context.categories["Nasik"]),
+      customizations: [
+        createSnackFlavourCustomization(),
+        createSnackSizeCustomization(),
+      ],
+      image: Buffer.from(snackImg, "base64"),
       imageType: "image/png",
     },
 
     {
-      name: "Perec",
-      category: Reference.create(context.categories["Péksütik"]),
-      image: Buffer.from(defaultImg, "base64"),
+      name: "Nógrádi Ropogós",
+      category: Reference.create(context.categories["Nasik"]),
+      customizations: [createSnackSizeCustomization()],
+      image: Buffer.from(snackImg, "base64"),
+      imageType: "image/png",
+    },
+
+    //Tóni
+    {
+      name: "Coca Cola",
+      category: Reference.create(context.categories["Frissítők"]),
+      customizations: [createSodaSizeCustomization()],
+      image: Buffer.from(sodaImg, "base64"),
       imageType: "image/png",
     },
 
     {
-      name: "Nyalóka",
-      category: Reference.create(context.categories["Édességek"]),
-      customizations: [createCandyFlavourCustomization()],
-      image: Buffer.from(defaultImg, "base64"),
+      name: "Pepsi",
+      category: Reference.create(context.categories["Frissítők"]),
+      customizations: [createSodaSizeCustomization()],
+      image: Buffer.from(sodaImg, "base64"),
       imageType: "image/png",
     },
 
     {
-      name: "Gumicukor",
-      category: Reference.create(context.categories["Édességek"]),
-      customizations: [createCandyFlavourCustomization()],
-      image: Buffer.from(defaultImg, "base64"),
+      name: "Fanta",
+      category: Reference.create(context.categories["Frissítők"]),
+      customizations: [createSodaSizeCustomization()],
+      image: Buffer.from(sodaImg, "base64"),
       imageType: "image/png",
     },
 
     {
-      name: "Toffix",
-      category: Reference.create(context.categories["Édességek"]),
-      customizations: [createCandyFlavourCustomization()],
-      image: Buffer.from(defaultImg, "base64"),
+      name: "Mountain Dew",
+      category: Reference.create(context.categories["Frissítők"]),
+      customizations: [createSodaSizeCustomization()],
+      image: Buffer.from(sodaImg, "base64"),
       imageType: "image/png",
     },
 
     {
-      name: "Snickers",
-      category: Reference.create(context.categories["Édességek"]),
-      image: Buffer.from(defaultImg, "base64"),
+      name: "Kinley",
+      category: Reference.create(context.categories["Frissítők"]),
+      customizations: [createSodaSizeCustomization()],
+      image: Buffer.from(sodaImg, "base64"),
       imageType: "image/png",
     },
 
-    {
-      name: "Milky Way",
-      category: Reference.create(context.categories["Édességek"]),
-      image: Buffer.from(defaultImg, "base64"),
-      imageType: "image/png",
-    },
-
-    {
-      name: "Twix",
-      category: Reference.create(context.categories["Édességek"]),
-      customizations: [],
-      image: Buffer.from(defaultImg, "base64"),
-      imageType: "image/png",
-    },
-    {
-      name: "Kinder Bueno",
-      category: Reference.create(context.categories["Édességek"]),
-      customizations: [],
-      image: Buffer.from(defaultImg, "base64"),
-      imageType: "image/png",
-    },
-    {
-      name: "Sonkás-sajtos szendvics",
-      category: Reference.create(context.categories["Fincsi ®"]),
-      customizations: [],
-      image: Buffer.from(defaultImg, "base64"),
-      imageType: "image/png",
-    },
-    {
-      name: "Rántott húsos szendvics",
-      category: Reference.create(context.categories["Fincsi ®"]),
-      customizations: [],
-      image: Buffer.from(defaultImg, "base64"),
-      imageType: "image/png",
-    },
-    {
-      name: "Tzazikis gyros",
-      category: Reference.create(context.categories["Fincsi ®"]),
-      customizations: [],
-      image: Buffer.from(defaultImg, "base64"),
-      imageType: "image/png",
-    },
-    {
-      name: "Chillis gyros",
-      category: Reference.create(context.categories["Fincsi ®"]),
-      customizations: [],
-      image: Buffer.from(defaultImg, "base64"),
-      imageType: "image/png",
-    },
     {
       name: "Kávé",
       category: Reference.create(context.categories["Forró italok"]),
       customizations: [createSugarCustomization()],
-      image: Buffer.from(defaultImg, "base64"),
+      image: Buffer.from(hotdrinkImg, "base64"),
       imageType: "image/png",
     },
     {
       name: "Forrócsoki",
       category: Reference.create(context.categories["Forró italok"]),
       customizations: [createSugarCustomization()],
-      image: Buffer.from(defaultImg, "base64"),
+      image: Buffer.from(hotdrinkImg, "base64"),
       imageType: "image/png",
     },
-
-    {
-      name: "Hamburger",
-      category: Reference.create(context.categories["Gyorsételek"]),
-      customizations: [createSauceCustomization(), createCheeseCustomization()],
-      image: Buffer.from(defaultImg, "base64"),
-      imageType: "image/png",
-    },
-
-    {
-      name: "Pizza szelet",
-      category: Reference.create(context.categories["Gyorsételek"]),
-      customizations: [createSauceCustomization(), createCheeseCustomization()],
-      image: Buffer.from(defaultImg, "base64"),
-      imageType: "image/png",
-    },
-
-    {
-      name: "Hot Dog",
-      category: Reference.create(context.categories["Gyorsételek"]),
-      customizations: [createSauceCustomization(), createCheeseCustomization()],
-      image: Buffer.from(defaultImg, "base64"),
-      imageType: "image/png",
-    },
-
-    {
-      name: "Csibefalatos-csípős fincsi szendvics",
-      category: Reference.create(context.categories["Fincsi ®"]),
-      image: Buffer.from(defaultImg, "base64"),
-      imageType: "image/png",
-    },
-
-    {
-      name: "Csibefalatos-mézes-mustáros fincsi szendvics",
-      category: Reference.create(context.categories["Fincsi ®"]),
-      image: Buffer.from(defaultImg, "base64"),
-      imageType: "image/png",
-    },
-
-    {
-      name: "Tarjás fincsi szendvics",
-      category: Reference.create(context.categories["Fincsi ®"]),
-      image: Buffer.from(defaultImg, "base64"),
-      imageType: "image/png",
-    },
-
-    {
-      name: "Rántott-csirkemelles fincsi szendvics",
-      category: Reference.create(context.categories["Fincsi ®"]),
-      image: Buffer.from(defaultImg, "base64"),
-      imageType: "image/png",
-    },
-
-    {
-      name: "Szalámis-tojásos fincsi szendvics",
-      category: Reference.create(context.categories["Fincsi ®"]),
-      image: Buffer.from(defaultImg, "base64"),
-      imageType: "image/png",
-    },
-
     {
       name: "Cappuccino",
       category: Reference.create(context.categories["Forró italok"]),
       customizations: [createSugarCustomization()],
-      image: Buffer.from(defaultImg, "base64"),
+      image: Buffer.from(hotdrinkImg, "base64"),
       imageType: "image/png",
     },
 
@@ -293,7 +517,7 @@ export function getProductData(context: {
       name: "Esspresso",
       category: Reference.create(context.categories["Forró italok"]),
       customizations: [createSugarCustomization()],
-      image: Buffer.from(defaultImg, "base64"),
+      image: Buffer.from(hotdrinkImg, "base64"),
       imageType: "image/png",
     },
 
@@ -301,15 +525,15 @@ export function getProductData(context: {
       name: "Zöld tea",
       category: Reference.create(context.categories["Forró italok"]),
       customizations: [createSugarCustomization()],
-      image: Buffer.from(defaultImg, "base64"),
+      image: Buffer.from(hotdrinkImg, "base64"),
       imageType: "image/png",
     },
 
     {
-      name: "Yorkshire Gold",
+      name: "Yorkshire Gold tea",
       category: Reference.create(context.categories["Forró italok"]),
       customizations: [createSugarCustomization()],
-      image: Buffer.from(defaultImg, "base64"),
+      image: Buffer.from(hotdrinkImg, "base64"),
       imageType: "image/png",
     },
 
@@ -317,7 +541,31 @@ export function getProductData(context: {
       name: "Americano",
       category: Reference.create(context.categories["Forró italok"]),
       customizations: [createSugarCustomization()],
-      image: Buffer.from(defaultImg, "base64"),
+      image: Buffer.from(hotdrinkImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Hamburger",
+      category: Reference.create(context.categories["Gyorsételek"]),
+      customizations: [createSauceCustomization(), createCheeseCustomization()],
+      image: Buffer.from(fastfoodImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Pizza szelet",
+      category: Reference.create(context.categories["Gyorsételek"]),
+      customizations: [createSauceCustomization(), createCheeseCustomization()],
+      image: Buffer.from(fastfoodImg, "base64"),
+      imageType: "image/png",
+    },
+
+    {
+      name: "Hot Dog",
+      category: Reference.create(context.categories["Gyorsételek"]),
+      customizations: [createSauceCustomization(), createCheeseCustomization()],
+      image: Buffer.from(fastfoodImg, "base64"),
       imageType: "image/png",
     },
 
@@ -328,48 +576,48 @@ export function getProductData(context: {
         createSnackFlavourCustomization(),
         createSnackSizeCustomization(),
       ],
-      image: Buffer.from(defaultImg, "base64"),
+      image: Buffer.from(snackImg, "base64"),
       imageType: "image/png",
     },
 
     {
       name: "Tortilla Chipsz",
-      category: Reference.create(context.categories["Nassolnivalók"]),
+      category: Reference.create(context.categories["Sós nassolnivalók"]),
       customizations: [
         createSnackFlavourCustomization(),
         createSnackSizeCustomization(),
       ],
-      image: Buffer.from(defaultImg, "base64"),
+      image: Buffer.from(snackImg, "base64"),
       imageType: "image/png",
     },
 
     {
       name: "Tuc Keksz",
-      category: Reference.create(context.categories["Nassolnivalók"]),
+      category: Reference.create(context.categories["Sós nassolnivalók"]),
       customizations: [
         createSnackFlavourCustomization(),
         createSnackSizeCustomization(),
       ],
-      image: Buffer.from(defaultImg, "base64"),
+      image: Buffer.from(snackImg, "base64"),
       imageType: "image/png",
     },
 
     {
       name: "Pufi Kukoricasnack",
-      category: Reference.create(context.categories["Nassolnivalók"]),
+      category: Reference.create(context.categories["Sós nassolnivalók"]),
       customizations: [
         createSnackFlavourCustomization(),
         createSnackSizeCustomization(),
       ],
-      image: Buffer.from(defaultImg, "base64"),
+      image: Buffer.from(snackImg, "base64"),
       imageType: "image/png",
     },
 
     {
       name: "Nógrádi Ropogós",
-      category: Reference.create(context.categories["Nassolnivalók"]),
+      category: Reference.create(context.categories["Sós nassolnivalók"]),
       customizations: [createSnackSizeCustomization()],
-      image: Buffer.from(defaultImg, "base64"),
+      image: Buffer.from(snackImg, "base64"),
       imageType: "image/png",
     },
   ];
