@@ -14,6 +14,7 @@ import {
 import { Exclude, Expose, Transform } from "class-transformer";
 import { EditCustomizationDto } from "../dto";
 import { Customization } from "./customization.entity";
+import { OrderedProduct } from "@/order/entity";
 
 export type RawProduct = Omit<
   Partial<Product>,
@@ -86,6 +87,12 @@ export class Product {
     cascade: [Cascade.ALL],
   })
   public customizations = new Collection<Customization>(this);
+
+  @OneToMany(() => OrderedProduct, orderedProduct => orderedProduct.order, {
+    orphanRemoval: true,
+  })
+  public orderedProducts? = new Collection<OrderedProduct>(this);
+
 
   constructor(data: RawProduct = {}, createReferences = false) {
     const { customizations, ...rest } = data;

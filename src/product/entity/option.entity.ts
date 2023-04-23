@@ -1,6 +1,8 @@
 import {
+  Collection,
   Entity,
   IdentifiedReference,
+  ManyToMany,
   ManyToOne,
   PrimaryKey,
   Property,
@@ -9,6 +11,7 @@ import {
 import { Expose, Transform } from "class-transformer";
 import { EditOptionDto } from "../dto";
 import { Customization } from "./customization.entity";
+import { OrderedProduct } from "@/order/entity";
 
 @Entity()
 export class Option {
@@ -27,6 +30,9 @@ export class Option {
 
   @ManyToOne()
   public customization: IdentifiedReference<Customization>;
+
+  @ManyToMany(() => OrderedProduct, 'options', { owner: true })
+  public orderedProducts = new Collection<OrderedProduct>(this);
 
   constructor(data: EditOptionDto, customization?: Customization) {
     if (customization) {
