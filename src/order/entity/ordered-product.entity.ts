@@ -1,4 +1,13 @@
-import { Cascade, Collection, Entity, IdentifiedReference, ManyToMany, ManyToOne, PrimaryKey, Property } from "@mikro-orm/core";
+import {
+  Cascade,
+  Collection,
+  Entity,
+  IdentifiedReference,
+  ManyToMany,
+  ManyToOne,
+  PrimaryKey,
+  Property,
+} from "@mikro-orm/core";
 import { Expose } from "class-transformer";
 import { Order } from "./order.entity";
 import { Option, Product } from "@/product";
@@ -27,5 +36,4 @@ export class OrderedProduct {
 
   @ManyToMany(() => Option, option => option.orderedProducts)
   public options = new Collection<Option>(this);
-
 }

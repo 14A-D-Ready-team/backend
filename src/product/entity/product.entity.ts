@@ -93,7 +93,6 @@ export class Product {
   })
   public orderedProducts? = new Collection<OrderedProduct>(this);
 
-
   constructor(data: RawProduct = {}, createReferences = false) {
     const { customizations, ...rest } = data;
     Object.assign(this, rest);

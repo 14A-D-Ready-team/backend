@@ -31,7 +31,7 @@ export class Option {
   @ManyToOne()
   public customization: IdentifiedReference<Customization>;
 
-  @ManyToMany(() => OrderedProduct, 'options', { owner: true })
+  @ManyToMany(() => OrderedProduct, "options", { owner: true })
   public orderedProducts = new Collection<OrderedProduct>(this);
 
   constructor(data: EditOptionDto, customization?: Customization) {

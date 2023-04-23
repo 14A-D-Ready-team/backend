@@ -1,4 +1,12 @@
-import { Cascade, Entity, Enum, IdentifiedReference, ManyToOne, PrimaryKey, Property } from "@mikro-orm/core";
+import {
+  Cascade,
+  Entity,
+  Enum,
+  IdentifiedReference,
+  ManyToOne,
+  PrimaryKey,
+  Property,
+} from "@mikro-orm/core";
 import { Expose } from "class-transformer";
 import { OrderStatusEnum } from "../enum/order-status.enum";
 import { Order } from "./order.entity";
@@ -26,5 +34,4 @@ export class OrderStatus {
     eager: true,
   })
   public order!: IdentifiedReference<Order>;
-
 }

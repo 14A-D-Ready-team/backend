@@ -1,4 +1,10 @@
-import { Collection, Entity, IdentifiedReference, OneToMany, OneToOne } from "@mikro-orm/core";
+import {
+  Collection,
+  Entity,
+  IdentifiedReference,
+  OneToMany,
+  OneToOne,
+} from "@mikro-orm/core";
 import { User } from "./user.entity";
 import { Order } from "@/order/entity/order.entity";
 

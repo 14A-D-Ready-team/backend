@@ -1,5 +1,5 @@
 export enum OrderStatusEnum {
-    Placed,
-    BeingPrepared,
-    Done,
+  Placed,
+  BeingPrepared,
+  Done,
 }
