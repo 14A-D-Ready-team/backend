@@ -1,4 +1,4 @@
-import { Customer } from "@/user";
+import { Customer } from "@/user/entity";
 import {
   Cascade,
   Collection,
@@ -11,7 +11,7 @@ import {
 } from "@mikro-orm/core";
 import { Expose } from "class-transformer";
 import { OrderStatus } from "./order-status.entity";
-import { Buffet } from "@/buffet";
+import { Buffet } from "@/buffet/entity";
 import { OrderedProduct } from "./ordered-product.entity";
 
 @Entity()

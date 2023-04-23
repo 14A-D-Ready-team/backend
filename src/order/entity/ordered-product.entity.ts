@@ -10,7 +10,7 @@ import {
 } from "@mikro-orm/core";
 import { Expose } from "class-transformer";
 import { Order } from "./order.entity";
-import { Option, Product } from "@/product";
+import { Option, Product } from "@/product/entity";
 
 @Entity()
 export class OrderedProduct {
