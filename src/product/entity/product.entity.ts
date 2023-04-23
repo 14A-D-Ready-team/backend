@@ -88,7 +88,7 @@ export class Product {
   })
   public customizations = new Collection<Customization>(this);
 
-  @OneToMany(() => OrderedProduct, orderedProduct => orderedProduct.order, {
+  @OneToMany(() => OrderedProduct, orderedProduct => orderedProduct.product, {
     orphanRemoval: true,
   })
   public orderedProducts? = new Collection<OrderedProduct>(this);
