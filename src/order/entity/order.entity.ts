@@ -14,6 +14,7 @@ import { OrderStatus } from "./order-status.entity";
 import { Buffet } from "@/buffet/entity";
 import { OrderedProduct } from "./ordered-product.entity";
 
+export type RawOrder = Partial<Order>;
 @Entity()
 export class Order {
   @PrimaryKey({ autoincrement: true })
@@ -57,4 +58,8 @@ export class Order {
     orphanRemoval: true,
   })
   public products? = new Collection<OrderedProduct>(this);
+
+  constructor(data: RawOrder = {}) {
+    Object.assign(this, data);
+  }
 }
