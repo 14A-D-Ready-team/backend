@@ -23,17 +23,14 @@ export class OrderService {
     product: Product,
     orderStatus: OrderStatus,
   ) {
-
-
     const order = new Order({
-        ...payload,
-        customer: user.customer,
-        buffet: buffet1.id,
-        // statuses: orderStatus.status,
-        products: product.orderedProducts,
+      ...payload,
+      customer: user.customer,
+      buffet: buffet1.id,
+      // statuses: orderStatus.status,
+      products: product.orderedProducts,
     });
 
-    
     await this.orderRepository.persistAndFlush(order);
     return order;
   }
