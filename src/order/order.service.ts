@@ -21,11 +21,11 @@ export class OrderService {
       requestedPickupTime: payload.requestedPickup,
       customer: user.customer,
     });
-  
+
     order.statusHistory = new Collection(order, [
       new OrderStatus(OrderStatusEnum.Placed, new Date(), payload.message),
     ]);
-    
+
     await this.orderRepository.persistAndFlush(order);
     return order;
   }
@@ -35,8 +35,8 @@ export class OrderService {
   }
 
   public async getOrdersOfCustomer(customerId: number) {
-  //public async getOrdersOfCustomer(customerId: number, isInProgress: boolean) {
-    
+    //public async getOrdersOfCustomer(customerId: number, isInProgress: boolean) {
+
     // if (isInProgress === undefined) {
     //   //
     // }
@@ -49,7 +49,9 @@ export class OrderService {
 
     //const orders = await this.orderRepository.find({ customer: { user: { id: customerId }}, statusHistory: { $contains: [ OrderStatusEnum.Done ] } });
 
-    const orders = await this.orderRepository.find({ customer: { user: { id: customerId }}});
+    const orders = await this.orderRepository.find({
+      customer: { user: { id: customerId } },
+    });
 
     return orders;
   }
