@@ -4,5 +4,5 @@ export enum OrderStatusEnum {
   BeingPrepared,
   Done,
   PickedUp,
-  Rejected
+  Rejected,
 }
