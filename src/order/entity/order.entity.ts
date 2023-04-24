@@ -21,6 +21,7 @@ export class Order {
   @Expose()
   public id!: number;
 
+  // ! Calculated by SQL
   @Property()
   @Expose()
   public total!: number;
@@ -46,7 +47,7 @@ export class Order {
   @OneToMany(() => OrderStatus, orderStatus => orderStatus.order, {
     orphanRemoval: true,
   })
-  public statuses? = new Collection<OrderStatus>(this);
+  public statusHistory = new Collection<OrderStatus>(this);
 
   @ManyToOne({
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
