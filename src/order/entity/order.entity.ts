@@ -32,7 +32,11 @@ export class Order {
 
   @Property()
   @Expose()
-  public pickupTime!: Date;
+  public estimatedPickupTime?: Date;
+
+  @Property()
+  @Expose()
+  public requestedPickupTime?: Date;
 
   @ManyToOne({
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
@@ -43,7 +47,7 @@ export class Order {
   @OneToMany(() => OrderStatus, orderStatus => orderStatus.order, {
     orphanRemoval: true,
   })
-  public statusHistory = new Collection<OrderStatus>(this);
+  public statusHistory = new Collection<OrderStatus, Order>(this);
 
   @ManyToOne({
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
