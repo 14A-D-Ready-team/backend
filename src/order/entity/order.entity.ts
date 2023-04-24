@@ -32,10 +32,6 @@ export class Order {
 
   @Property()
   @Expose()
-  public date!: Date;
-
-  @Property()
-  @Expose()
   public pickupTime!: Date;
 
   @ManyToOne({

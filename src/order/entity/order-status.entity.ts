@@ -27,11 +27,17 @@ export class OrderStatus {
 
   @Property({ length: 255 })
   @Expose()
-  public message!: string;
+  public message?: string;
 
   @ManyToOne({
     cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
     eager: true,
   })
   public order!: IdentifiedReference<Order>;
+
+  constructor(status: OrderStatusEnum, date: Date, message?: string) {
+    this.status = status; 
+    this.date = date; 
+    this.message = message;
+  }
 }

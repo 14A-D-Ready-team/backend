@@ -7,28 +7,27 @@ import { Customer, User } from "@/user";
 import { Buffet } from "@/buffet";
 import { OrderStatusEnum } from "./enum/order-status.enum";
 import { Product } from "@/product";
-import { Collection } from "@mikro-orm/core";
+import { Collection, Reference } from "@mikro-orm/core";
 
 @Injectable()
 export class OrderService {
   constructor(
     @InjectRepository(Order)
     private orderRepository: BaseRepository<Order>,
+
+    @InjectRepository(Buffet)
+    private buffetRepository: BaseRepository<Buffet>,
   ) {}
 
-  public async create(
+  public async place(
     payload: CreateOrderDto,
     user: User,
-    buffet1: Buffet,
-    product: Product,
-    orderStatus: OrderStatus,
   ) {
+
+
     const order = new Order({
-      ...payload,
       customer: user.customer,
-      buffet: buffet1.id,
-      // statuses: orderStatus.status,
-      products: product.orderedProducts,
+      statusHistory: new Collection(new OrderStatus(OrderStatusEnum.Placed, Date.now())),
     });
 
     await this.orderRepository.persistAndFlush(order);
