@@ -19,15 +19,12 @@ export class OrderService {
     private buffetRepository: BaseRepository<Buffet>,
   ) {}
 
-  public async place(
-    payload: CreateOrderDto,
-    user: User,
-  ) {
-
-
+  public async place(payload: CreateOrderDto, user: User) {
     const order = new Order({
       customer: user.customer,
-      statusHistory: new Collection(new OrderStatus(OrderStatusEnum.Placed, Date.now())),
+      statusHistory: new Collection(
+        new OrderStatus(OrderStatusEnum.Placed, Date.now()),
+      ),
     });
 
     await this.orderRepository.persistAndFlush(order);

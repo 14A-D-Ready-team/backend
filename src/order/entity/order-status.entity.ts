@@ -36,8 +36,8 @@ export class OrderStatus {
   public order!: IdentifiedReference<Order>;
 
   constructor(status: OrderStatusEnum, date: Date, message?: string) {
-    this.status = status; 
-    this.date = date; 
+    this.status = status;
+    this.date = date;
     this.message = message;
   }
 }
