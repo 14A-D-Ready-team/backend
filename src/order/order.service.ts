@@ -1,12 +1,13 @@
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { Injectable } from "@nestjs/common";
-import { Order } from "./entity";
+import { Order, OrderStatus, OrderedProduct } from "./entity";
 import { BaseRepository } from "@/shared/database";
 import { CreateOrderDto } from "./dto/create-order.dto";
 import { Customer, User } from "@/user";
 import { Buffet } from "@/buffet";
 import { OrderStatusEnum } from "./enum/order-status.enum";
 import { Product } from "@/product";
+import { Collection } from "@mikro-orm/core";
 
 @Injectable()
 export class OrderService {
@@ -18,18 +19,18 @@ export class OrderService {
   public async create(
     payload: CreateOrderDto,
     user: User,
-    buffet: Buffet,
+    buffet1: Buffet,
     product: Product,
+    orderStatus: OrderStatus,
   ) {
+
 
     const order = new Order({
         ...payload,
         customer: user.customer,
-        buffet: buffet.orders,
-        statuses: Done,
-        products: ,
-        
-        
+        buffet: buffet1.id,
+        // statuses: orderStatus.status,
+        products: product.orderedProducts,
     });
 
     
