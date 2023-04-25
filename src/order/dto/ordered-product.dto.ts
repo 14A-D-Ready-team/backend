@@ -1,12 +1,21 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { Expose } from "class-transformer";
+import { IsArray, IsNumber } from "class-validator";
 
 export class OrderedProductDto {
   @Expose()
-  public productId: number;
+  @ApiProperty()
+  @IsNumber()
+  public productId!: number;
 
   @Expose()
-  public amount: number;
+  @ApiProperty()
+  @IsNumber()
+  public amount!: number;
 
   @Expose()
-  public selectedOptionIds: number[];
+  @ApiProperty()
+  @IsArray()
+  @IsNumber({}, { each: true })
+  public selectedOptionIds!: number[];
 }

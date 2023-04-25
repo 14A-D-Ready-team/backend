@@ -70,4 +70,30 @@ export class OrderService {
     await this.orderRepository.persistAndFlush(order);
     return order;
   }
+
+  public findOne(id: number) {
+    return this.orderRepository.findOne(id);
+  }
+
+  public async getOrdersOfCustomer(customerId: number) {
+    //public async getOrdersOfCustomer(customerId: number, isInProgress: boolean) {
+
+    // if (isInProgress === undefined) {
+    //   //
+    // }
+    // else if (isInProgress) {
+    //   //
+    // }
+    // else {
+    //   //
+    // }
+
+    //const orders = await this.orderRepository.find({ customer: { user: { id: customerId }}, statusHistory: { $contains: [ OrderStatusEnum.Done ] } });
+
+    const orders = await this.orderRepository.find({
+      customer: { user: { id: customerId } },
+    });
+
+    return orders;
+  }
 }
