@@ -14,6 +14,8 @@ import { Order } from "./order.entity";
 import { Product } from "@/product/entity";
 import { OrderedCustomization } from "./ordered-customization.entity";
 
+export type RawOrderedProduct = Partial<OrderedProduct>;
+
 @Entity()
 export class OrderedProduct {
   @PrimaryKey({ autoincrement: true })
@@ -62,4 +64,6 @@ export class OrderedProduct {
     customization => customization.orderedProduct,
   )
   public customizations = new Collection<OrderedCustomization>(this);
+
+  constructor(data: RawOrderedProduct = {}) {}
 }
