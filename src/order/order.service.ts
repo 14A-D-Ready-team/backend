@@ -24,7 +24,7 @@ export class OrderService {
   ) {}
 
   public async place(payload: CreateOrderDto, user: User) {
-    /* const products = await this.productRepository.find(
+    const products = await this.productRepository.find(
       {
         id: {
           $in: payload.products.map(p => p.productId),
@@ -55,12 +55,12 @@ export class OrderService {
         discountedPrice: p.discountedPrice,
         product: Reference.create(p as Product),
       });
-    }); */
+    });
 
     const order = new Order({
       requestedPickupTime: payload.requestedPickup,
       customer: user.customer,
-      /* buffet, */
+      buffet,
     });
 
     order.statusHistory = new Collection(order, [
