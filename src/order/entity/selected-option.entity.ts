@@ -1,4 +1,5 @@
 import {
+  Cascade,
   Entity,
   IdentifiedReference,
   ManyToOne,
@@ -23,7 +24,9 @@ export class SelectedOption {
   @Property({ type: "decimal" })
   public extraCost: string;
 
-  @ManyToOne(() => OrderedCustomization)
+  @ManyToOne(() => OrderedCustomization, {
+    cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
+  })
   public customization: IdentifiedReference<OrderedCustomization>;
 
   constructor(data: Partial<SelectedOption> = {}) {

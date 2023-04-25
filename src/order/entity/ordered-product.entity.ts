@@ -67,5 +67,7 @@ export class OrderedProduct {
     this,
   );
 
-  constructor(data: RawOrderedProduct = {}) {}
+  constructor(data: RawOrderedProduct = {}) {
+    Object.assign(this, data);
+  }
 }

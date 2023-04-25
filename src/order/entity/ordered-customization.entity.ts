@@ -1,5 +1,6 @@
 import { OptionCount } from "@/product/option-count.enum";
 import {
+  Cascade,
   Collection,
   Entity,
   Enum,
@@ -27,7 +28,9 @@ export class OrderedCustomization {
   @Enum()
   public optionCount: OptionCount;
 
-  @ManyToOne(() => OrderedProduct)
+  @ManyToOne(() => OrderedProduct, {
+    cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
+  })
   public orderedProduct: IdentifiedReference<OrderedProduct>;
 
   @OneToMany(() => SelectedOption, option => option.customization)

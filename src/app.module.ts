@@ -18,6 +18,7 @@ import { BuffetModule } from "./buffet/buffet.module";
 import { LoggerModule } from "nestjs-pino";
 import pino from "pino";
 import { loggingConfig, LoggingModule } from "./shared/logging";
+import { OrderModule } from "./order/order.module";
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { loggingConfig, LoggingModule } from "./shared/logging";
     ProductModule,
     CategoryModule,
     BuffetModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppAbilityFactory],

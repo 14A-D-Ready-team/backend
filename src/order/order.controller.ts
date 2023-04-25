@@ -1,4 +1,4 @@
-import { InjectAuthState, AuthState } from "@/auth";
+import { InjectAuthState, AuthState, Auth } from "@/auth";
 import {
   BadRequestResponse,
   ServiceUnavailableResponse,
@@ -17,6 +17,7 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Post("/place")
+  @Auth()
   @BadRequestResponse(InvalidDataException)
   @ServiceUnavailableResponse()
   @InternalServerErrorResponse()

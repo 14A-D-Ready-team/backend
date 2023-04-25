@@ -97,6 +97,7 @@ export class OrderService {
               return new SelectedOption({
                 extraCost: o.extraCost,
                 name: o.name,
+                customization: Reference.create(orderedCustomization),
               });
             }),
         );
@@ -115,6 +116,9 @@ export class OrderService {
         orderedProduct,
         orderedCustomizations,
       );
+      orderedCustomizations.forEach(
+        oc => (oc.orderedProduct = Reference.create(orderedProduct)),
+      );
 
       return orderedProduct;
     });
@@ -127,9 +131,15 @@ export class OrderService {
     });
 
     order.statusHistory = new Collection(order, [
-      new OrderStatus(OrderStatusEnum.Placed, new Date(), payload.message),
+      new OrderStatus({
+        status: OrderStatusEnum.Placed,
+        date: new Date(),
+        message: payload.message,
+        order: Reference.create(order),
+      }),
     ]);
     order.products = new Collection(order, orderedProducts);
+    orderedProducts.forEach(op => (op.order = Reference.create(order)));
 
     await this.orderRepository.persistAndFlush(order);
     return order;
