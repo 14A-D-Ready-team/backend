@@ -31,5 +31,9 @@ export class OrderedCustomization {
   public orderedProduct: IdentifiedReference<OrderedProduct>;
 
   @OneToMany(() => SelectedOption, option => option.customization)
-  public options = new Collection<SelectedOption>(this);
+  public options = new Collection<SelectedOption, OrderedCustomization>(this);
+
+  public constructor(data: Partial<OrderedCustomization> = {}) {
+    Object.assign(this, data);
+  }
 }

@@ -1,14 +1,29 @@
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { Injectable } from "@nestjs/common";
-import { Order, OrderStatus, OrderedProduct } from "./entity";
+import {
+  Order,
+  OrderStatus,
+  OrderedCustomization,
+  OrderedProduct,
+} from "./entity";
 import { BaseRepository } from "@/shared/database";
 import { CreateOrderDto } from "./dto/create-order.dto";
 import { Customer, User } from "@/user";
 import { Buffet } from "@/buffet";
 import { OrderStatusEnum } from "./enum/order-status.enum";
-import { Product, ProductNotFoundException } from "@/product";
+import {
+  Option,
+  OptionNotFoundException,
+  Product,
+  ProductNotFoundException,
+} from "@/product";
 import { Collection, Reference } from "@mikro-orm/core";
-import { NoMultiBuffetOrderException } from "./exceptions";
+import {
+  InvalidCustomizationException,
+  NoMultiBuffetOrderException,
+} from "./exceptions";
+import { map } from "p-iteration";
+import { SelectedOption } from "./entity/selected-option.entity";
 
 @Injectable()
 export class OrderService {
@@ -21,6 +36,9 @@ export class OrderService {
 
     @InjectRepository(Product)
     private productRepository: BaseRepository<Product>,
+
+    @InjectRepository(Option)
+    private optionRepository: BaseRepository<Option>,
   ) {}
 
   public async place(payload: CreateOrderDto, user: User) {
@@ -42,12 +60,50 @@ export class OrderService {
 
     const buffet = products[0].category.getEntity().buffet;
 
-    const orderedProducts = products.map(p => {
+    const orderedProducts = await map(products, async p => {
       const { amount, selectedOptionIds } = payload.products.find(
         p2 => p2.productId === p.id,
       )!;
 
-      return new OrderedProduct({
+      const options = await this.optionRepository.find(
+        { id: { $in: selectedOptionIds } },
+        { populate: ["customization"] },
+      );
+      if (options.length !== selectedOptionIds.length) {
+        throw new OptionNotFoundException();
+      }
+
+      const customizations = new Set([...options.map(o => o.customization)]);
+
+      const orderedCustomizations = [...customizations].map(c => {
+        const {
+          description,
+          optionCount,
+          product: { id },
+        } = c.getEntity();
+        if (id !== p.id) {
+          throw new InvalidCustomizationException();
+        }
+        const orderedCustomization = new OrderedCustomization({
+          description,
+          optionCount,
+        });
+
+        orderedCustomization.options = new Collection(
+          orderedCustomization,
+          options
+            .filter(o => o.customization.id === c.id)
+            .map(o => {
+              return new SelectedOption({
+                extraCost: o.extraCost,
+                name: o.name,
+              });
+            }),
+        );
+        return orderedCustomization;
+      });
+
+      const orderedProduct = new OrderedProduct({
         amount,
         name: p.name,
         description: p.description,
@@ -55,17 +111,25 @@ export class OrderService {
         discountedPrice: p.discountedPrice,
         product: Reference.create(p as Product),
       });
+      orderedProduct.customizations = new Collection(
+        orderedProduct,
+        orderedCustomizations,
+      );
+
+      return orderedProduct;
     });
 
     const order = new Order({
       requestedPickupTime: payload.requestedPickup,
       customer: user.customer,
       buffet,
+      orderNumber: 10,
     });
 
     order.statusHistory = new Collection(order, [
       new OrderStatus(OrderStatusEnum.Placed, new Date(), payload.message),
     ]);
+    order.products = new Collection(order, orderedProducts);
 
     await this.orderRepository.persistAndFlush(order);
     return order;

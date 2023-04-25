@@ -22,9 +22,9 @@ export class Order {
   public id!: number;
 
   // ! Calculated by SQL
-  @Property()
+  /* @Property()
   @Expose()
-  public total!: number;
+  public total!: number; */
 
   @Property()
   @Expose()
@@ -58,7 +58,7 @@ export class Order {
   @OneToMany(() => OrderedProduct, orderedProduct => orderedProduct.order, {
     orphanRemoval: true,
   })
-  public products? = new Collection<OrderedProduct>(this);
+  public products? = new Collection<OrderedProduct, Order>(this);
 
   constructor(data: RawOrder = {}) {
     Object.assign(this, data);

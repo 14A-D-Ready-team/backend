@@ -25,4 +25,8 @@ export class SelectedOption {
 
   @ManyToOne(() => OrderedCustomization)
   public customization: IdentifiedReference<OrderedCustomization>;
+
+  constructor(data: Partial<SelectedOption> = {}) {
+    Object.assign(this, data);
+  }
 }

@@ -63,7 +63,9 @@ export class OrderedProduct {
     () => OrderedCustomization,
     customization => customization.orderedProduct,
   )
-  public customizations = new Collection<OrderedCustomization>(this);
+  public customizations = new Collection<OrderedCustomization, OrderedProduct>(
+    this,
+  );
 
   constructor(data: RawOrderedProduct = {}) {}
 }
