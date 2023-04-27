@@ -49,6 +49,7 @@ async function bootstrap() {
       "http://localhost:4200",
       "http://localhost:4300",
       "http://localhost:8100",
+      "http://localhost",
       "https://mobile.ready-app.hu",
       "https://www.ready-app.hu",
     ],
