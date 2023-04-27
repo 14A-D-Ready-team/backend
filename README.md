@@ -39,13 +39,13 @@ Please make sure to configure the environment variables before running the serve
 
 •	Supa$3cr3t!!!
 
-### Büfé tulajdonos
+### Buffet owner
 
 •	bela123@gmail.com
 
 •	Jelszo123$!
 
-### Vásárló
+### Customer
 
 •	elek@gmail.com
 
