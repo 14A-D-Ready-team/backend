@@ -69,6 +69,14 @@ export class UserSeeder extends Seeder {
         type: UserType.BuffetOwner,
         status: UserStatus.Active,
       },
+      {
+        name: "Vicc Elek",
+        email: "elek@gmail.com",
+        password: await hash("Jelszo123$!"),
+        customer: Reference.create(new Customer()),
+        type: UserType.Customer,
+        status: UserStatus.Active,
+      },
     ];
 
     const users: User[] = [];
