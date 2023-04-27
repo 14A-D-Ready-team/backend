@@ -1,20 +1,16 @@
 import {
-  Collection,
+  Cascade,
   Entity,
   IdentifiedReference,
-  ManyToMany,
   ManyToOne,
   PrimaryKey,
   Property,
-  Reference,
 } from "@mikro-orm/core";
 import { Expose, Transform } from "class-transformer";
-import { EditOptionDto } from "../dto";
-import { Customization } from "./customization.entity";
-import { OrderedProduct } from "@/order/entity";
+import { OrderedCustomization } from "./ordered-customization.entity";
 
 @Entity()
-export class Option {
+export class SelectedOption {
   @Expose()
   @PrimaryKey({ autoincrement: true })
   public id: number;
@@ -28,13 +24,12 @@ export class Option {
   @Property({ type: "decimal" })
   public extraCost: string;
 
-  @ManyToOne()
-  public customization: IdentifiedReference<Customization>;
+  @ManyToOne(() => OrderedCustomization, {
+    cascade: [Cascade.PERSIST, Cascade.MERGE, Cascade.CANCEL_ORPHAN_REMOVAL],
+  })
+  public customization: IdentifiedReference<OrderedCustomization>;
 
-  constructor(data: EditOptionDto, customization?: Customization) {
-    if (customization) {
-      this.customization = Reference.create(customization);
-    }
+  constructor(data: Partial<SelectedOption> = {}) {
     Object.assign(this, data);
   }
 }

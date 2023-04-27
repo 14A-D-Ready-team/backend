@@ -32,4 +32,24 @@ npm run start:prod
 
 Please make sure to configure the environment variables before running the server. Available environment variables can be found here: [.env.template](.env.template)
 
+## Users for testing
+
+### Admin
+•	kekesi.adam@students.jedlik.eu
+
+•	Supa$3cr3t!!!
+
+### Büfé tulajdonos
+
+•	bela123@gmail.com
+
+•	Jelszo123$!
+
+### Vásárló
+
+•	elek@gmail.com
+
+•	Jelszo123$!
+
+
 For any questions or issues, please contact the project maintainers.

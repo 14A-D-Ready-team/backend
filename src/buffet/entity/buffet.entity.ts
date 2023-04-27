@@ -15,6 +15,7 @@ import {
 import { Expose, Transform } from "class-transformer";
 import { BuffetInviteToken } from "./buffet-invite-token.entity";
 import { BuffetStatus } from "./buffet-status.entity";
+import { Order } from "@/order/entity";
 
 export type RawBuffet = Partial<Buffet>;
 
@@ -98,6 +99,11 @@ export class Buffet {
     orphanRemoval: true,
   })
   public reviews? = new Collection<BuffetReview>(this);
+
+  @OneToMany(() => Order, order => order.buffet, {
+    orphanRemoval: true,
+  })
+  public orders? = new Collection<Order>(this);
 
   constructor(data: RawBuffet = {}) {
     Object.assign(this, data);
