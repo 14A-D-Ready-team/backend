@@ -4,7 +4,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-v4.7.4-blue.svg)
 ![Node.js](https://img.shields.io/badge/Node.js-v18.12.1-green.svg)
 
-This is the backend of a food ordering application for buffets, called Ready!. This project is built with Node.js, NestJS, MikroORM, and uses MySQL as a database. For hosting, we're using AWS. The API documentation can be found at the [swagger endpoint](https://api.ready-app.hu/swagger). For additional documentation, please refer to [Ready! documentation](https://drive.google.com/file/d/1BGZt1q1ZGE9LqIauFie4dsl1p4Z6XelB/view?usp=share_link).
+This is the backend of a food ordering application for buffets, called Ready!. This project is built with Node.js, NestJS, MikroORM, and uses MySQL as a database. For hosting, we're using AWS. The API documentation can be found at the [swagger endpoint](https://api.ready-app.hu/swagger). For additional documentation, please refer to [Ready! documentation](https://drive.google.com/file/d/1SMGwYmW9nkTO2xtO6EGc94nnzsH-iUwd/view?usp=sharing).
 
 ## Build
 
